@@ -10,10 +10,14 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.8",
+    "axios": "^0.27.2",
     "next": "12.2.3",
     "postcss": "^8.4.14",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.34.0",
+    "sass": "^1.54.2",
+    "scss": "^0.2.4",
     "tailwindcss": "^3.1.7"
   },
   "devDependencies": {

@@ -1,0 +1,24 @@
+.registerForm {
+  left: 100% !important;
+  transform: translateX(-100%);
+}
+
+.inputDefault {
+  @apply w-full bg-slate-200 rounded-md px-3 py-2 mb-3;
+}
+
+.btn {
+  @apply px-4 py-2 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;
+}
+
+.bgLogin {
+  background-image: url('/login-cover.jpg');
+  background-size: auto 100%;
+  background-position-x: 75%;
+}
+
+.register {
+  right: 100%;
+  transform: translateX(100%);
+  background-position-x: 0%;
+}
