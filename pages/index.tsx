@@ -1,15 +1,18 @@
 import { FunctionComponent, useState, useEffect } from 'react'
-import { BookCard } from '../components/shared/'
+import { CardGroup } from '../components/index/'
+import { Navbar } from '../components/Navbar'
+import { Footer } from '../components/Footer'
 interface books {
-  id: number,
-  title: string,
-  tag1: string,
-  tag2: string,
-  cover: string,
+  id: number
+  title: string
+  tag1: string
+  tag2: string
+  cover: string
 }
 
 const Home: FunctionComponent = () => {
   const [newBooks, setNewBooks] = useState<books[]>([])
+  const [showBooks, setShowBooks] = useState<books[]>([])
 
   useEffect(() => {
     setNewBooks(
@@ -25,16 +28,20 @@ const Home: FunctionComponent = () => {
     )
   }, [])
 
+  useEffect(() => {
+    setShowBooks(newBooks.slice(0, 7))
+  }, [newBooks])
+
   return (
-    <main className='max-w-screen-xl mx-auto'>
-      <ul className='grid grid-cols-4 gap-8'>
-        {newBooks?.map(({ id, title, tag1, tag2, cover }) => (
-          <li key={id} className="cursor-pointer">
-            <BookCard title={title} tag1={tag1} tag2={tag2} cover={cover} />
-          </li>
-        ))}
-      </ul>
-    </main>
+    <>
+      <Navbar />
+      <main className='flex flex-col justify-center gap-10 p-10'>
+        <CardGroup showBooks={showBooks} type='最新發行' />
+        <CardGroup showBooks={showBooks} type='評價超過8分的作品' />
+        <CardGroup showBooks={showBooks} type='各書店平台週冠軍' />
+      </main>
+      <Footer />
+    </>
   )
 }
 
