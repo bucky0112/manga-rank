@@ -26,10 +26,10 @@ const BookCard = ({ ...rest }:books) => {
       </div>
       <p className='text-center text-2xl font-semibold mt-4 mb-4'>{title}</p>
       <p className='flex justify-center items-center gap-4'>
-        <span className='px-4 py-1 bg-bgPrimary rounded-2xl text-xl'>
+        <span className='px-4 py-1 bg-primary rounded-2xl text-xl'>
           {tag1}
         </span>
-        <span className='px-4 py-1 bg-bgPrimary rounded-2xl text-xl'>
+        <span className='px-4 py-1 bg-primary rounded-2xl text-xl'>
           {tag2}
         </span>
       </p>
