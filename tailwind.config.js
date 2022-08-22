@@ -11,7 +11,10 @@ module.exports = {
         bgPrimary: '#D9D9D9',
         darkGrey: '#3E3E3E',
         mediumGrey: '#828282',
-        blurGray: "rgba(247, 247, 247, 0.1)"
+        blurGray: 'rgba(247, 247, 247, 0.1)'
+      },
+      backgroundImage: {
+        index: "url('/KOMIC.png')"
       }
     }
   },
