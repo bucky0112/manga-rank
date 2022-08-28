@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const baseRequest = axios.create({
-  baseURL: 'http://manga-rank.herokuapp.com/api/'
+  baseURL: 'https://x4cczk9r43.execute-api.ap-south-1.amazonaws.com/v1/'
 })
 
 interface User {
@@ -12,4 +12,4 @@ interface User {
   google_auth: string,
 }
 
-export const newUser = (data: User) => baseRequest.post("user", { params: data})
+export const newUser = (data: User) => baseRequest.post("user", data)
