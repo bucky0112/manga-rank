@@ -8,10 +8,12 @@ const nextConfig = {
       'storage.googleapis.com',
       'hkshopu-images.s3.ap-east-1.amazonaws.com',
       'http.cat',
-      'fakeimg.pl'
+      'fakeimg.pl',
+      'localhost',
     ]
+    
   },
-  swcMinify: true
+  swcMinify: true,
 }
 
 module.exports = nextConfig
