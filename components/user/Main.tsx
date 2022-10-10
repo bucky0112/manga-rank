@@ -3,11 +3,11 @@ import Image from "next/image"
 import Link from "next/link"
 
 type IndexProps = {
-  atClick: Dispatch<SetStateAction<String>>
+  atClick: Dispatch<SetStateAction<string>>
   currentPage: String
 }
 
-const Main: FC<IndexProps> = ({ atClick, currentPage }) => {
+const Main: FC<IndexProps> = ({ atClick }) => {
   return (
     <main className='w-screen bg-mainBG'>
       <h1 className='text-center text-3xl font-semibold py-16'>註冊/登入</h1>
@@ -26,7 +26,7 @@ const Main: FC<IndexProps> = ({ atClick, currentPage }) => {
             <button
               type='button'
               className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full'
-              onClick={() => atClick(currentPage[2])}
+              onClick={() => atClick('signUp')}
             >
               註冊新帳號
             </button>

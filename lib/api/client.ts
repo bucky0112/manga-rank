@@ -14,6 +14,10 @@ class APIClient {
   get(path: string, data: any) {
     return this.client.get(`${path}/${data}`)
   }
+
+  post(path: string, data: {}) {
+    return this.client.post(path, data)
+  }
 }
 
 export default APIClient
