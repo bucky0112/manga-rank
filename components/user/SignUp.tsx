@@ -1,36 +1,39 @@
-import { useState } from 'react'
+import { FC, useState, SetStateAction } from 'react'
 import Image from 'next/image'
-import styles from "../../styles/user/SignUp.module.scss"
-import { newUser } from '../../lib/api/apis'
+import styles from '../../styles/user/SignUp.module.scss'
+import { user } from '../../lib/api/user'
 
 interface User {
-  name: string
-  nickName: string
   email: string
-  password: string
   github_oauth: string
   google_oauth: string
+  password: string
+  user_name: string
+  nickname: string
 }
 
-const SignUp = () => {
-  const [user, setUser] = useState<User>({
-    name: '',
-    nickName: '',
-    email: '',
-    password: '',
-    github_oauth: '',
-    google_oauth: ''
-  })
+interface Props {
+  setCurrentPage: (currentPage: SetStateAction<string>) => void
+}
+
+const SignUp: FC<Props> = ({ setCurrentPage }) => {
+  const [userInfo, setUserInfo] = useState<User>({} as User)
 
   const handleSubmit = async () => {
-    const res = await newUser({
-      email: user.email,
-      user_name: user.name,
-      password: user.password,
-      github_auth: "",
-      google_auth: ""
-    })
-    console.log(res)
+    try {
+      const res = await user.newUser({
+        email: userInfo.email,
+        user_name: userInfo.user_name,
+        password: userInfo.password,
+        github_oauth: '',
+        google_oauth: '',
+        nickname: userInfo.nickname
+      })
+      setCurrentPage("main")
+      console.log(res)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -44,44 +47,52 @@ const SignUp = () => {
           alt='sign up'
         />
       </div>
-      <div className={styles.signUp}>
+      <form className={styles.signUp}>
         <h1>註冊</h1>
         <form>
           <label>
             真實姓名
             <input
               type='text'
-              onChange={(e) => setUser({ ...user, name: e.target.value })}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, user_name: e.target.value })
+              }
             />
           </label>
           <label>
             暱稱
             <input
               type='text'
-              onChange={(e) => setUser({ ...user, nickName: e.target.value })}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, nickname: e.target.value })
+              }
             />
           </label>
           <label>
             Email
             <input
               type='email'
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, email: e.target.value })
+              }
             />
           </label>
           <label>
             密碼
             <input
               type='password'
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, password: e.target.value })
+              }
             />
           </label>
           <div className={styles.submit}>
-            <button type='submit' onClick={handleSubmit}>
+            <button type="button" onClick={handleSubmit}>
               註冊
             </button>
           </div>
         </form>
-      </div>
+      </form>
     </main>
   )
 }

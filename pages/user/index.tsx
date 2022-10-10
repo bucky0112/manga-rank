@@ -1,22 +1,22 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { Footer } from '../../components'
 import { Navbar, Main, SignUp } from '../../components/user'
 
-const pages = {
-  1: "index",
-  2: "signUp"
+interface Page {
+  main: JSX.Element;
+  signUp: JSX.Element;
 }
 
 const Page = () => {
-  const [currentPage, setCurrentPage] = useState<String>(pages[1])
+  const [currentPage, setCurrentPage] = useState<string>('main')
+  const pages: Page = {
+    main: <Main atClick={setCurrentPage} currentPage={currentPage} />,
+    signUp: <SignUp setCurrentPage={setCurrentPage} />
+  }
   return (
     <>
       <Navbar />
-      {currentPage === pages[1] ? (
-        <Main atClick={setCurrentPage} currentPage={currentPage} />
-      ) : (
-        <SignUp />
-      )}
+      {pages[currentPage]}
       <Footer />
     </>
   )
