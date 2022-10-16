@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { Footer } from '../../components'
 import { Navbar, Main, SignUp } from '../../components/user'
 
