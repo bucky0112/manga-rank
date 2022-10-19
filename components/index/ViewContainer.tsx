@@ -11,7 +11,12 @@ const ViewContainer: FC<Props> = ({ isOpen }) => (
     <div className={`${styles.waveBar} ${isOpen && styles.open}`}>
       <div className={styles.boxCenter}>
         <ul>
-          <li>123</li>
+          <li>會員中心</li>
+          <li>登入/註冊</li>
+          <li>找漫畫</li>
+          <li>近期流行</li>
+          <li>依類別</li>
+          <li>依平台</li>
         </ul>
       </div>
     </div>
