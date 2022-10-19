@@ -12,67 +12,33 @@ const Page = () => {
   return (
     <>
       <Navbar />
-      <main className='w-screen bg-mainBG'>
-        <div className='col-start-4 col-end-6 grid grid-rows-5 items-center justify-center'>
-          <div className='row-span-2 my-10'>
-            <Image
-              src='/svg/signin.svg'
-              width={505}
-              height={340}
-              layout='fixed'
-              alt='sign in'
-            />
+      <main className='flex justify-between w-screen bg-mainBG'>
+        <div className='flex flex-col justify-around items-center w-1/2 bg-mainBG font-semibold'>
+          <div className='px-20 py-24 rounded-full bg-lightGrey text-3xl'>
+            <p>我們已發註冊信到</p>
+            <p className='mt-8 mb-20'>ＯＯＯ＠gmail.com</p>
+            <p>請到email查收 ：）</p>
           </div>
-          <div className='row-span-2 flex flex-col gap-10 w-[505px] -mt-10'>
-            <div className='flex flex-col gap-4 w-full'>
-              <label htmlFor='username' className='text-xl text-darkGrey'>
-                帳號
-              </label>
-              <input
-                type='text'
-                id='username'
-                className='bg-lightGrey rounded-full py-5'
-              ></input>
-            </div>
-            <div className='flex flex-col gap-4 w-full'>
-              <label htmlFor='password' className='text-xl text-darkGrey'>
-                密碼
-              </label>
-              <input
-                type='password'
-                id='password'
-                className='bg-lightGrey rounded-full py-5'
-              ></input>
-            </div>
-          </div>
-          <div className='row-span-2 self-start flex items-center justify-end gap-10'>
+          <div className='flex flex-col items-center gap-4 text-mediumGrey text-xl'>
+            <p className='flex flex-col'>
+              <span>若五分鐘內沒有收到信件，</span>
+              <span>請更改信箱或重新寄出信件。</span>
+            </p>
             <button
               type='button'
-              className='text-3xl font-semibold bg-primary rounded-full px-6 py-3'
+              className='bg-lightGrey w-32 h-14 rounded-full'
             >
-              登入
+              更改信箱
             </button>
-            <Link href='/'>
-              <a className='flex items-center text-xl text-mediumGrey'>
-                <Image
-                  src='/svg/star.svg'
-                  layout='fixed'
-                  width={36}
-                  height={34}
-                  alt='forget password'
-                />
-                忘記密碼
-                <Image
-                  src='/svg/star.svg'
-                  layout='fixed'
-                  width={36}
-                  height={34}
-                  alt='forget password'
-                />
-              </a>
-            </Link>
+            <button
+              type='button'
+              className='bg-lightGrey w-32 h-14 rounded-full'
+            >
+              重新寄出
+            </button>
           </div>
         </div>
+        <div className='bg-register bg-right h-screen w-1/2 bg-no-repeat'></div>
       </main>
       <Footer />
     </>

@@ -24,7 +24,8 @@ module.exports = {
         blurGray: 'rgba(247, 247, 247, 0.1)'
       },
       backgroundImage: {
-        index: "url('/KOMIC.png')"
+        index: "url('/KOMIC.png')",
+        register: "url('/svg/signup_bg.svg')",
       }
     }
   },

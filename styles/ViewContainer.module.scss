@@ -34,8 +34,7 @@
 }
 
 .waveBar .boxCenter {
-  display: flex;
-  justify-content: center;
+  @apply flex justify-center ml-[20%]
 }
 
 .waveBar ul {
