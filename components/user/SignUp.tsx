@@ -1,9 +1,13 @@
-import { FC, useState, SetStateAction } from 'react'
+import { FC, SetStateAction } from 'react'
 import Image from 'next/image'
 import styles from '../../styles/user/SignUp.module.scss'
 import { user } from '../../lib/api/user'
+import { useForm, SubmitHandler } from 'react-hook-form'
+interface Props {
+  setCurrentPage: (currentPage: SetStateAction<string>) => void
+}
 
-interface User {
+type Inputs = {
   email: string
   github_oauth: string
   google_oauth: string
@@ -12,25 +16,25 @@ interface User {
   nickname: string
 }
 
-interface Props {
-  setCurrentPage: (currentPage: SetStateAction<string>) => void
-}
-
 const SignUp: FC<Props> = ({ setCurrentPage }) => {
-  const [userInfo, setUserInfo] = useState<User>({} as User)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<Inputs>()
 
-  const handleSubmit = async () => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const { email, password, user_name, nickname } = data
     try {
-      const res = await user.newUser({
-        email: userInfo.email,
-        user_name: userInfo.user_name,
-        password: userInfo.password,
+      await user.newUser({
+        email,
+        user_name,
+        password,
         github_oauth: '',
         google_oauth: '',
-        nickname: userInfo.nickname
+        nickname
       })
       setCurrentPage("main")
-      console.log(res)
     } catch (err) {
       console.error(err)
     }
@@ -47,52 +51,42 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
           alt='sign up'
         />
       </div>
-      <form className={styles.signUp}>
+      <div className={styles.signUp}>
         <h1>註冊</h1>
-        <form>
-          <label>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label className={`${errors?.user_name ? styles.error : ''}`}>
             真實姓名
             <input
               type='text'
-              onChange={(e) =>
-                setUserInfo({ ...userInfo, user_name: e.target.value })
-              }
+              {...register('user_name', { required: true })}
             />
           </label>
-          <label>
+          <label className={`${errors?.nickname ? styles.error : ''}`}>
             暱稱
             <input
               type='text'
-              onChange={(e) =>
-                setUserInfo({ ...userInfo, nickname: e.target.value })
-              }
+              {...register('nickname', { required: true })}
             />
           </label>
-          <label>
+          <label className={`${errors?.email ? styles.error : ''}`}>
             Email
             <input
               type='email'
-              onChange={(e) =>
-                setUserInfo({ ...userInfo, email: e.target.value })
-              }
+              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
             />
           </label>
-          <label>
+          <label className={`${errors?.password ? styles.error : ''}`}>
             密碼
             <input
               type='password'
-              onChange={(e) =>
-                setUserInfo({ ...userInfo, password: e.target.value })
-              }
+              {...register('password', { required: true, minLength: 8 })}
             />
           </label>
           <div className={styles.submit}>
-            <button type="button" onClick={handleSubmit}>
-              註冊
-            </button>
+            <input type='submit' value='註冊' />
           </div>
         </form>
-      </form>
+      </div>
     </main>
   )
 }

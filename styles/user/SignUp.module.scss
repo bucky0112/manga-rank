@@ -19,16 +19,23 @@
         @apply flex flex-col text-2xl font-medium;
 
         & > input {
-          @apply bg-lightGrey rounded-full py-5 mt-4;
+          @apply bg-lightGrey rounded-full py-5 mt-4 px-6;
         }
       }
 
       .submit {
         @apply text-center;
-        & > button {
+        & > input {
           @apply text-3xl font-semibold bg-bgPrimary p-6 rounded-full;
         }
       }
     }
+  }
+}
+
+.error {
+  @apply text-red-500;
+  & > input {
+    @apply border border-red-500;
   }
 }
