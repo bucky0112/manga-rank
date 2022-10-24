@@ -38,14 +38,17 @@ const CardGroup = ({
       <span className='self-start bg-darkGrey text-primary text-[28px] px-6 py-2 rounded-full'>
         {type}
       </span>
-      <ul className='grid grid-cols-4 gap-8 mb-20'>
-        {showBooks?.map(({ uuid, title_cn, /*tag1, tag2,*/ image }) => (
-          <li key={uuid} className='cursor-pointer'>
-            <BookCard title={title_cn} /*>tag1={tag1} tag2={tag2}*/ cover={image} />
+      <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-8 mb-20'>
+        {showBooks?.map(({ uuid, title_cn, image }) => (
+          <li
+            key={uuid}
+            className='justify-self-center flex flex-col justify-center items-center w-77 h-135'
+          >
+            <BookCard title={title_cn} cover={image} />
           </li>
         ))}
-        <li className='cursor-pointer '>
-          <div className='flex flex-col justify-center items-center w-[306px] h-[430px] bg-[#E7E7E7] rounded-3xl'>
+        <li className='justify-self-center w-77 h-125'>
+          <div className='flex flex-col justify-center items-center bg-[#E7E7E7] rounded-3xl w-full h-full cursor-pointer'>
             <Image
               src='/svg/right_arrow.svg'
               layout='fixed'

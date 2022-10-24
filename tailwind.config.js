@@ -11,7 +11,8 @@ module.exports = {
       md: '768px',
       lg: '1024px',
       xl: '1280px',
-      '2xl': '1920px'
+      '2xl': '1440px',
+      '3xl': '1920px'
     },
     extend: {
       colors: {
@@ -22,6 +23,13 @@ module.exports = {
         mediumGrey: '#828282',
         lightGrey: '#E7E7E7',
         blurGray: 'rgba(247, 247, 247, 0.1)'
+      },
+      width: {
+        '77': '308px',
+      },
+      height: {
+        '125': '500px',
+        '135': '540px',
       },
       backgroundImage: {
         index: "url('/KOMIC.png')",

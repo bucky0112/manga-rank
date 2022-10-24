@@ -1,15 +1,7 @@
-import Link from 'next/link'
-import Image from 'next/image'
 import { Footer } from '../../components'
-import { Navbar, Main, SignUp } from '../../components/user/'
+import { Navbar } from '../../components/user/'
 
-interface Page {
-  main: JSX.Element
-  signUp: JSX.Element
-}
-
-const Page = () => {
-  return (
+const Page = () => (
     <>
       <Navbar />
       <main className='flex justify-between w-screen bg-mainBG'>
@@ -43,6 +35,5 @@ const Page = () => {
       <Footer />
     </>
   )
-}
 
 export default Page
