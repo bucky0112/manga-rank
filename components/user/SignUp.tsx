@@ -34,7 +34,7 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
         google_oauth: '',
         nickname
       })
-      setCurrentPage("main")
+      setCurrentPage('main')
     } catch (err) {
       console.error(err)
     }
@@ -54,24 +54,24 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
       <div className={styles.signUp}>
         <h1>註冊</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className={`${errors?.user_name ? styles.error : ''}`}>
-            真實姓名
-            <input
-              type='text'
-              {...register('user_name', { required: true })}
-            />
-          </label>
+          <div className={styles.inputText}>
+            <label className={`${errors?.user_name ? styles.error : ''}`}>
+              真實姓名
+              <input
+                type='text'
+                {...register('user_name', { required: true })}
+              />
+            </label>
+            <p>123</p>
+          </div>
           <label className={`${errors?.nickname ? styles.error : ''}`}>
             暱稱
-            <input
-              type='text'
-              {...register('nickname', { required: true })}
-            />
+            <input type='text' {...register('nickname', { required: true })} />
           </label>
           <label className={`${errors?.email ? styles.error : ''}`}>
             Email
             <input
-              type='email'
+              type='text'
               {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
             />
           </label>

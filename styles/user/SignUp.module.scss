@@ -15,11 +15,13 @@
     & > form {
       @apply flex flex-col gap-20 px-44;
 
-      & > label {
-        @apply flex flex-col text-2xl font-medium;
+      .inputText {
+        & > label {
+          @apply flex flex-col text-2xl font-medium;
 
-        & > input {
-          @apply bg-lightGrey rounded-full py-5 mt-4 px-6;
+          & > input {
+            @apply bg-lightGrey rounded-full py-5 mt-4 px-6;
+          }
         }
       }
 
