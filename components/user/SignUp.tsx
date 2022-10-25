@@ -2,7 +2,13 @@ import { FC, SetStateAction } from 'react'
 import Image from 'next/image'
 import styles from '../../styles/user/SignUp.module.scss'
 import { user } from '../../lib/api/user'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import {
+  useForm,
+  SubmitHandler,
+  UseFormRegister,
+  FieldValues
+} from 'react-hook-form'
+import { InputText } from './'
 interface Props {
   setCurrentPage: (currentPage: SetStateAction<string>) => void
 }
@@ -54,34 +60,46 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
       <div className={styles.signUp}>
         <h1>註冊</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles.inputText}>
-            <label className={`${errors?.user_name ? styles.error : ''}`}>
-              真實姓名
-              <input
-                type='text'
-                {...register('user_name', { required: true })}
-              />
-            </label>
-            <p>123</p>
-          </div>
-          <label className={`${errors?.nickname ? styles.error : ''}`}>
-            暱稱
-            <input type='text' {...register('nickname', { required: true })} />
-          </label>
-          <label className={`${errors?.email ? styles.error : ''}`}>
-            Email
-            <input
-              type='text'
-              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
-            />
-          </label>
-          <label className={`${errors?.password ? styles.error : ''}`}>
-            密碼
-            <input
-              type='password'
-              {...register('password', { required: true, minLength: 8 })}
-            />
-          </label>
+          <InputText
+            register={register}
+            errors={errors}
+            name='user_name'
+            text='真實姓名'
+            option={{
+              required: true
+            }}
+            errorText='此欄位為必填'
+          />
+          <InputText
+            register={register}
+            errors={errors}
+            name='nickname'
+            text='暱稱'
+            option={{
+              required: true
+            }}
+            errorText='超過25字元'
+          />
+          <InputText
+            register={register}
+            errors={errors}
+            name='email'
+            text='Email'
+            option={{
+              required: true
+            }}
+            errorText='Email填寫不正確，請再檢查拼字是否完整'
+          />
+          <InputText
+            register={register}
+            errors={errors}
+            name='password'
+            text='密碼'
+            option={{
+              required: true
+            }}
+            errorText='此欄位為必填'
+          />
           <div className={styles.submit}>
             <input type='submit' value='註冊' />
           </div>
