@@ -8,8 +8,14 @@ interface Props {
   errors?: any
   name: string
   text: string
-  option?: { required: boolean }
+  option?: {
+    required: { value: boolean; message: string }
+    maxLength?: { value: number; message: string }
+    pattern?: { value: RegExp; message: string }
+    minLength?: { value: number; message: string }
+  }
   errorText?: string
+  type?: string
 }
 
 const InputText: FC<Props> = ({
@@ -18,14 +24,17 @@ const InputText: FC<Props> = ({
   name,
   text,
   option = {},
-  errorText
+  errorText,
+  type = 'text'
 }) => (
   <div className={styles.inputText}>
     <label className={`${errors?.[name] ? styles.error : ''}`}>
       {text}
-      <input type='text' {...register(name, { ...option })} />
+      <input type={type} {...register(name, { ...option })} />
     </label>
-    {errors?.[name] && <p className="text-red-500 ml-2 mt-4 text-xl">{errorText}</p>}
+    {errors?.[name] ? (
+      <p className='text-red-500 ml-2 mt-4 text-xl'>{errors?.[name].message}</p>
+    ) : <p className='text-xl ml-2 mt-4'>{errorText}</p>}
   </div>
 )
 

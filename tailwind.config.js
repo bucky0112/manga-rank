@@ -26,10 +26,12 @@ module.exports = {
       },
       width: {
         '77': '308px',
+        '159': '636px',
       },
       height: {
         '125': '500px',
         '135': '540px',
+        '159': '636px',
       },
       backgroundImage: {
         index: "url('/KOMIC.png')",

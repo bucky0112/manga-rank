@@ -1,0 +1,44 @@
+.waveBar {
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  overflow-y: scroll;
+  position: absolute;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  transform: translateX(100%);
+  background-position: center top;
+  transition: transform 0.25s linear;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg%20width%3D%22454%22%20height%3D%223561%22%20viewBox%3D%220%200%20454%203561%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%20%3Cg%20filter%3D%22url%28%23filter0_d_66_872%29%22%3E%20%3Cpath%20d%3D%22M70%203561C70%203433.81%2095.3796%203433.81%2095.3796%203306.68C95.3796%203179.49%2070%203179.49%2070%203052.36C70%202925.17%2095.3796%202925.17%2095.3796%202798.03C95.3796%202670.85%2070%202670.85%2070%202543.71C70%202416.53%2095.3796%202416.53%2095.3796%202289.34C95.3796%202162.16%2070%202162.16%2070%202034.97C70%201907.78%2095.3796%201907.78%2095.3796%201780.6C95.3796%201653.36%2070%201653.36%2070%201526.23C70%201399.04%2095.3796%201399.04%2095.3796%201271.86C95.3796%201144.67%2070%201144.67%2070%201017.48C70%20890.299%2095.3796%20890.299%2095.3796%20763.114C95.3796%20635.928%2070%20635.928%2070%20508.742C70%20381.557%2095.3796%20381.557%2095.3796%20254.371C95.3796%20127.186%2070%20127.186%2070%200H454V3561H70Z%22%20fill%3D%22%23F7F7F7%22/%3E%20%3C/g%3E%20%3Cdefs%3E%20%3Cfilter%20id%3D%22filter0_d_66_872%22%20x%3D%220%22%20y%3D%22-50%22%20width%3D%22484%22%20height%3D%223661%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%20%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22/%3E%20%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22/%3E%20%3CfeOffset%20dx%3D%22-20%22/%3E%20%3CfeGaussianBlur%20stdDeviation%3D%2225%22/%3E%20%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22out%22/%3E%20%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.25%200%22/%3E%20%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22effect1_dropShadow_66_872%22/%3E%20%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22effect1_dropShadow_66_872%22%20result%3D%22shape%22/%3E%20%3C/filter%3E%20%3C/defs%3E%20%3C/svg%3E");
+  z-index: 99;
+}
+
+.waveBar.open {
+  transform: translateX(0);
+}
+
+.waveBar::-webkit-scrollbar {
+  width: 5px;
+}
+.waveBar::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+.waveBar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgb(219, 219, 219);
+}
+
+.waveBar .boxCenter {
+  @apply flex justify-center ml-[20%]
+}
+
+.waveBar ul {
+  text-align: center;
+}
+
+.waveBar li {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.5rem 0;
+}

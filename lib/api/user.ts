@@ -1,3 +1,4 @@
+import { verify } from 'crypto'
 import APIClient from './client'
 import { Endpoints } from './endpoints'
 
@@ -13,7 +14,8 @@ interface User {
 }
 
 const user = {
-  newUser: (data: User) => client.post(Endpoints.User.NewUser, data)
+  newUser: (data: User) => client.post(Endpoints.User.NewUser, data),
+  verifyUser: (key: string) => client.post(Endpoints.User.Verify, { verifyCode: key }),
 }
 
 export { user }

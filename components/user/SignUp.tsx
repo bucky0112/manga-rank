@@ -1,5 +1,6 @@
 import { FC, SetStateAction } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import styles from '../../styles/user/SignUp.module.scss'
 import { user } from '../../lib/api/user'
 import {
@@ -9,6 +10,7 @@ import {
   FieldValues
 } from 'react-hook-form'
 import { InputText } from './'
+import { EmailValidator } from '../../lib/validate/formValidate'
 interface Props {
   setCurrentPage: (currentPage: SetStateAction<string>) => void
 }
@@ -29,6 +31,8 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
     formState: { errors }
   } = useForm<Inputs>()
 
+  const router = useRouter()
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { email, password, user_name, nickname } = data
     try {
@@ -40,9 +44,10 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
         google_oauth: '',
         nickname
       })
-      setCurrentPage('main')
+      router.push(`/register_success/${email}`)
     } catch (err) {
       console.error(err)
+      setCurrentPage('main')
     }
   }
 
@@ -66,9 +71,11 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
             name='user_name'
             text='真實姓名'
             option={{
-              required: true
+              required: {
+                value: true,
+                message: '此欄位為必填'
+              }
             }}
-            errorText='此欄位為必填'
           />
           <InputText
             register={register}
@@ -76,7 +83,14 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
             name='nickname'
             text='暱稱'
             option={{
-              required: true
+              required: {
+                value: true,
+                message: '此欄位為必填'
+              },
+              maxLength: {
+                value: 25,
+                message: '超過25字'
+              }
             }}
             errorText='超過25字元'
           />
@@ -86,9 +100,15 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
             name='email'
             text='Email'
             option={{
-              required: true
+              required: {
+                value: true,
+                message: '此欄位為必填'
+              },
+              pattern: {
+                value: EmailValidator,
+                message: 'Email填寫不正確，請再檢查拼字是否完整'
+              }
             }}
-            errorText='Email填寫不正確，請再檢查拼字是否完整'
           />
           <InputText
             register={register}
@@ -96,9 +116,17 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
             name='password'
             text='密碼'
             option={{
-              required: true
+              required: {
+                value: true,
+                message: '此欄位為必填'
+              },
+              minLength: {
+                value: 8,
+                message: '不得少於8個英文字母或數字'
+              }
             }}
-            errorText='此欄位為必填'
+            errorText='不得少於8個英文字母或數字'
+            type="password"
           />
           <div className={styles.submit}>
             <input type='submit' value='註冊' />

@@ -20,7 +20,7 @@
           @apply flex flex-col text-2xl font-medium;
 
           & > input {
-            @apply bg-lightGrey rounded-full py-5 mt-4 px-6;
+            @apply bg-lightGrey rounded-full py-5 mt-4 px-6 focus:outline-none focus:border-mediumGrey focus:border-2;
           }
         }
       }
@@ -28,7 +28,7 @@
       .submit {
         @apply text-center;
         & > input {
-          @apply text-3xl font-semibold bg-bgPrimary p-6 rounded-full;
+          @apply text-3xl font-semibold bg-bgPrimary p-6 rounded-full cursor-pointer;
         }
       }
     }
@@ -36,8 +36,7 @@
 }
 
 .error {
-  @apply text-red-500;
   & > input {
-    @apply border border-red-500;
+    @apply border-2 border-red-500;
   }
 }
