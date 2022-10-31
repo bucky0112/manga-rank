@@ -5,5 +5,6 @@ export const Endpoints = {
   User: {
     NewUser: "/user",
     Verify: "/user/verify",
+    Login: "/session",
   }
 }
