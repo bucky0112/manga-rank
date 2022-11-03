@@ -1,9 +1,12 @@
 import { FC, Dispatch, SetStateAction } from 'react'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { InputText } from './'
 import { EmailValidator } from '../../lib/validate/formValidate'
+import { user } from '../../lib/api/user'
+import { useStorage } from '../../lib/hooks/'
 
 type IndexProps = {
   atClick: Dispatch<SetStateAction<string>>
@@ -16,21 +19,29 @@ type Inputs = {
 }
 
 const Main: FC<IndexProps> = ({ atClick }) => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<Inputs>()
+  const { setValue } = useStorage('userInfo', {})
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const res = await user.loginUser(data)
+      setValue(res?.data)
+      router.push('/')
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
     <main className='w-screen bg-mainBG'>
-      <h1 className='text-center text-3xl font-semibold py-16'>註冊/登入</h1>
-      <div className='grid grid-cols-5 px-60'>
-        <div className='col-start-1 col-end-3 grid grid-rows-5 items-center justify-center'>
+      <h1 className='text-center text-3xl font-semibold py-2'>註冊/登入</h1>
+      <div className='grid grid-cols-5 px-60 bg-[url("/svg/gap.svg")] bg-no-repeat bg-center'>
+        <div className='col-start-1 col-end-3 grid grid-rows-4 justify-center'>
           <div className='row-span-2 my-10'>
             <Image
               src='/svg/signup.svg'
@@ -40,7 +51,7 @@ const Main: FC<IndexProps> = ({ atClick }) => {
               alt='sign up'
             />
           </div>
-          <div className='row-span-2 flex flex-col gap-20 w-[505px]'>
+          <div className='row-span-2 flex flex-col gap-14 w-full mt-12'>
             <button
               type='button'
               className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full'
@@ -50,24 +61,13 @@ const Main: FC<IndexProps> = ({ atClick }) => {
             </button>
             <button
               type='button'
-              className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full'
+              className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full mt-1'
             >
               使用 Google 帳號登入
             </button>
           </div>
         </div>
-        <div className='col-start-3 col-end-4 w-full h-full relative'>
-          <Image
-            src='/svg/gap.svg'
-            layout='fill'
-            objectFit='contain'
-            width='100%'
-            height='100%'
-            alt='gap'
-            className=''
-          />
-        </div>
-        <div className='col-start-4 col-end-6 grid grid-rows-5 items-center justify-center'>
+        <div className='col-start-4 col-end-6 grid grid-rows-4 justify-center'>
           <div className='row-span-2 my-10'>
             <Image
               src='/svg/signin.svg'
@@ -77,7 +77,7 @@ const Main: FC<IndexProps> = ({ atClick }) => {
               alt='sign in'
             />
           </div>
-          <div className='row-span-2 flex flex-col gap-10 w-[505px] -mt-10'>
+          <div className='row-start-3 row-end-6 w-full'>
             <form onSubmit={handleSubmit(onSubmit)}>
               <InputText
                 register={register}
@@ -110,21 +110,14 @@ const Main: FC<IndexProps> = ({ atClick }) => {
                     message: '不得少於8個英文字母或數字'
                   }
                 }}
-                errorText='不得少於8個英文字母或數字'
                 type='password'
               />
-              <div className='row-span-2 self-start flex items-center justify-end gap-10'>
+              <div className='flex items-center justify-end gap-10 mt-14'>
                 <input
                   type='submit'
                   value='登入'
                   className='text-3xl font-semibold bg-primary rounded-full px-6 py-3 cursor-pointer'
                 />
-                {/* <button
-              type='button'
-              className='text-3xl font-semibold bg-primary rounded-full px-6 py-3'
-            >
-              登入
-            </button> */}
                 <Link href='/'>
                   <a className='flex items-center text-xl text-mediumGrey'>
                     <Image
@@ -146,26 +139,6 @@ const Main: FC<IndexProps> = ({ atClick }) => {
                 </Link>
               </div>
             </form>
-            {/* <div className='flex flex-col gap-4 w-full'>
-              <label htmlFor='username' className='text-xl text-darkGrey'>
-                帳號
-              </label>
-              <input
-                type='text'
-                id='username'
-                className='bg-lightGrey rounded-full py-5'
-              ></input>
-            </div>
-            <div className='flex flex-col gap-4 w-full'>
-              <label htmlFor='password' className='text-xl text-darkGrey'>
-                密碼
-              </label>
-              <input
-                type='password'
-                id='password'
-                className='bg-lightGrey rounded-full py-5'
-              ></input>
-            </div> */}
           </div>
         </div>
       </div>
