@@ -10,6 +10,7 @@
     "export": "next export"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.6",
     "autoprefixer": "^10.4.8",
     "axios": "^0.27.2",
     "next": "12.2.3",
@@ -17,6 +18,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.37.0",
+    "react-redux": "^8.0.5",
     "sass": "^1.54.2",
     "scss": "^0.2.4",
     "tailwind-hamburgers": "^1.2.2",
