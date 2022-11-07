@@ -3,48 +3,70 @@ import Image from 'next/image'
 import { BookCard } from '../shared'
 import { manga } from '../../lib/api/manga'
 
+interface bookFromApi {
+  uuid: string
+  title_cn: string
+  tag: string
+  image: string
+}
+
+interface bookTag {
+  uuid: string
+  name: string
+}
 interface book {
   uuid: string
   title_cn: string
-  // tag1: string
-  // tag2: string
+  tag: bookTag[]
   image: string
 }
 
 interface props {
-  // showBooks: book[]
   type: string
 }
 
-const CardGroup = ({
-  // showBooks,
-  type }: props) => {
+const listToObj = (list: string[]) => {
+  return list?.map((item: string) => {
+    const [uuid, name] = item.split('§')
+    return {
+      uuid,
+      name
+    }
+  })
+}
+
+const CardGroup = ({ type }: props) => {
   const [showBooks, setShowBooks] = useState<book[]>([])
 
   useEffect(() => {
     ;(async () => {
       try {
         const { data } = await manga.getBooks(10)
-        const res = data?.data?.slice(0, 7)
+        const res = data?.data?.slice(0, 7).map((item: bookFromApi) => {
+          return {
+            ...item,
+            tag: listToObj(item?.tag?.split(',')?.slice(0, 2))
+          }
+        })
         setShowBooks(res)
       } catch (err) {
         console.error(err)
       }
     })()
   }, [])
-  
+
   return (
     <>
       <span className='self-start bg-darkGrey text-primary text-[28px] px-6 py-2 rounded-full'>
         {type}
       </span>
-      <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-8 mb-20'>
-        {showBooks?.map(({ uuid, title_cn, image }) => (
+      <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-x-8 gap-y-14 mb-20'>
+        {showBooks?.map(({ uuid, title_cn, image, tag }) => (
           <li
             key={uuid}
             className='justify-self-center flex flex-col justify-center items-center w-77 h-135'
           >
-            <BookCard title={title_cn} cover={image} />
+            <BookCard title={title_cn} cover={image} tag={tag} />
           </li>
         ))}
         <li className='justify-self-center w-77 h-125'>

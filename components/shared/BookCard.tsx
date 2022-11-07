@@ -1,12 +1,19 @@
 import Image from 'next/image'
-interface books {
-  title: string,
-  cover: string,
+
+interface bookTag {
+  uuid: string
+  name: string
 }
 
-const BookCard = ({ ...rest }:books) => {
-  const { title, cover } = rest
-  
+interface books {
+  title: string
+  cover: string
+  tag: bookTag[]
+}
+
+const BookCard = ({ ...rest }: books) => {
+  const { title, cover, tag } = rest
+
   return (
     <>
       <div className='grid grid-cols-2 w-full h-full relative cursor-pointer'>
@@ -22,7 +29,18 @@ const BookCard = ({ ...rest }:books) => {
           /10人
         </p>
       </div>
-      <p className='text-center text-2xl font-semibold mt-4 mb-4'>{title}</p>
+      <div>
+        <p className='text-center text-2xl font-semibold mt-4 mb-4'>{title}</p>
+        {tag[0].uuid && (
+          <ul className='flex justify-center items-center gap-5'>
+            {tag.map(({ uuid, name }) => (
+              <li key={uuid} className='bg-primary px-4 py-1 rounded-full'>
+                <span className='text-xl'>{name}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </>
   )
 }
