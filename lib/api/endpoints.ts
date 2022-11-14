@@ -1,6 +1,7 @@
 export const Endpoints = {
   Manga: {
     Get: "/manga",
+    Detail: "/manga/detail",
   },
   User: {
     NewUser: "/user",

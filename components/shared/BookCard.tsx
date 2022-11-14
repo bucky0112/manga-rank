@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 interface bookTag {
   uuid: string
@@ -9,14 +10,17 @@ interface books {
   title: string
   cover: string
   tag: bookTag[]
+  uuid: string
 }
 
 const BookCard = ({ ...rest }: books) => {
-  const { title, cover, tag } = rest
+  const { title, cover, tag, uuid } = rest
+  
+  const router = useRouter()
 
   return (
     <>
-      <div className='grid grid-cols-2 w-full h-full relative cursor-pointer'>
+      <div className='grid grid-cols-2 w-full h-full relative cursor-pointer' onClick={() => router.push(`/book/${uuid}`)}>
         <Image
           className='rounded-3xl'
           layout='fill'

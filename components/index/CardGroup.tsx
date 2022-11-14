@@ -66,7 +66,7 @@ const CardGroup = ({ type }: props) => {
             key={uuid}
             className='justify-self-center flex flex-col justify-center items-center w-77 h-135'
           >
-            <BookCard title={title_cn} cover={image} tag={tag} />
+            <BookCard title={title_cn} cover={image} tag={tag} uuid={uuid} />
           </li>
         ))}
         <li className='justify-self-center w-77 h-125'>
