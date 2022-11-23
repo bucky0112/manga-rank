@@ -43,7 +43,7 @@ const Page = () => {
   }, [])
 
   return (
-    <main className='px-60 py-52'>
+    <main className='px-60 py-52 relative'>
       <div className='grid grid-cols-7 gap-x-10'>
         <div className='col-span-2'>
           {image && (
@@ -64,22 +64,10 @@ const Page = () => {
               <p>作者：{author}</p>
             </li>
             <li>
-              <p>譯者：xxx</p>
-            </li>
-            <li>
               <p>出版社：{publisher}</p>
             </li>
             <li>
-              <p className='flex flex-col gap-1'>
-                <span>最新出版日期：</span>
-                <span>xxxx/xx/xx</span>
-              </p>
-            </li>
-            <li>
               <p>語言：繁體中文</p>
-            </li>
-            <li>
-              <p>定價：xxx元/本</p>
             </li>
             <li>
               <p className='flex flex-col gap-1 mt-8'>
@@ -94,6 +82,29 @@ const Page = () => {
             <p className='text-xl'>平均評分</p>
             <p className='text-[12rem] self-end'>5.9</p>
             <p className='self-end'>/300人</p>
+          </div>
+        </div>
+      </div>
+      <div className='absolute right-2 cursor-pointer' onClick={() => router.push(`/comment/${id}`)}>
+        <div className='relative grid grid-rows-3'>
+          <div className='row-span-full'>
+            <Image
+              src='/svg/explode.svg'
+              layout='fixed'
+              width='182'
+              height='182'
+              alt='common button'
+            />
+          </div>
+          <div className='absolute row-start-3 row-end-4 justify-self-center -mt-2'>
+            {/* <Image
+              src='/svg/pen.svg'
+              width='12'
+              height='65'
+              layout='fixed'
+              alt='common'
+            /> */}
+            <p className='text-darkGrey'>我要評論</p>
           </div>
         </div>
       </div>
