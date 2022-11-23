@@ -43,7 +43,7 @@ const Page = () => {
   }, [])
 
   return (
-    <main className='px-60 py-52 relative'>
+    <main className='px-60 py-52 h-screen relative bg-mainBG'>
       <div className='grid grid-cols-7 gap-x-10'>
         <div className='col-span-2'>
           {image && (
