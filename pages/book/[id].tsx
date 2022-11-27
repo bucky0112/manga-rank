@@ -43,7 +43,7 @@ const Page = () => {
   }, [])
 
   return (
-    <main className='px-60 py-52 h-screen relative bg-mainBG'>
+    <main className='px-60 py-52 relative bg-mainBG'>
       <div className='grid grid-cols-7 gap-x-10'>
         <div className='col-span-2'>
           {image && (
@@ -85,7 +85,10 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className='absolute right-2 cursor-pointer' onClick={() => router.push(`/comment/${id}`)}>
+      <div
+        className='absolute right-2 cursor-pointer'
+        onClick={() => router.push(`/comment/${id}`)}
+      >
         <div className='relative grid grid-rows-3'>
           <div className='row-span-full'>
             <Image
@@ -96,21 +99,25 @@ const Page = () => {
               alt='common button'
             />
           </div>
-          <div className='absolute row-start-3 row-end-4 justify-self-center -mt-2'>
-            {/* <Image
+          <div className='absolute row-start-2 row-end-3 justify-self-center'>
+            <Image
               src='/svg/pen.svg'
               width='12'
               height='65'
-              layout='fixed'
+              layout='intrinsic'
               alt='common'
-            /> */}
+            />
+          </div>
+          <div className='absolute row-start-3 row-end-4 justify-self-center -mt-2'>
             <p className='text-darkGrey'>我要評論</p>
           </div>
         </div>
       </div>
-      {/* <div>
+      <div className='flex flex-col gap-20 mt-36'>
         <UserComment />
-      </div> */}
+        <UserComment />
+        <UserComment />
+      </div>
     </main>
   )
 }
