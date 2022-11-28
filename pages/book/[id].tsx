@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { UserComment } from '../../components/book'
+import { UserComment, Another } from '../../components/book'
 import { manga } from '../../lib/api/manga'
 
 interface bookDetail {
@@ -43,8 +43,8 @@ const Page = () => {
   }, [])
 
   return (
-    <main className='px-60 py-52 relative bg-mainBG'>
-      <div className='grid grid-cols-7 gap-x-10'>
+    <main className='flex flex-col justify-center items-center px-60 py-52 relative bg-mainBG'>
+      <div className='grid grid-cols-7 gap-x-10 w-[1000px] 2xl:w-[1400px] xl:w-[1200px]'>
         <div className='col-span-2'>
           {image && (
             <Image
@@ -102,7 +102,7 @@ const Page = () => {
           <div className='absolute row-start-2 row-end-3 justify-self-center'>
             <Image
               src='/svg/pen.svg'
-              width='12'
+              width='48'
               height='65'
               layout='intrinsic'
               alt='common'
@@ -113,11 +113,12 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className='flex flex-col gap-20 mt-36'>
+      <div className='flex flex-col gap-20 mt-36 mb-32'>
         <UserComment />
         <UserComment />
         <UserComment />
       </div>
+      <Another />
     </main>
   )
 }
