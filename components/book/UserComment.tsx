@@ -17,7 +17,7 @@ const UserComment = () => {
       </div>
       <div className='w-[1px] h-28 bg-[#7a7a7a] relative left-5' />
       <div className='flex items-center pt-12 pb-8 w-full'>
-        <div className='w-full flex justify-center'>
+        <div className='w-[10%] flex justify-center'>
           <p className='flex justify-center items-center w-11 h-11 rounded-full bg-lightGrey text-4xl text-darkGrey'>
             3
           </p>
@@ -29,7 +29,7 @@ const UserComment = () => {
               <span>...</span>
             </button>
           </div>
-          <p className='leading-9 w-[946px]'>
+          <p className='leading-9 w-[90%]'>
             上有水，定即用把於來速案進入親覺試產傳代體英三，相的行因港；此一爭細岸時難操聽外至山的國雨。有個收交觀現不來，物民傷未力歷他自稱風他口意運馬海活各方望送起然，廣對道車希原創想作看海也科山神別內參火也少：建一創相，我當行趣表那遠錢，性展然時們在中斷團不。...
           </p>
           <div className='flex items-center justify-between'>
