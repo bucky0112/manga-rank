@@ -11,10 +11,11 @@ interface books {
   cover: string
   tag: bookTag[]
   uuid: string
+  isAdult: boolean
 }
 
 const BookCard = ({ ...rest }: books) => {
-  const { title, cover, tag, uuid } = rest
+  const { title, cover, tag, uuid, isAdult } = rest
 
   const router = useRouter()
 
@@ -28,7 +29,7 @@ const BookCard = ({ ...rest }: books) => {
           className='rounded-3xl'
           layout='fill'
           sizes='responsive'
-          src={cover}
+          src={isAdult ? "/svg/no_adult.svg" : cover}
           alt={title}
         />
         <div className='col-start-2 absolute justify-self-end self-end bg-primary rounded-tl-full rounded-br-[2400px] w-[70%]'>
