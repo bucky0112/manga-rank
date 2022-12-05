@@ -8,6 +8,7 @@ interface bookFromApi {
   title_cn: string
   tag: string
   image: string
+  is_adult: number
 }
 
 interface bookTag {
@@ -19,6 +20,7 @@ interface book {
   title_cn: string
   tag: bookTag[]
   image: string
+  is_adult: boolean
 }
 
 interface props {
@@ -45,7 +47,8 @@ const CardGroup = ({ type }: props) => {
         const res = data?.data?.slice(0, 7).map((item: bookFromApi) => {
           return {
             ...item,
-            tag: listToObj(item?.tag?.split(',')?.slice(0, 2))
+            tag: listToObj(item?.tag?.split(',')?.slice(0, 2)),
+            is_adult: item.is_adult === 1
           }
         })
         setShowBooks(res)
@@ -61,12 +64,12 @@ const CardGroup = ({ type }: props) => {
         {type}
       </span>
       <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-x-8 gap-y-14 mb-20'>
-        {showBooks?.map(({ uuid, title_cn, image, tag }) => (
+        {showBooks?.map(({ uuid, title_cn, image, tag, is_adult }) => (
           <li
             key={uuid}
             className='justify-self-center flex flex-col justify-center items-center w-77 h-135'
           >
-            <BookCard title={title_cn} cover={image} tag={tag} uuid={uuid} />
+            <BookCard title={title_cn} cover={image} tag={tag} uuid={uuid} isAdult={is_adult} />
           </li>
         ))}
         <li className='justify-self-center w-77 h-125'>
