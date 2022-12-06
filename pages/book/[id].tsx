@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { UserComment, Another } from '../../components/book'
+import { UserComment, Another, AgeTips } from '../../components/book'
 import { manga } from '../../lib/api/manga'
 
 interface bookDetail {
@@ -44,6 +44,7 @@ const Page = () => {
 
   return (
     <main className='flex flex-col justify-center items-center px-60 py-52 relative bg-mainBG'>
+      <AgeTips />
       <div className='grid grid-cols-7 gap-x-10 w-[1000px] 2xl:w-[1400px] xl:w-[1200px]'>
         <div className='col-span-2'>
           {image && (
