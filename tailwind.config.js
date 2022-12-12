@@ -15,6 +15,9 @@ module.exports = {
       '3xl': '1920px'
     },
     extend: {
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+      },
       colors: {
         mainBG: '#F7F7F7',
         primary: '#FCF32B',
