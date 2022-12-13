@@ -20,6 +20,7 @@ const Page = () => {
   const id = router.query.id as string
 
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
+  const [isAdult, setIsAdult] = useState(false)
   const {
     author,
     create_time,
@@ -42,9 +43,15 @@ const Page = () => {
     })()
   }, [])
 
+  useEffect(() => {
+    setIsAdult(is_adult === 1)
+  }, [book])
+
   return (
     <main className='flex flex-col justify-center items-center px-60 py-52 relative bg-mainBG'>
-      <AgeTips />
+      {isAdult && (
+        <AgeTips isOpen={isAdult} atClose={() => setIsAdult(false)} />
+      )}
       <div className='grid grid-cols-7 gap-x-10 w-[1000px] 2xl:w-[1400px] xl:w-[1200px]'>
         <div className='col-span-2'>
           {image && (
