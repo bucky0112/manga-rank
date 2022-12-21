@@ -20,7 +20,7 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
   }, [storedValue])
 
   return (
-    <nav className='flex items-center justify-between bg-blurGray backdrop-blur-sm px-6 py-2 font-inter'>
+    <nav className='flex items-center justify-between bg-blurGray backdrop-blur-sm px-6 py-2 font-inter fixed z-50 w-full'>
       <h1 className='text-4xl text-mediumGrey font-bold bg-primary rounded-full px-3 py-1'>
         K
       </h1>
