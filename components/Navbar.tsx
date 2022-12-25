@@ -1,8 +1,9 @@
-import { FC, SetStateAction, Dispatch, useEffect } from 'react'
+import { FC, SetStateAction, Dispatch, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { setUserInfo, selectUserInfo } from 'store/feat/user/userInfoSlice'
 import { useStorage } from 'lib/hooks'
+import { IoSearchOutline } from 'react-icons/io5'
 
 type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -19,15 +20,28 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
       dispatch(setUserInfo({ info: storedValue }))
   }, [storedValue])
 
+  const [isShowSearch, setIsShowSearch] = useState(false)
+
   return (
-    <nav className='flex items-center justify-between bg-blurGray backdrop-blur-sm px-6 py-2 font-inter fixed z-50 w-full'>
-      <Link href='/'>
+    <nav
+      onMouseEnter={() => setIsShowSearch(true)}
+      onMouseLeave={() => setIsShowSearch(false)}
+      className='flex items-center justify-between bg-blurGray backdrop-blur-sm px-6 py-2 font-inter fixed z-50 w-full'
+    >
+      <div className='flex items-center'>
+      <Link href='/'></nav>
         <a>
           <h1 className='text-4xl text-mediumGrey font-bold bg-primary rounded-full px-3 py-1'>
             K
           </h1>
         </a>
       </Link>
+        {isShowSearch ? (
+          <input type='text' placeholder='input' />
+        ) : (
+          <IoSearchOutline className='text-2xl text-darkGrey' />
+        )}
+      </div>
       <div className='flex items-center'>
         {userInfo?.nickname ? (
           <p className='text-darkGrey text-xl mr-10'>{userInfo?.nickname}</p>
