@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { BookCard } from '../shared'
-import { manga } from '../../lib/api/manga'
+// import { manga } from '../../lib/api/manga'
 
 interface bookFromApi {
   uuid: string
@@ -25,6 +25,7 @@ interface book {
 
 interface props {
   type: string
+  state: book[]
 }
 
 const listToObj = (list: string[]) => {
@@ -37,26 +38,26 @@ const listToObj = (list: string[]) => {
   })
 }
 
-const CardGroup = ({ type }: props) => {
-  const [showBooks, setShowBooks] = useState<book[]>([])
+const CardGroup = ({ type, state }: props) => {
+  // const [showBooks, setShowBooks] = useState<book[]>([])
 
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const { data } = await manga.getBooks(10)
-        const res = data?.data?.slice(0, 7).map((item: bookFromApi) => {
-          return {
-            ...item,
-            tag: listToObj(item?.tag?.split(',')?.slice(0, 2)),
-            is_adult: item.is_adult === 1
-          }
-        })
-        setShowBooks(res)
-      } catch (err) {
-        console.error(err)
-      }
-    })()
-  }, [])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     try {
+  //       const { data } = await manga.getBooks(10)
+  //       const res = data?.data?.slice(0, 7).map((item: bookFromApi) => {
+  //         return {
+  //           ...item,
+  //           tag: listToObj(item?.tag?.split(',')?.slice(0, 2)),
+  //           is_adult: item.is_adult === 1
+  //         }
+  //       })
+  //       setShowBooks(res)
+  //     } catch (err) {
+  //       console.error(err)
+  //     }
+  //   })()
+  // }, [])
 
   return (
     <>
@@ -64,7 +65,7 @@ const CardGroup = ({ type }: props) => {
         {type}
       </span>
       <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-x-8 gap-y-14 mb-20'>
-        {showBooks?.map(({ uuid, title_cn, image, tag, is_adult }) => (
+        {state?.map(({ uuid, title_cn, image, tag, is_adult }) => (
           <li
             key={uuid}
             className='justify-self-center flex flex-col justify-center items-center w-77 h-135'

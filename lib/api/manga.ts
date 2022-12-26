@@ -6,6 +6,7 @@ const client = new APIClient();
 const manga = {
   getBooks: (count: number) => client.get(Endpoints.Manga.Get, count),
   getDetail: (id: string) => client.get(Endpoints.Manga.Detail, id),
+  getNewRelease: (page: number) => client.get(Endpoints.Manga.NewRelease, page),
 }
 
 export { manga }
