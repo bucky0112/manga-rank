@@ -12,10 +12,11 @@ interface books {
   tag: bookTag[]
   uuid: string
   isAdult: boolean
+  point: string
 }
 
 const BookCard = ({ ...rest }: books) => {
-  const { title, cover, tag, uuid, isAdult } = rest
+  const { title, cover, tag, uuid, isAdult, point } = rest
 
   const router = useRouter()
 
@@ -34,7 +35,7 @@ const BookCard = ({ ...rest }: books) => {
         />
         <div className='col-start-2 absolute justify-self-end self-end bg-primary rounded-tl-full rounded-br-[2400px] w-[70%]'>
           <p className='flex flex-col items-center justify-start pt-3 ml-3'>
-            <span className='text-6xl text-[#565656]'>3</span>
+            <span className='text-5xl font-semibold text-[#565656]'>{point}</span>
             <span className='text-darkGrey'>/10人</span>
           </p>
         </div>
