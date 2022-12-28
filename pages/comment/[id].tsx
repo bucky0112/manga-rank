@@ -34,12 +34,26 @@ const Page = () => {
             <div className='flex flex-col ml-5 pt-12 pb-8 w-full'>
               <div className="flex items-center">
                 <h4 className='pr-8 text-base'>作品名稱</h4>
-                <p className='border rounded-3xl bg-lightGrey ml-8 font-semibold text-2xl p-2 pl-4 w-[50%]'>間諜家家酒 Spy x Family</p>
+                <p className='border rounded-3xl bg-lightGrey ml-8 font-semibold text-2xl p-2 pl-4 w-[630px] h-[50px]'>間諜家家酒 Spy x Family</p>
+                <div className="flex ml-8">
+                  <div className='row-span-full'>
+                    <Image
+                      src='/svg/star2.svg'
+                      layout='fixed'
+                      width='110'
+                      height='110'
+                      alt='new star'
+                    />
+                  </div>
+                  <div className='absolute justify-self-center self-center ml-9'>
+                    <p className='text-darkGrey'>NEW</p>
+                  </div>
+                </div>
               </div>
-              <select className='bg-lightGrey w-80 m-5 rounded-3xl font-semibold text-base p-4'>
+              <select className='bg-lightGrey w-60 h-[50px] m-5 rounded-3xl font-semibold text-base p-4'>
                 <option value='1'>第一集</option>
               </select>
-              <div className='w-[90%] flex justify-start gap-5 h-3'>
+              <div className='w-[90%] flex justify-start gap-12 h-3'>
                 <div className='w-[1px] h-14 bg-[#7a7a7a] relative left-5' />
                 <p className='flex justify-center items-center w-11 h-11 font-bold ml-5'>
                   評分
@@ -68,6 +82,9 @@ const Page = () => {
                 <p className='flex justify-center items-center w-11 h-11 rounded-full bg-lightGrey text-4xl text-darkGrey'>
                   9
                 </p>
+                <p className='flex justify-center items-center w-11 h-11 rounded-full bg-lightGrey text-4xl text-darkGrey'>
+                  10
+                </p>
               </div>
               <div className="flex">
                 <h4 className='flex justify-center items-center w-20 h-11 rounded-full bg-lightGrey font-semibold text-base text-darkGrey mb-3 mt-16'>
@@ -80,8 +97,8 @@ const Page = () => {
                 </div>
               </div>
               <div className='flex justify-center'>
-                <button type="button" className='bg-lightGrey w-25 m-5 rounded-3xl font-semibold text-xl p-4'>取消評論</button>
-                <button type="button" className='bg-lightGrey w-25 m-5 rounded-3xl font-semibold text-xl p-4'>確認評論</button>
+                <button type="button" className='bg-lightGrey w-[113px] h-[68px] m-5 rounded-[50px] font-semibold text-xl p-4'>取消評論</button>
+                <button type="button" className='bg-lightGrey w-[113px] h-[68px] m-5 rounded-[50px] font-semibold text-xl p-4'>確認評論</button>
               </div>
             </div>
           </div>
