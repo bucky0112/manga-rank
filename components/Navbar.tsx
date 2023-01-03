@@ -1,8 +1,8 @@
 import { FC, SetStateAction, Dispatch, useEffect } from 'react'
 import Link from 'next/link'
-import { useAppSelector, useAppDispatch } from '../store/hooks'
-import { setUserInfo, selectUserInfo } from '../store/feat/user/userInfoSlice'
-import { useStorage } from '../lib/hooks'
+import { useAppSelector, useAppDispatch } from 'store/hooks'
+import { setUserInfo, selectUserInfo } from 'store/feat/user/userInfoSlice'
+import { useStorage } from 'lib/hooks'
 
 type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -21,9 +21,13 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
 
   return (
     <nav className='flex items-center justify-between bg-blurGray backdrop-blur-sm px-6 py-2 font-inter fixed z-50 w-full'>
-      <h1 className='text-4xl text-mediumGrey font-bold bg-primary rounded-full px-3 py-1'>
-        K
-      </h1>
+      <Link href='/'>
+        <a>
+          <h1 className='text-4xl text-mediumGrey font-bold bg-primary rounded-full px-3 py-1'>
+            K
+          </h1>
+        </a>
+      </Link>
       <div className='flex items-center'>
         {userInfo?.nickname ? (
           <p className='text-darkGrey text-xl mr-10'>{userInfo?.nickname}</p>
