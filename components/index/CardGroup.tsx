@@ -21,6 +21,12 @@ const CardGroup = ({ type, apiName }: props) => {
       case 'getNewRelease':
         router.push('/newRelease')
         break
+      case 'getHighestRated':
+        router.push('/highestRated')
+        break
+      case 'getTopSell':
+        router.push('/topSell')
+        break
       default:
         break
     }
