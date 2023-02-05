@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const baseRequest = axios.create({
-  baseURL: 'https://x4cczk9r43.execute-api.ap-south-1.amazonaws.com/v1/'
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL
 })
 
 interface User {
