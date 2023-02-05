@@ -1,13 +1,25 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
-import { store } from '../store/'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { store } from 'store'
+import 'styles/globals.css'
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface MyAppProps extends AppProps {
+  clientId?: string
+}
+
+function MyApp({ Component, pageProps }: MyAppProps) {
+  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  if (!clientId) {
+    throw new Error('No client ID provided!');
+  }
+
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+    <GoogleOAuthProvider clientId={clientId}>
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
+    </GoogleOAuthProvider>
   )
 }
 

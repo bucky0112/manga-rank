@@ -3,10 +3,14 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useGoogleLogin } from "@react-oauth/google"
+// import { GoogleLogin } from '@react-oauth/google'
 import { InputText } from './'
-import { EmailValidator } from '../../lib/validate/formValidate'
-import { user } from '../../lib/api/user'
-import { useStorage } from '../../lib/hooks/'
+import { EmailValidator } from 'lib/validate/formValidate'
+import APIClient from 'lib/api/customClient'
+import { user } from 'lib/api/user'
+import { useStorage } from 'lib/hooks/'
+import OAuth from './Oauth'
 
 type IndexProps = {
   atClick: Dispatch<SetStateAction<string>>
@@ -37,6 +41,21 @@ const Main: FC<IndexProps> = ({ atClick }) => {
     }
   }
 
+  // const handleGooglOauth = useGoogleLogin({
+  //   onSuccess: async ({ access_token }) => {
+  //     try {
+  //       const res = await new APIClient("https://www.googleapis.com", access_token).get("/oauth2/v3/userinfo")
+  //       const { sub, email } = res.data
+  //       fetchGoogle({ sub, email })
+  //     } catch (err) {
+  //       console.error(err)
+  //     }
+  //   },
+  // })
+  const login = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse),
+  });
+
   return (
     <main className='w-screen bg-mainBG'>
       <h1 className='text-center text-3xl font-semibold py-2'>註冊/登入</h1>
@@ -59,12 +78,22 @@ const Main: FC<IndexProps> = ({ atClick }) => {
             >
               註冊新帳號
             </button>
-            <button
+            {/* <button
+              onClick={() => login()}
               type='button'
               className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full mt-1'
             >
               使用 Google 帳號登入
-            </button>
+            </button> */}
+            <OAuth />
+            {/* <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse)
+              }}
+              onError={() => {
+                console.log('Login Failed')
+              }}
+            /> */}
           </div>
         </div>
         <div className='col-start-4 col-end-6 grid grid-rows-4 justify-center'>
