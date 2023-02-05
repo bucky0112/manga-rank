@@ -1,16 +1,12 @@
-import { FC, Dispatch, SetStateAction } from 'react'
+import { FC, Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useGoogleLogin } from "@react-oauth/google"
-// import { GoogleLogin } from '@react-oauth/google'
 import { InputText } from './'
 import { EmailValidator } from 'lib/validate/formValidate'
-import APIClient from 'lib/api/customClient'
 import { user } from 'lib/api/user'
-import { useStorage } from 'lib/hooks/'
-import OAuth from './Oauth'
+import { useStorage } from 'lib/hooks'
 
 type IndexProps = {
   atClick: Dispatch<SetStateAction<string>>
@@ -41,20 +37,24 @@ const Main: FC<IndexProps> = ({ atClick }) => {
     }
   }
 
-  // const handleGooglOauth = useGoogleLogin({
-  //   onSuccess: async ({ access_token }) => {
-  //     try {
-  //       const res = await new APIClient("https://www.googleapis.com", access_token).get("/oauth2/v3/userinfo")
-  //       const { sub, email } = res.data
-  //       fetchGoogle({ sub, email })
-  //     } catch (err) {
-  //       console.error(err)
-  //     }
-  //   },
-  // })
-  const login = useGoogleLogin({
-    onSuccess: tokenResponse => console.log(tokenResponse),
-  });
+  const handleGoogleOauth = () => {
+    window.open(
+      `${process.env.NEXT_PUBLIC_BASE_URL}oauth/google/register`,
+      'newwindows',
+      'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no'
+    )
+    window.addEventListener(
+      'message',
+      function (e) {
+        setValue({
+          token: e.data,
+          nickname: 'Google User',
+        })
+        router.push('/')
+      },
+      false
+    )
+  }
 
   return (
     <main className='w-screen bg-mainBG'>
@@ -78,22 +78,13 @@ const Main: FC<IndexProps> = ({ atClick }) => {
             >
               註冊新帳號
             </button>
-            {/* <button
-              onClick={() => login()}
+            <button
+              onClick={handleGoogleOauth}
               type='button'
               className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full mt-1'
             >
               使用 Google 帳號登入
-            </button> */}
-            <OAuth />
-            {/* <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log(credentialResponse)
-              }}
-              onError={() => {
-                console.log('Login Failed')
-              }}
-            /> */}
+            </button>
           </div>
         </div>
         <div className='col-start-4 col-end-6 grid grid-rows-4 justify-center'>
