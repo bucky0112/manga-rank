@@ -13,5 +13,8 @@ export const Endpoints = {
     NewUser: "/user",
     Verify: "/user/verify",
     Login: "/session",
+    GoogleLogin: "/oauth/google",
   }
 }
+
+// https://x4cczk9r43.execute-api.ap-south-1.amazonaws.com/v1/oauth/google

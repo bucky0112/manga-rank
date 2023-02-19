@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction, useState } from 'react'
+import { FC, Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,6 +7,8 @@ import { InputText } from './'
 import { EmailValidator } from 'lib/validate/formValidate'
 import { user } from 'lib/api/user'
 import { useStorage } from 'lib/hooks'
+import { useAppDispatch } from 'store/hooks'
+import { setGoogleOauthInfo } from 'store/feat/user/googleOauthSlice'
 
 type IndexProps = {
   atClick: Dispatch<SetStateAction<string>>
@@ -20,6 +22,7 @@ type Inputs = {
 
 const Main: FC<IndexProps> = ({ atClick }) => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -37,23 +40,54 @@ const Main: FC<IndexProps> = ({ atClick }) => {
     }
   }
 
-  const handleGoogleOauth = () => {
-    window.open(
+  // const handleGoogleOauth = () => {
+  //   window.open(
+  //     `${process.env.NEXT_PUBLIC_BASE_URL}oauth/google/register`,
+  //     'newwindows',
+  //     'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no'
+  //   )
+  //   window.addEventListener(
+  //     'message',
+  //     function (e) {
+  //       let json = JSON.parse(e.data)
+  //       dispatch(setGoogleOauthInfo({ info: json }))
+  //       atClick('signUp')
+  //     },
+  //     false
+  //   )
+  // }
+  const handleGoogleOauth = async () => {
+    const popup = window.open(
       `${process.env.NEXT_PUBLIC_BASE_URL}oauth/google/register`,
       'newwindows',
       'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no'
     )
-    window.addEventListener(
-      'message',
-      function (e) {
-        setValue({
-          token: e.data,
-          nickname: 'Google User',
-        })
-        router.push('/')
-      },
-      false
-    )
+
+    return new Promise<void>((resolve, reject) => {
+      window.addEventListener(
+        'message',
+        function (e) {
+          try {
+            let json = JSON.parse(e.data)
+            dispatch(setGoogleOauthInfo({ info: json }))
+            atClick('signUp')
+            resolve()
+          } catch (err) {
+            console.error('Failed to parse JSON:', e.data)
+          }
+        },
+        false
+      )
+
+      const interval = setInterval(() => {
+        if (!popup?.closed) {
+          return
+        }
+
+        clearInterval(interval)
+        reject(new Error('Popup window closed.'))
+      }, 1000)
+    })
   }
 
   return (
@@ -83,7 +117,7 @@ const Main: FC<IndexProps> = ({ atClick }) => {
               type='button'
               className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full mt-1'
             >
-              使用 Google 帳號登入
+              使用 Google 帳號註冊
             </button>
           </div>
         </div>
