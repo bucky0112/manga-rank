@@ -26,10 +26,13 @@ export const googleOauthSlice = createSlice({
   reducers: {
     setGoogleOauthInfo: (state, action: PayloadAction<GoogleOauthState>) => {
       state.info = action.payload.info
+    },
+    cleanGoogleOauthInfo: (state) => {
+      state.info = initialState.info
     }
   }
 })
 
-export const { setGoogleOauthInfo } = googleOauthSlice.actions
+export const { setGoogleOauthInfo, cleanGoogleOauthInfo } = googleOauthSlice.actions
 export const selectGoogleOauthInfo = (state: RootState) => state.googleOauth.info
 export default googleOauthSlice.reducer

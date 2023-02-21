@@ -40,22 +40,6 @@ const Main: FC<IndexProps> = ({ atClick }) => {
     }
   }
 
-  // const handleGoogleOauth = () => {
-  //   window.open(
-  //     `${process.env.NEXT_PUBLIC_BASE_URL}oauth/google/register`,
-  //     'newwindows',
-  //     'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no'
-  //   )
-  //   window.addEventListener(
-  //     'message',
-  //     function (e) {
-  //       let json = JSON.parse(e.data)
-  //       dispatch(setGoogleOauthInfo({ info: json }))
-  //       atClick('signUp')
-  //     },
-  //     false
-  //   )
-  // }
   const handleGoogleOauth = async () => {
     const popup = window.open(
       `${process.env.NEXT_PUBLIC_BASE_URL}oauth/google/register`,
