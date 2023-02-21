@@ -10,6 +10,8 @@ import { selectGoogleOauthInfo } from 'store/feat/user/googleOauthSlice'
 import { InputText } from './'
 import { user } from 'lib/api/user'
 import { EmailValidator } from 'lib/validate/formValidate'
+import { useAppDispatch } from 'store/hooks'
+import { cleanGoogleOauthInfo } from 'store/feat/user/googleOauthSlice'
 import styles from 'styles/user/SignUp.module.scss'
 interface Props {
   setCurrentPage: (currentPage: SetStateAction<string>) => void
@@ -17,8 +19,6 @@ interface Props {
 
 type Inputs = {
   email: string
-  github_oauth: string
-  google_oauth: string
   password: string
   user_name: string
   nickname: string
@@ -32,6 +32,7 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
     formState: { errors }
   } = useForm<Inputs>()
 
+  const dispatch = useAppDispatch()
   const googleOauthInfo = useAppSelector(selectGoogleOauthInfo)
   const router = useRouter()
 
@@ -49,8 +50,6 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
         email,
         user_name,
         password,
-        github_oauth: '',
-        google_oauth: '',
         nickname
       })
       router.push(`/register_success/${email}`)
@@ -58,6 +57,7 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
       console.error(err)
       setCurrentPage('main')
     }
+    dispatch(cleanGoogleOauthInfo())
   }
 
   return (

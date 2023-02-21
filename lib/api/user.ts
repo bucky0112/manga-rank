@@ -5,8 +5,6 @@ const client = new APIClient()
 
 interface User {
   email: string
-  github_oauth: string
-  google_oauth: string
   password: string
   user_name: string
   nickname: string
