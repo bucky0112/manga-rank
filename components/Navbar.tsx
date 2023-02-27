@@ -1,5 +1,6 @@
 import { FC, SetStateAction, Dispatch, useEffect, useState } from 'react'
 import Link from 'next/link'
+import classNames from 'classnames'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { setUserInfo, selectUserInfo } from 'store/feat/user/userInfoSlice'
 import { useStorage } from 'lib/hooks'
@@ -26,23 +27,27 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
     <nav
       onMouseEnter={() => setIsShowSearch(true)}
       onMouseLeave={() => setIsShowSearch(false)}
-      className='flex items-center justify-between bg-blurGray backdrop-blur-sm px-6 py-2 font-inter fixed z-50 w-full'
+      className='grid grid-cols-12 items-center bg-blurGray backdrop-blur-sm px-6 py-4 font-inter fixed z-50 w-full'
     >
-      <div className='flex items-center'>
-        <Link href='/'>
-          <a>
-            <h1 className='text-4xl text-mediumGrey font-bold bg-primary rounded-full px-3 py-1'>
-              K
-            </h1>
-          </a>
-        </Link>
+      <Link href='/'>
+        <a className='col-span-1 place-self-center'>
+          <h1 className='flex justify-center items-center text-xl text-mediumGrey font-bold bg-primary rounded-full w-7 h-7'>
+            K
+          </h1>
+        </a>
+      </Link>
+      <div className="col-start-3 col-end-10">
         {isShowSearch ? (
-          <input type='text' placeholder='input' />
+          <input
+            type='text'
+            placeholder='請輸入關鍵字搜尋'
+            className='border-2 border-black outline-black rounded-full px-4 py-1 min-w-full'
+          />
         ) : (
           <IoSearchOutline className='text-2xl text-darkGrey' />
         )}
       </div>
-      <div className='flex items-center'>
+      <div className='col-start-10 col-span-3 flex items-center justify-around'>
         {userInfo?.nickname ? (
           <p className='text-darkGrey text-xl mr-10'>{userInfo?.nickname}</p>
         ) : (
@@ -51,9 +56,10 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
           </Link>
         )}
         <div
-          className={`tham tham-e-squeeze tham-w-6 ${
-            isOpen ? 'tham-active' : ''
-          }`}
+          className={classNames({
+            'tham tham-e-squeeze tham-w-6': true,
+            'tham-active': isOpen
+          })}
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className='tham-box'>
