@@ -29,13 +29,13 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
       className='flex items-center justify-between bg-blurGray backdrop-blur-sm px-6 py-2 font-inter fixed z-50 w-full'
     >
       <div className='flex items-center'>
-      <Link href='/'></nav>
-        <a>
-          <h1 className='text-4xl text-mediumGrey font-bold bg-primary rounded-full px-3 py-1'>
-            K
-          </h1>
-        </a>
-      </Link>
+        <Link href='/'>
+          <a>
+            <h1 className='text-4xl text-mediumGrey font-bold bg-primary rounded-full px-3 py-1'>
+              K
+            </h1>
+          </a>
+        </Link>
         {isShowSearch ? (
           <input type='text' placeholder='input' />
         ) : (
