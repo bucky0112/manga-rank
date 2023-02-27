@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { setUserInfo, selectUserInfo } from 'store/feat/user/userInfoSlice'
 import { useStorage } from 'lib/hooks'
 import { IoSearchOutline } from 'react-icons/io5'
+import { search } from 'lib/api/search'
 
 type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -22,6 +23,17 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
   }, [storedValue])
 
   const [isShowSearch, setIsShowSearch] = useState(false)
+
+  const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      try {
+        const res = await search.getKeywords(e.currentTarget.value)
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   return (
     <nav
@@ -42,6 +54,7 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
             type='text'
             placeholder='請輸入關鍵字搜尋'
             className='border-2 border-black outline-black rounded-full px-4 py-1 min-w-full'
+            onKeyDown={handleSearch}
           />
         ) : (
           <IoSearchOutline className='text-2xl text-darkGrey' />
