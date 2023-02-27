@@ -14,6 +14,9 @@ export const Endpoints = {
     Verify: "/user/verify",
     Login: "/session",
     GoogleLogin: "/oauth/google",
+  },
+  Search: {
+    keywords: "manga/search",
   }
 }
 
