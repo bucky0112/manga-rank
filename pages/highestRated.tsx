@@ -3,12 +3,12 @@ import { home } from 'lib/api/home'
 import { useMoreBooks } from 'lib/hooks'
 
 const Page = () => {
-  const { showBooks, hasMore, isOpenMenu, setIsOpenMenu, fetchData } =
+  const { showBooks, hasMore, isOpenMenu, fetchData } =
     useMoreBooks(home.getHighestRated)
 
   return (
     <>
-      <Navbar setIsOpen={setIsOpenMenu} isOpen={isOpenMenu} />
+      <Navbar isOpen={isOpenMenu} />
       <MultipleBooksContainer
         type='評價超過8分的作品'
         isOpen={isOpenMenu}
