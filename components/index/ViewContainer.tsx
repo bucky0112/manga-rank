@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { CardGroup, SideBar } from './'
+import { CardGroup } from './'
+import { SideBar } from 'components/shared'
 import styles from 'styles/ViewContainer.module.scss'
 
 type Props = {
