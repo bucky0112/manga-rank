@@ -1,5 +1,6 @@
 import { FC, SetStateAction, Dispatch, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import classNames from 'classnames'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { setUserInfo, selectUserInfo } from 'store/feat/user/userInfoSlice'
@@ -16,6 +17,7 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
   const dispatch = useAppDispatch()
   const { storedValue } = useStorage('userInfo', {})
   const userInfo = useAppSelector(selectUserInfo)
+  const router = useRouter()
 
   useEffect(() => {
     Object.keys(storedValue).length > 0 &&
@@ -27,8 +29,11 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
   const handleSearch = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       try {
-        const res = await search.getKeywords(e.currentTarget.value)
-        console.log(res)
+        const { data } = await search.getKeywords(e.currentTarget.value)
+        const { count, keywords } = data
+        if (count > 0) {
+          router.push(`/search/${keywords}`)
+        }
       } catch (error) {
         console.log(error)
       }
