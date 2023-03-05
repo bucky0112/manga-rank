@@ -30,12 +30,10 @@ const Navbar: FC<Props> = ({ isOpen }) => {
     if (e.key === 'Enter') {
       try {
         const { data } = await search.getKeywords(e.currentTarget.value)
-        const { count, keywords } = data
-        if (count > 0) {
-          router.push(`/search/${keywords}`)
-        }
-      } catch (error) {
-        console.log(error)
+        const { keywords } = data
+        router.push(`/search/${keywords}`)
+      } catch (_) {
+        router.push('/search/none')
       }
     }
   }
