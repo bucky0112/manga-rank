@@ -32,7 +32,7 @@ const Page = () => {
   return (
     <>
       <Navbar isOpen={isOpen} />
-        <Results isOpen={isOpen} results={results} />
+        <Results isOpen={isOpen} results={results} numbers={results.length} />
       <Footer />
     </>
   )
