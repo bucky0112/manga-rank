@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { BookCard } from 'components/shared'
-import { SideBar } from 'components/index/'
+import { BookCard, SideBar } from 'components/shared'
 import { book } from 'lib/types'
 import styles from 'styles/ViewContainer.module.scss'
 
