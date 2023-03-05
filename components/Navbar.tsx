@@ -1,19 +1,19 @@
-import { FC, SetStateAction, Dispatch, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import classNames from 'classnames'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { setUserInfo, selectUserInfo } from 'store/feat/user/userInfoSlice'
+import { setSideBarOpen } from 'store/feat/share/sideBarSlice'
 import { useStorage } from 'lib/hooks'
 import { IoSearchOutline } from 'react-icons/io5'
 import { search } from 'lib/api/search'
 
 type Props = {
-  setIsOpen: Dispatch<SetStateAction<boolean>>
   isOpen: boolean
 }
 
-const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
+const Navbar: FC<Props> = ({ isOpen }) => {
   const dispatch = useAppDispatch()
   const { storedValue } = useStorage('userInfo', {})
   const userInfo = useAppSelector(selectUserInfo)
@@ -53,7 +53,7 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
           </h1>
         </a>
       </Link>
-      <div className="col-start-3 col-end-10">
+      <div className='col-start-3 col-end-10'>
         {isShowSearch ? (
           <input
             type='text'
@@ -78,7 +78,7 @@ const Navbar: FC<Props> = ({ setIsOpen, isOpen }) => {
             'tham tham-e-squeeze tham-w-6': true,
             'tham-active': isOpen
           })}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => dispatch(setSideBarOpen({ isOpen: !isOpen }))}
         >
           <div className='tham-box'>
             <div className='tham-inner' />
