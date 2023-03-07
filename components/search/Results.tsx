@@ -12,7 +12,7 @@ type Props = {
 const Results: FC<Props> = ({ isOpen, results, numbers }) => (
   <main
     className={classNames({
-      'flex flex-col gap-5 py-10 px-48 bg-index bg-fixed bg-[length:300px] bg-no-repeat top-0 left-0 overflow-x-hidden relative font-inter':
+      'flex flex-col gap-5 py-10 2xl:px-16 px-48 bg-index bg-fixed bg-[length:300px] bg-no-repeat top-0 left-0 overflow-x-hidden relative font-inter':
         true,
       'justify-center': numbers > 0,
       'h-[90vh]': numbers < 1
