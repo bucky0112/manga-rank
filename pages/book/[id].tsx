@@ -23,12 +23,10 @@ const Page = () => {
   const [isAdult, setIsAdult] = useState(false)
   const {
     author,
-    create_time,
     description,
     image,
     is_adult,
     publisher,
-    tag,
     title_cn
   } = book
 
@@ -41,14 +39,14 @@ const Page = () => {
         console.error(err)
       }
     })()
-  }, [])
+  }, [id])
 
   useEffect(() => {
     setIsAdult(is_adult === 1)
   }, [book])
 
   return (
-    <main className='flex flex-col justify-center items-center px-60 py-52 relative bg-mainBG'>
+    <main className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-52 relative bg-mainBG'>
       {isAdult && (
         <AgeTips isOpen={isAdult} atClose={() => setIsAdult(false)} />
       )}
@@ -61,7 +59,7 @@ const Page = () => {
               width='390'
               height='550'
               alt={title_cn}
-              className='rounded-3xl object-cover'
+              className='rounded-3xl object-cover w-[390px] xl:w-[326px] h-[550px] xl:h-[460px]'
             />
           )}
         </div>
@@ -88,8 +86,8 @@ const Page = () => {
         <div className='col-span-2'>
           <div className='flex flex-col p-6 border-t-2 border-r-2 border-darkGrey rounded-r-3xl rounded-b-none text-darkGrey leading-tight'>
             <p className='text-xl'>平均評分</p>
-            <p className='text-[12rem] self-end'>5.9</p>
-            <p className='self-end'>/300人</p>
+            <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>5.9</p>
+            <p className='self-end text-lg'>/300人</p>
           </div>
         </div>
       </div>
