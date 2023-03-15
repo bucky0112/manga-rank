@@ -10,6 +10,9 @@
     "export": "next export"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.3",
     "@reduxjs/toolkit": "^1.8.6",
     "autoprefixer": "^10.4.8",
     "axios": "^0.27.2",
