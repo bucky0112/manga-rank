@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { UserComment } from '../../components/book'
+import { UserComment, Another, AgeTips } from '../../components/book'
 import { manga } from '../../lib/api/manga'
 
 interface bookDetail {
@@ -20,6 +20,7 @@ const Page = () => {
   const id = router.query.id as string
 
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
+  const [isAdult, setIsAdult] = useState(false)
   const {
     author,
     create_time,
@@ -42,9 +43,16 @@ const Page = () => {
     })()
   }, [])
 
+  useEffect(() => {
+    setIsAdult(is_adult === 1)
+  }, [book])
+
   return (
-    <main className='px-60 py-52 h-screen relative bg-mainBG'>
-      <div className='grid grid-cols-7 gap-x-10'>
+    <main className='flex flex-col justify-center items-center px-60 py-52 relative bg-mainBG'>
+      {isAdult && (
+        <AgeTips isOpen={isAdult} atClose={() => setIsAdult(false)} />
+      )}
+      <div className='grid grid-cols-7 gap-x-10 w-[1000px] 2xl:w-[1400px] xl:w-[1200px]'>
         <div className='col-span-2'>
           {image && (
             <Image
@@ -85,7 +93,10 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className='absolute right-2 cursor-pointer' onClick={() => router.push(`/comment/${id}`)}>
+      <div
+        className='absolute right-2 cursor-pointer'
+        onClick={() => router.push(`/comment/${id}`)}
+      >
         <div className='relative grid grid-rows-3'>
           <div className='row-span-full'>
             <Image
@@ -96,21 +107,26 @@ const Page = () => {
               alt='common button'
             />
           </div>
-          <div className='absolute row-start-3 row-end-4 justify-self-center -mt-2'>
-            {/* <Image
+          <div className='absolute row-start-2 row-end-3 justify-self-center'>
+            <Image
               src='/svg/pen.svg'
-              width='12'
+              width='48'
               height='65'
-              layout='fixed'
+              layout='intrinsic'
               alt='common'
-            /> */}
+            />
+          </div>
+          <div className='absolute row-start-3 row-end-4 justify-self-center -mt-2'>
             <p className='text-darkGrey'>我要評論</p>
           </div>
         </div>
       </div>
-      {/* <div>
+      <div className='flex flex-col gap-20 mt-36 mb-32'>
         <UserComment />
-      </div> */}
+        <UserComment />
+        <UserComment />
+      </div>
+      <Another />
     </main>
   )
 }

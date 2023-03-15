@@ -9,9 +9,9 @@ type Props = {
 const ViewContainer: FC<Props> = ({ isOpen }) => (
   <main className={styles.container}>
     <SideBar isOpen={isOpen} />
-    <CardGroup type='最新發行' />
-    <CardGroup type='評價超過8分的作品' />
-    <CardGroup type='各書店平台週冠軍' />
+    <CardGroup type='最新發行' apiName='getNewRelease' />
+    <CardGroup type='評價超過8分的作品' apiName='getHighestRated' />
+    <CardGroup type='各書店平台週冠軍' apiName='getTopSell' />
   </main>
 )
 
