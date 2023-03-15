@@ -1,6 +1,7 @@
 .footer {
-  background-image: url('/svg/footer_logo.svg');
-  @apply bg-repeat-x w-screen;
+  background-image: url('/svg/komic.svg');
+  // @apply bg-repeat-space w-screen;
+  @apply bg-no-repeat;
 
   & > p {
     @apply invisible;
