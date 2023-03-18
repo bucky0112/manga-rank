@@ -7,6 +7,7 @@ import { UserComment, Another, AgeTips } from 'components/book'
 import { useAppSelector } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 import { manga } from 'lib/api/manga'
+import { comment } from 'lib/api/comment'
 
 interface bookDetail {
   author: string
@@ -19,6 +20,19 @@ interface bookDetail {
   title_cn: string
 }
 
+interface Comment {
+  agree: number
+  chapter: string
+  description: string
+  disagree: number
+  isOwn: number
+  isThunder: number
+  mangaUuid: string
+  point: number
+  suspect: number
+  uuid: string
+}
+
 const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
@@ -26,18 +40,33 @@ const Page = () => {
   const isOpen = useAppSelector(selectSideBarOpen)
 
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
+  const [comments, setComments] = useState<Comment[]>([])
   const [isAdult, setIsAdult] = useState(false)
   const { author, description, image, is_adult, publisher, title_cn } = book
 
+  const fetchDetail = async () => {
+    try {
+      const { data } = await manga.getDetail(id)
+      setBook(data?.data[0])
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const fetchComment = async () => {
+    try {
+      const { data } = await comment.getComments(id)
+      setComments(data?.data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
-    ;(async () => {
-      try {
-        const { data } = await manga.getDetail(id)
-        setBook(data?.data[0])
-      } catch (err) {
-        console.error(err)
-      }
-    })()
+    if (id) {
+      fetchDetail()
+      fetchComment()
+    }
   }, [id])
 
   useEffect(() => {
@@ -121,10 +150,10 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className='flex flex-col gap-20 mt-36 mb-32'>
-          <UserComment />
-          <UserComment />
-          <UserComment />
+        <div className='flex flex-col gap-20 mt-36 mb-32 w-full'>
+          {comments?.map((comment) => (
+            <UserComment key={comment.uuid} state={comment} />
+          ))}
         </div>
         <Another />
       </main>
