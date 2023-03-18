@@ -1,22 +1,25 @@
 export const Endpoints = {
   Home: {
-    NewRelease: "/manga/newstest",
-    HighestRated: "/manga/awesome",
-    TopSell: "/manga/top",
+    NewRelease: '/manga/newstest',
+    HighestRated: '/manga/awesome',
+    TopSell: '/manga/top'
   },
   Manga: {
-    Get: "/manga",
-    Detail: "/manga/detail",
-    NewRelease: "/manga/newstest",
+    Get: '/manga',
+    Detail: '/manga/detail',
+    NewRelease: '/manga/newstest'
   },
   User: {
-    NewUser: "/user",
-    Verify: "/user/verify",
-    Login: "/session",
-    GoogleLogin: "/oauth/google",
+    NewUser: '/user',
+    Verify: '/user/verify',
+    Login: '/session',
+    GoogleLogin: '/oauth/google'
   },
   Search: {
-    keywords: "manga/search",
+    keywords: 'manga/search'
+  },
+  Comment: {
+    Get: '/point'
   }
 }
 
