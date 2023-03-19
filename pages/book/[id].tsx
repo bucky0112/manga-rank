@@ -18,6 +18,7 @@ interface bookDetail {
   publisher: string
   tag: string
   title_cn: string
+  point: number
 }
 
 interface Comment {
@@ -42,7 +43,7 @@ const Page = () => {
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [comments, setComments] = useState<Comment[]>([])
   const [isAdult, setIsAdult] = useState(false)
-  const { author, description, image, is_adult, publisher, title_cn } = book
+  const { author, description, image, is_adult, publisher, title_cn, point } = book
 
   const fetchDetail = async () => {
     try {
@@ -117,7 +118,7 @@ const Page = () => {
           <div className='col-span-2 xl:col-span-1'>
             <div className='flex flex-col p-6 border-t-2 border-r-2 border-darkGrey rounded-r-3xl rounded-b-none text-darkGrey leading-tight'>
               <p className='text-xl'>平均評分</p>
-              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>5.9</p>
+              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>{point}</p>
               <p className='self-end text-lg'>/300人</p>
             </div>
           </div>
