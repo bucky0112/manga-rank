@@ -32,6 +32,7 @@ interface Comment {
   point: number
   suspect: number
   uuid: string
+  nickname: string
 }
 
 const Page = () => {
