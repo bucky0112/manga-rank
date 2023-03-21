@@ -13,6 +13,7 @@ interface props {
   point: number
   suspect: number
   uuid: string
+  nickname: string
 }
 
 interface Props {
@@ -30,7 +31,8 @@ const UserComment: FC<Props> = ({ state }) => {
     mangaUuid,
     point,
     suspect,
-    uuid
+    uuid,
+    nickname
   } = state
 
   return (
@@ -44,13 +46,13 @@ const UserComment: FC<Props> = ({ state }) => {
           alt='user'
           className='rounded-full'
         />
-        <p className='text-2xl font-semibold'>Mary</p>
+        <p className='text-2xl font-semibold'>{nickname}</p>
       </div>
       <div className='w-[1px] h-28 bg-[#7a7a7a] relative left-5' />
       <div className='flex items-center pt-12 pb-8 w-full'>
         <div className='w-[10%] flex justify-center'>
           <p className='flex justify-center items-center w-11 h-11 rounded-full bg-lightGrey text-4xl text-darkGrey'>
-            3
+            {point}
           </p>
         </div>
         <div className='flex-1 flex flex-col gap-5'>
