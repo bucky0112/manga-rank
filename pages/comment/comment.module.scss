@@ -5,7 +5,6 @@
 
 .titleBox {
   @apply font-semibold text-2xl p-2 pl-4 w-[630px] h-[50px] tracking-wider;
-  padding: 20px;
   background: #F1F1F1;
   color: #000000;
   // width: 630px;
@@ -24,9 +23,7 @@
 }
 
 .score {
-  @apply flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl;
-  background: #E7E7E7;
-  color: #3E3E3E;
+  @apply flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey bg-lightGrey;
 }
 
 .commentBtn {
