@@ -1,14 +1,17 @@
 import { useState } from 'react'
 
 const useStorage = (key: string, initialValue: any) => {
+  const isBrowser = typeof window !== 'undefined'
   const [storedValue, setStoredValue] = useState(() => {
     try {
-      const item = window.localStorage.getItem(key)
-      return item ? JSON.parse(item) : initialValue
+      if (isBrowser) {
+        const item = window.localStorage.getItem(key)
+        return item ? JSON.parse(item) : initialValue
+      }
     } catch (error) {
       console.error(error)
-      return initialValue
     }
+    return initialValue
   })
 
   const setValue = (value: any) => {
@@ -16,7 +19,9 @@ const useStorage = (key: string, initialValue: any) => {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value
       setStoredValue(valueToStore)
-      window.localStorage.setItem(key, JSON.stringify(valueToStore))
+      if (isBrowser) {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore))
+      }
     } catch (error) {
       console.error(error)
     }
@@ -24,14 +29,16 @@ const useStorage = (key: string, initialValue: any) => {
 
   const clearStorage = () => {
     try {
-      window.localStorage.removeItem(key)
+      if (isBrowser) {
+        window.localStorage.removeItem(key)
+      }
       setStoredValue(initialValue)
     } catch (error) {
       console.error(error)
     }
   }
 
-  return { storedValue, setValue, clearStorage }  
+  return { storedValue, setValue, clearStorage }
 }
 
 export { useStorage }
