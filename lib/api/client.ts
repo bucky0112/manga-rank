@@ -15,8 +15,8 @@ class APIClient {
     return this.client.get(`${path}/${data}`)
   }
 
-  post(path: string, data: {}) {
-    return this.client.post(path, data)
+  post(path: string, data: {}, headers: {[key: string]: string}) {
+    return this.client.post(path, data, { headers })
   }
 }
 
