@@ -3,11 +3,13 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import classNames from 'classnames'
 import styles from './comment.module.scss'
-import { Footer } from 'components'
-import { Navbar } from 'components/user'
+import { Navbar, Footer } from 'components'
+import { SideBar } from 'components/shared'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
+import { useAppSelector } from 'store/hooks'
+import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 
 interface bookDetail {
   author: string
@@ -34,6 +36,7 @@ interface MangaComment {
 const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
+  const isOpen = useAppSelector(selectSideBarOpen)
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [commentState, setCommentState] = useState<MangaComment>({
     mangaUuid: '',
@@ -111,8 +114,9 @@ const Page = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isOpen={isOpen} />
       <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG overflow-x-hidden font-inter'>
+        <SideBar isOpen={isOpen} />
         <div className='flex items-center basis-7/12'>
           <div className='flex h-[90%] w-[12%]  mt-[60px] mr-[96px]'>
             <div className='flex flex-col items-center gap-y-1'>
@@ -124,7 +128,7 @@ const Page = () => {
                 alt='user'
                 className='rounded-full'
               />
-              <p className='text-2xl font-semibold tracking-wider'>Mary</p>
+              <p className='text-2xl font-semibold tracking-wider'>{storedValue?.nickname}</p>
             </div>
           </div>
           <div className='flex-1 flex flex-col gap-5'>
