@@ -16,9 +16,9 @@ interface LoginData {
 }
 
 const user = {
-  newUser: (data: User) => client.post(Endpoints.User.NewUser, data),
-  verifyUser: (key: string) => client.post(Endpoints.User.Verify, { verifyCode: key }),
-  loginUser: (data: LoginData) => client.post(Endpoints.User.Login, data),
+  newUser: (data: User) => client.post(Endpoints.User.NewUser, data, {}),
+  verifyUser: (key: string) => client.post(Endpoints.User.Verify, { verifyCode: key }, {}),
+  loginUser: (data: LoginData) => client.post(Endpoints.User.Login, data, {}),
 }
 
 export { user }
