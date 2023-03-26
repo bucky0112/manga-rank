@@ -48,7 +48,8 @@ const Page = () => {
 
   const {
     title_cn,
-    episode
+    episode,
+    uuid,
   } = book
 
   const { storedValue, setValue } = useStorage('userInfo', {})
@@ -77,6 +78,15 @@ const Page = () => {
     updateCommentState('point', index + 1)
   }
 
+  const handelCancel = () => {
+    setCommentState({
+      ...commentState,
+      point: 0,
+      description: '',
+      isThunder: 0
+    })
+  }
+
   const fetchDetail = async () => {
     try {
       const { data } = await manga.getDetail(id)
@@ -101,6 +111,7 @@ const Page = () => {
         ...storedValue,
         token: data?.retoken
       })
+      router.push(`/book/${uuid}`)
     } catch (err) {
       console.error(err)
     }
@@ -192,7 +203,7 @@ const Page = () => {
                 />
               </div>
               <div className='flex justify-center mt-[71px] gap-[239px]'>
-                <button type='button' className={styles.commentBtn}>
+                <button type='button' className={styles.commentBtn} onClick={handelCancel}>
                   取消評論
                 </button>
                 <button type='button' className={styles.commentBtn} onClick={newComment}>
