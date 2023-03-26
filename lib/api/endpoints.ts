@@ -19,7 +19,8 @@ export const Endpoints = {
     keywords: 'manga/search'
   },
   Comment: {
-    Get: '/point'
+    Get: '/point',
+    New: '/point'
   }
 }
 
