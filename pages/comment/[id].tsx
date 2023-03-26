@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import classNames from 'classnames'
 import styles from './comment.module.scss'
 import { Footer } from 'components'
 import { Navbar } from 'components/user'
-import Image from 'next/image'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
@@ -80,7 +81,7 @@ const Page = () => {
       setBook(data?.data[0])
       setCommentState({
         mangaUuid: uuid,
-        chapter: episode[0],
+        chapter: episode ? episode[0] : '第1集',
         point: 0,
         description: '',
         isThunder: 0
@@ -138,11 +139,11 @@ const Page = () => {
                 className={styles.selection}
                 onChange={(e) => handleOptionChange('chapter', e.target.value)}
               >
-                {episode?.map((item, index) => (
+                {episode?.length > 0 ? episode.map((item, index) => (
                   <option key={item} value={`第${index + 1}集`}>
                     {`第${index + 1}集`}
                   </option>
-                ))}
+                )) : <option value='第1集'>第1集</option>}
               </select>
               <div className='w-[933px] h-[83px] flex justify-start items-center gap-[38px] border-l-[1px] border-[#7a7a7a] pl-2'>
                 <p className='font-bold text-darkGrey text-center ml-6'>評分</p>
@@ -150,7 +151,11 @@ const Page = () => {
                   {[...Array(10)].map((_, i) => (
                     <button
                       type='button'
-                      className={styles.score}
+                      className={classNames({
+                        'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey': true,
+                        'bg-lightGrey': commentState?.point !== i + 1,
+                        'bg-primary': commentState?.point === i + 1
+                      })}
                       key={i}
                       value={i}
                       onClick={handlePointChange}
@@ -162,7 +167,13 @@ const Page = () => {
               </div>
               <button
                 type='button'
-                className='flex justify-center items-center ml-4 font-semibold text-base text-darkGry w-[102px] h-[50px] bg-lightGrey rounded-full my-[49px]'
+                className={
+                  classNames({
+                    'flex justify-center items-center ml-4 font-semibold text-base text-darkGry w-[102px] h-[50px] rounded-full my-[49px]': true,
+                    'bg-lightGrey': commentState?.isThunder === 0,
+                    'bg-primary': commentState?.isThunder === 1
+                  })
+                }
                 onClick={() => handleIsSpoiler(commentState?.isThunder ? 0 : 1)}
               >
                 爆雷上標
