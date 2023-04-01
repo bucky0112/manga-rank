@@ -7,19 +7,12 @@
   @apply font-semibold text-2xl p-2 pl-4 w-[630px] h-[50px] tracking-wider;
   background: #F1F1F1;
   color: #000000;
-  // width: 630px;
-  // height: 50px;
   border-radius: 50px;
-  // box-shadow: 12px 12px 7px rgba(0, 0, 0, 0.7);
 
   >.MuiAutocomplete-input {
     height: 50px;
     background-color: #3E3E3E;
   }
-
-  // :hover {
-  //   box-shadow: 12px 12px 7px rgba(0, 0, 0, 0.7);
-  // }
 }
 
 .score {
