@@ -7,7 +7,8 @@ export const Endpoints = {
   Manga: {
     Get: '/manga',
     Detail: '/manga/detail',
-    NewRelease: '/manga/newstest'
+    NewRelease: '/manga/newstest',
+    Category: '/manga/category'
   },
   User: {
     NewUser: '/user',
@@ -21,7 +22,7 @@ export const Endpoints = {
   Comment: {
     Get: '/point',
     New: '/point'
-  }
+  },
 }
 
 // https://x4cczk9r43.execute-api.ap-south-1.amazonaws.com/v1/oauth/google
