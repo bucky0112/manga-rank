@@ -37,6 +37,7 @@ const SideBar: FC<Props> = ({ isOpen }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value)
+    router.push(`/category/${e.target.value}`)
   }
 
   return (
