@@ -1,7 +1,6 @@
 .container {
   @apply flex justify-center font-inter;
-  // height: 90.9vh;
-  background-color: #F7F7F7;
+  // height: 86vh;
 }
 
 .titleBox {
@@ -21,51 +20,62 @@
 }
 
 .commentBtn {
-  @apply w-[133px] h-[68px] rounded-[50px] font-semibold text-xl p-4 hover:bg-[#ffec00];
-  background: #E7E7E7;
+  @apply w-[133px] h-[68px] rounded-[50px] font-semibold text-xl p-4 hover:bg-[#FCF32B] active:bg-[#FCF32B];
+  background-color: #E7E7E7;
 }
 
 .selection {
-  @apply bg-lightGrey w-60 h-[50px] mt-[42px] mb-[39px] rounded-[50px] font-semibold text-base p-4 tracking-wider before:border-none hover:border-none;
+  @apply bg-lightGrey w-60 h-[50px] mt-[42px] mb-[48px] rounded-[50px] font-semibold text-base p-4 tracking-wider before:border-0 hover:border-0;
 
-  background-color: #F1F1F1;
+  box-sizing: border-box;
   border-radius: 50px;
   font-weight: 600;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /*自定義圖標*/
+  background-image: url('/svg/polygon.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 12px 12px;
+
+  & > option {
+    @apply rounded-[50px] bg-lightGrey h-[50px];
+
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    padding: 8px 12px;
+    border: none;
+  }
+}
+
+.textMain {
+  @apply leading-9 mt-[54px] mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none min-h-[170px] w-full resize-none overflow-auto;
+
+  /* 原為text，鎖定將無法修改 */
+  cursor:unset;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #E7E7E7;
+    border-radius: 5px;
+    border: 1px solid #f1f1f1;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .footer {
   background-image: url('/svg/komic.svg');
   // @apply bg-repeat-space w-screen;
-  @apply bg-no-repeat;
+  @apply bg-no-repeat mb-[-20px];
 
   & > p {
     @apply invisible;
   }
-}
-
-.textAreaBox {
-  @apply text-justify leading-9 mt-[48px] ml-[17px] mb-[1px] mr-[47px] font-normal text-base min-h-[208px] resize-none;
-  // scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300 h-32 overflow-x-scroll
-
-  background-color: #F7F7F7;
-  height: 100%;
-  outline: none;
-
-  // ::-webkit-scrollbar {
-  //   width: 10px;
-  // }
-  // ::-webkit-scrollbar-button {
-  //   // background: transparent;
-  //   // border-radius: 4px;
-  //   display: none;
-  // }
-
-  // ::-webkit-scrollbar-track-piece {
-  //   background: transparent;
-  // }
-
-  // ::-webkit-scrollbar-thumb {
-  //   border-radius: 8px;
-  //   background-color: #3E3E3E;
-  // }
 }
