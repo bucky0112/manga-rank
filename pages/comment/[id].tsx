@@ -213,6 +213,14 @@ const Page = () => {
             </div>
           </div>
         </div>
+        <div className='flex justify-center mt-[25px] gap-[239px]'>
+          <button type='button' className={styles.commentBtn} onClick={handelCancel}>
+            取消評論
+          </button>
+          <button type='button' className={styles.commentBtn} onClick={newComment}>
+            確認評論
+          </button>
+        </div>
       </div>
       <Footer />
     </>
