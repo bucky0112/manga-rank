@@ -1,24 +1,24 @@
-import { FC, SetStateAction } from 'react'
+import { FC, SetStateAction, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import styles from '../../styles/user/SignUp.module.scss'
-import { user } from '../../lib/api/user'
 import {
   useForm,
   SubmitHandler,
-  UseFormRegister,
-  FieldValues
 } from 'react-hook-form'
+import { useAppSelector } from 'store/hooks'
+import { selectGoogleOauthInfo } from 'store/feat/user/googleOauthSlice'
 import { InputText } from './'
-import { EmailValidator } from '../../lib/validate/formValidate'
+import { user } from 'lib/api/user'
+import { EmailValidator } from 'lib/validate/formValidate'
+import { useAppDispatch } from 'store/hooks'
+import { cleanGoogleOauthInfo } from 'store/feat/user/googleOauthSlice'
+import styles from 'styles/user/SignUp.module.scss'
 interface Props {
   setCurrentPage: (currentPage: SetStateAction<string>) => void
 }
 
 type Inputs = {
   email: string
-  github_oauth: string
-  google_oauth: string
   password: string
   user_name: string
   nickname: string
@@ -28,10 +28,20 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<Inputs>()
 
+  const dispatch = useAppDispatch()
+  const googleOauthInfo = useAppSelector(selectGoogleOauthInfo)
   const router = useRouter()
+
+  useEffect(() => {
+    if (googleOauthInfo.token) {
+      setValue('email', googleOauthInfo.email)
+      setValue('nickname', googleOauthInfo.nickname)
+    }
+  }, [googleOauthInfo])
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { email, password, user_name, nickname } = data
@@ -40,8 +50,6 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
         email,
         user_name,
         password,
-        github_oauth: '',
-        google_oauth: '',
         nickname
       })
       router.push(`/register_success/${email}`)
@@ -49,6 +57,7 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
       console.error(err)
       setCurrentPage('main')
     }
+    dispatch(cleanGoogleOauthInfo())
   }
 
   return (

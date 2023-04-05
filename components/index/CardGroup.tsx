@@ -1,47 +1,36 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { BookCard } from '../shared'
-import { home } from '../../lib/api/home'
-
-interface bookFromApi {
-  uuid: string
-  title_cn: string
-  tag: string
-  image: string
-  is_adult: number
-  point: string
-}
-
-interface bookTag {
-  uuid: string
-  name: string
-}
-interface book {
-  uuid: string
-  title_cn: string
-  tag: bookTag[]
-  image: string
-  is_adult: boolean
-  point: string
-}
+import { useRouter } from 'next/router'
+import { BookCard } from 'components/shared'
+import { home } from 'lib/api/home'
+import { bookFromApi, book } from 'lib/types'
+import { listToObj } from 'lib/utils/array'
 
 interface props {
   type: string
   apiName: string
 }
 
-const listToObj = (list: string[]) => {
-  return list?.map((item: string) => {
-    const [uuid, name] = item.split('§')
-    return {
-      uuid,
-      name
-    }
-  })
-}
-
 const CardGroup = ({ type, apiName }: props) => {
   const [showBooks, setShowBooks] = useState<book[]>([])
+
+  const router = useRouter()
+
+  const handleToLink = () => {
+    switch (apiName) {
+      case 'getNewRelease':
+        router.push('/newRelease')
+        break
+      case 'getHighestRated':
+        router.push('/highestRated')
+        break
+      case 'getTopSell':
+        router.push('/topSell')
+        break
+      default:
+        break
+    }
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -63,7 +52,7 @@ const CardGroup = ({ type, apiName }: props) => {
 
   return (
     <>
-      <span className='self-start bg-darkGrey text-primary text-[28px] px-6 py-2 rounded-full mt-16'>
+      <span className='self-start bg-darkGrey text-primary text-[28px] px-6 py-2 rounded-full mt-16 2xl:ml-2'>
         {type}
       </span>
       <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-x-8 gap-y-14 mb-20'>
@@ -75,7 +64,7 @@ const CardGroup = ({ type, apiName }: props) => {
             <BookCard title={title_cn} cover={image} tag={tag} uuid={uuid} isAdult={is_adult} point={point} />
           </li>
         ))}
-        <li className='justify-self-center w-77 h-125'>
+        <li className='justify-self-center w-77 h-125' onClick={handleToLink}>
           <div className='flex flex-col justify-center items-center bg-[#E7E7E7] rounded-3xl w-full h-full cursor-pointer'>
             <Image
               src='/svg/right_arrow.svg'

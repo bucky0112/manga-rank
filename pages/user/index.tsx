@@ -2,14 +2,9 @@ import { useState } from 'react'
 import { Footer } from '../../components'
 import { Navbar, Main, SignUp } from '../../components/user'
 
-interface Page {
-  main: JSX.Element;
-  signUp: JSX.Element;
-}
-
 const Page = () => {
   const [currentPage, setCurrentPage] = useState<string>('main')
-  const pages: Page = {
+  const pages: Record<string, JSX.Element> = {
     main: <Main atClick={setCurrentPage} currentPage={currentPage} />,
     signUp: <SignUp setCurrentPage={setCurrentPage} />
   }
