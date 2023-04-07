@@ -2,31 +2,20 @@ import { FC, useState } from 'react'
 import { useRouter } from 'next/router'
 import { MdArrowDropDown } from 'react-icons/md'
 import styles from 'styles/SideBar.module.scss'
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectUserInfo } from 'store/feat/user/userInfoSlice'
+import { setSideBarOpen } from 'store/feat/share/sideBarSlice'
 import { useStorage } from 'lib/hooks'
+import categories from 'lib/utils/categories'
 
 type Props = {
   isOpen: boolean
 }
 
-const categories = [
-  { id: 1, name: '職場社會' },
-  { id: 2, name: '恐怖靈異' },
-  { id: 3, name: '少年熱血' },
-  { id: 4, name: '戀愛故事' },
-  { id: 5, name: '武俠格鬥' },
-  { id: 6, name: '科幻魔幻' },
-  { id: 7, name: '競技體育' },
-  { id: 8, name: '偵探推理' },
-  { id: 9, name: '療癒幽默' },
-  { id: 10, name: 'BL漫畫' },
-  { id: 11, name: '百合漫畫' }
-]
-
 const SideBar: FC<Props> = ({ isOpen }) => {
   const router = useRouter()
   const userInfo = useAppSelector(selectUserInfo)
+  const dispatch = useAppDispatch()
   const { clearStorage } = useStorage('userInfo', {})
   const [selectedCategory, setSelectedCategory] = useState('')
 
@@ -37,6 +26,7 @@ const SideBar: FC<Props> = ({ isOpen }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value)
+    dispatch(setSideBarOpen({ isOpen: false }))
     router.push(`/category/${e.target.value}`)
   }
 
