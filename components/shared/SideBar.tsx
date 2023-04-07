@@ -27,7 +27,7 @@ const SideBar: FC<Props> = ({ isOpen }) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value)
     dispatch(setSideBarOpen({ isOpen: false }))
-    router.push(`/category/${e.target.value}`)
+    window.location.assign(`/category/${e.target.value}`)
   }
 
   return (
