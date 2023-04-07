@@ -12,9 +12,9 @@ const Page = () => {
 
   const isOpen = useAppSelector(selectSideBarOpen)
 
-  const { hasMore, fetchData, showCategory } = useMoreCategory(
+  const { fetchData, showCategory } = useMoreCategory(
     manga.getCategory,
-    id
+    id,
   )
 
   return (
@@ -25,7 +25,7 @@ const Page = () => {
         isOpen={isOpen}
         showBooks={showCategory}
         fetchData={fetchData}
-        hasMore={hasMore}
+        hasMore={true}
       />
       <Footer />
     </>
