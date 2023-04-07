@@ -126,10 +126,10 @@ const Page = () => {
   return (
     <>
       <Navbar isOpen={isOpen} />
-      <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG overflow-x-hidden font-inter'>
+      <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG font-inter overflow-hidden'>
         <SideBar isOpen={isOpen} />
-        <div className='flex items-center basis-7/12'>
-          <div className='flex h-[90%] w-[12%]  mt-[60px] mr-[96px]'>
+        <div className='flex items-start basis-7/12'>
+          <div className='flex h-[90%] w-[12%] mt-[80px] mr-[96px]'>
             <div className='flex flex-col items-center gap-y-1'>
               <Image
                 src='https://fakeimg.pl/108x108/'
@@ -193,9 +193,8 @@ const Page = () => {
               >
                 爆雷上標
               </button>
-              <div className='flex border-t-2 border-r-2 border-gray-400 rounded-r-3xl rounded-b-none text-[#3E3E3E]leading-tight w-[943px]'>
-                <input
-                  type='text'
+              <div className='flex border-t-2 border-r-2 border-gray-400 rounded-r-3xl rounded-b-none text-[#3E3E3E] leading-tight w-[943px]'>
+                <textarea
                   value={commentState?.description}
                   className='leading-9 mt-[54px] mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none'
                   placeholder='請輸入評論'
