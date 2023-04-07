@@ -5,7 +5,6 @@ import { bookFromApi, book } from 'lib/types'
 const useMoreCategory = (api: any, id: string) => {
   const [showCategory, setShowCategory] = useState<book[]>([])
   const [page, setPage] = useState(1)
-  const [hasMore, setHasMore] = useState(true)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
 
   const fetchData = async () => {
@@ -19,16 +18,13 @@ const useMoreCategory = (api: any, id: string) => {
     })
     setShowCategory([...showCategory, ...res])
     setPage(page + 1)
-    if (showCategory.length > 10) {
-      setHasMore(false)
-    }
   }
 
   useEffect(() => {
-    page <= 10 && fetchData()
-  }, [page])
+    fetchData()
+  }, [id])
 
-  return { showCategory, hasMore, isOpenMenu, setIsOpenMenu, fetchData }
+  return { showCategory, isOpenMenu, setIsOpenMenu, fetchData }
 }
 
 export { useMoreCategory }
