@@ -128,7 +128,7 @@ const Page = () => {
   return (
     <>
       <Navbar isOpen={isOpen} />
-      <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG font-inter h-[97vh] overflow-hidden'>
+      <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG font-inter h-[97.5vh] overflow-hidden'>
         <SideBar isOpen={isOpen} />
         <div className='flex items-start basis-7/12'>
           <div className='flex h-[90%] w-[12%]  mt-[80px] mr-[96px]'>
@@ -157,10 +157,10 @@ const Page = () => {
                 onChange={(e) => handleOptionChange('chapter', e.target.value)}
               >
                 {episode?.length > 0 ? episode.map((item, index) => (
-                  <option key={item} value={`第${index + 1}集`} className='rounded-[50px] bg-lightGrey h-[50px]'>
+                  <option key={item} value={`第${index + 1}集`} >
                     {`第${index + 1}集`}
                   </option>
-                )) : <option value='第1集' className='rounded-[50px] bg-lightGrey h-[50px]'>第1集</option>}
+                )) : <option value='第1集'>第1集</option>}
               </select>
               <div className='w-[933px] h-[83px] flex justify-start items-center gap-[38px] border-l-[1px] border-[#7a7a7a] pl-2'>
                 <p className='font-bold text-darkGrey text-center ml-6'>評分</p>

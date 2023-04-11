@@ -48,14 +48,10 @@
   background-size: 12px 12px;
 
   & > option {
-    @apply rounded-[50px] bg-lightGrey h-[50px];
+    @apply bg-lightGrey text-base;
 
-    background-color: #f9f9f9;
-    color: #333;
-    font-size: 14px;
-    font-weight: normal;
     text-align: left;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border: none;
   }
 }
