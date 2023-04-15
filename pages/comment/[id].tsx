@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import classNames from 'classnames'
-import styles from './comment.module.scss'
+import styles from 'styles/comment.module.scss'
 import { Navbar, Footer } from 'components'
 import { SideBar } from 'components/shared'
 import { manga } from 'lib/api/manga'
@@ -193,15 +193,15 @@ const Page = () => {
               >
                 爆雷上標
               </button>
-              <div className='flex border-t-2 border-r-2 border-gray-400 rounded-r-3xl rounded-b-none text-[#3E3E3E] leading-tight w-[943px]'>
+              <div className='flex border-t-2 border-r-2 border-gray-400 rounded-t-3xl rounded-l-none rounded-b-none text-[#3E3E3E] leading-tight'>
                 <textarea
                   value={commentState?.description}
-                  className='leading-9 mt-[54px] mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none'
-                  placeholder='請輸入評論'
+                  className='leading-9 w-full mt-8 mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none'
+                  placeholder='打下你對作品的評論吧！'
                   onChange={(e) => handleInputChange(e.target.value)}
                 />
               </div>
-              <div className='flex justify-center mt-[71px] gap-[239px]'>
+              <div className='flex justify-center gap-[239px]'>
                 <button type='button' className={styles.commentBtn} onClick={handelCancel}>
                   取消評論
                 </button>
@@ -211,14 +211,6 @@ const Page = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className='flex justify-center mt-[25px] gap-[239px]'>
-          <button type='button' className={styles.commentBtn} onClick={handelCancel}>
-            取消評論
-          </button>
-          <button type='button' className={styles.commentBtn} onClick={newComment}>
-            確認評論
-          </button>
         </div>
       </div>
       <Footer />
