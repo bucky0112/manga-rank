@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import classNames from 'classnames'
+import { useForm } from 'react-hook-form'
 import styles from 'styles/comment.module.scss'
 import { Navbar, Footer } from 'components'
 import { SideBar } from 'components/shared'
@@ -33,6 +34,13 @@ interface MangaComment {
   isThunder: number
 }
 
+type Inputs = {
+  chapter: string
+  point: number
+  description: string
+  isThunder: number
+}
+
 const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
@@ -46,13 +54,20 @@ const Page = () => {
     isThunder: 0
   })
 
-  const {
-    title_cn,
-    episode,
-    uuid,
-  } = book
+  const { title_cn, episode, uuid } = book
 
   const { storedValue, setValue } = useStorage('userInfo', {})
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue: setFormValue,
+    formState: { errors }
+  } = useForm<Inputs>()
+
+  const pointState = watch('point')
+  const descriptionState = watch('description')
 
   const updateCommentState = (key: string, value: string | number) => {
     setCommentState((prevState) => ({
@@ -69,13 +84,12 @@ const Page = () => {
     updateCommentState('isThunder', state)
   }
 
-  const handleInputChange = (text: string) => {
-    updateCommentState('description', text)
-  }
-
   const handlePointChange = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const index = parseInt(event.currentTarget.value)
-    updateCommentState('point', index + 1)
+    const index = parseInt(
+      event.currentTarget.getAttribute('data-value') as string,
+      10
+    )
+    setFormValue('point', index + 1)
   }
 
   const handelCancel = () => {
@@ -105,8 +119,17 @@ const Page = () => {
   }
 
   const newComment = async () => {
+    const updatedCommentState = {
+      ...commentState,
+      point: pointState,
+      description: descriptionState
+    }
+
     try {
-      const { data } = await comment.new(commentState, storedValue?.token)
+      const { data } = await comment.new(
+        updatedCommentState,
+        storedValue?.token
+      )
       setValue({
         ...storedValue,
         token: data?.retoken
@@ -139,78 +162,92 @@ const Page = () => {
                 alt='user'
                 className='rounded-full'
               />
-              <p className='text-2xl font-semibold tracking-wider'>{storedValue?.nickname}</p>
+              <p className='text-2xl font-semibold tracking-wider'>
+                {storedValue?.nickname}
+              </p>
             </div>
           </div>
-          <div className='flex-1 flex flex-col gap-5'>
-            <div className='flex flex-col ml-5 pt-12 pb-8 w-full mt-[2rem]'>
-              <div className='flex items-center'>
-                <h4 className='text-base pr-[37px] font-semibold tracking-wider'>
-                  作品名稱
-                </h4>
-                <p className={styles.titleBox}>{title_cn}</p>
-              </div>
-              <select
-                className={styles.selection}
-                onChange={(e) => handleOptionChange('chapter', e.target.value)}
-              >
-                {episode?.length > 0 ? episode.map((item, index) => (
+          <form
+            onSubmit={handleSubmit(newComment)}
+            className='flex flex-col ml-5 pt-12 pb-8 w-full mt-[2rem]'
+          >
+            <div className='flex items-center'>
+              <h4 className='text-base pr-[37px] font-semibold tracking-wider'>
+                作品名稱
+              </h4>
+              <p className={styles.titleBox}>{title_cn}</p>
+            </div>
+            <select
+              {...register('chapter')}
+              className={styles.selection}
+              onChange={(e) => handleOptionChange('chapter', e.target.value)}
+            >
+              {episode?.length > 0 ? (
+                episode.map((item, index) => (
                   <option key={item} value={`第${index + 1}集`}>
                     {`第${index + 1}集`}
                   </option>
-                )) : <option value='第1集'>第1集</option>}
-              </select>
-              <div className='w-[933px] h-[83px] flex justify-start items-center gap-[38px] border-l-[1px] border-[#7a7a7a] pl-2'>
-                <p className='font-bold text-darkGrey text-center ml-6'>評分</p>
-                <div className='flex item-center gap-x-10'>
-                  {[...Array(10)].map((_, i) => (
-                    <button
-                      type='button'
-                      className={classNames({
-                        'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey': true,
-                        'bg-lightGrey': commentState?.point !== i + 1,
-                        'bg-primary': commentState?.point === i + 1
-                      })}
-                      key={i}
-                      value={i}
-                      onClick={handlePointChange}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <button
-                type='button'
-                className={
-                  classNames({
-                    'flex justify-center items-center ml-4 font-semibold text-base text-darkGry w-[102px] h-[50px] rounded-full my-[49px]': true,
-                    'bg-lightGrey': commentState?.isThunder === 0,
-                    'bg-primary': commentState?.isThunder === 1
-                  })
-                }
-                onClick={() => handleIsSpoiler(commentState?.isThunder ? 0 : 1)}
-              >
-                爆雷上標
-              </button>
-              <div className='flex border-t-2 border-r-2 border-gray-400 rounded-t-3xl rounded-l-none rounded-b-none text-[#3E3E3E] leading-tight'>
-                <textarea
-                  value={commentState?.description}
-                  className='leading-9 w-full mt-8 mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none'
-                  placeholder='打下你對作品的評論吧！'
-                  onChange={(e) => handleInputChange(e.target.value)}
-                />
-              </div>
-              <div className='flex justify-center gap-[239px]'>
-                <button type='button' className={styles.commentBtn} onClick={handelCancel}>
-                  取消評論
-                </button>
-                <button type='button' className={styles.commentBtn} onClick={newComment}>
-                  確認評論
-                </button>
+                ))
+              ) : (
+                <option value='第1集'>第1集</option>
+              )}
+            </select>
+            <div className='w-[933px] h-[83px] flex justify-start items-center gap-[38px] border-l-[1px] border-[#7a7a7a] pl-2'>
+              <p className='font-bold text-darkGrey text-center ml-6'>評分</p>
+              <div className='flex item-center gap-x-10'>
+                {[...Array(10)].map((_, i) => (
+                  <button
+                    type='button'
+                    className={classNames({
+                      'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey':
+                        true,
+                      'bg-lightGrey': pointState !== i + 1,
+                      'bg-primary': pointState === i + 1
+                    })}
+                    key={i}
+                    data-value={i}
+                    onClick={handlePointChange}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
+            <button
+              type='button'
+              {...register('isThunder')}
+              className={classNames({
+                'flex justify-center items-center ml-4 font-semibold text-base text-darkGry w-[102px] h-[50px] rounded-full my-[49px]':
+                  true,
+                'bg-lightGrey': commentState?.isThunder === 0,
+                'bg-primary': commentState?.isThunder === 1
+              })}
+              onClick={() => handleIsSpoiler(commentState?.isThunder ? 0 : 1)}
+            >
+              爆雷上標
+            </button>
+            <div className='flex border-t-2 border-r-2 border-gray-400 rounded-t-3xl rounded-l-none rounded-b-none text-[#3E3E3E] leading-tight'>
+              <textarea
+                {...register('description', { required: true, minLength: 1 })}
+                className='leading-9 w-full mt-8 mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none'
+                placeholder='打下你對作品的評論吧！'
+              />
+            </div>
+            <div className='flex justify-center gap-[239px]'>
+              <button
+                type='button'
+                className={styles.commentBtn}
+                onClick={handelCancel}
+              >
+                取消評論
+              </button>
+              <input
+                type='submit'
+                className={styles.commentBtn}
+                value='確認評論'
+              />
+            </div>
+          </form>
         </div>
       </div>
       <Footer />
