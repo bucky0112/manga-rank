@@ -24,7 +24,7 @@
 }
 
 .selection {
-  @apply bg-lightGrey w-60 h-[50px] mt-[42px] mb-[48px] rounded-[50px] font-semibold text-base p-4 tracking-wider before:border-0 hover:border-0;
+  @apply bg-lightGrey w-60 h-14 mt-[42px] mb-[48px] rounded-[50px] font-semibold text-base p-4 tracking-wider before:border-0 hover:border-0;
 
   box-sizing: border-box;
   border-radius: 50px;
@@ -36,7 +36,7 @@
   /*自定義圖標*/
   background-image: url('/svg/polygon.svg');
   background-repeat: no-repeat;
-  background-position: right center;
+  background-position: right 1rem center;
   background-size: 12px 12px;
 
   & > option {
