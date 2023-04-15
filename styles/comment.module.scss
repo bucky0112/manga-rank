@@ -19,8 +19,7 @@
 }
 
 .commentBtn {
-  @apply w-[133px] h-[68px] rounded-[50px] font-semibold text-xl p-4 hover:bg-[#FCF32B] active:bg-[#FCF32B];
-  background-color: #E7E7E7;
+  @apply w-[133px] h-[68px] rounded-[50px] font-semibold text-xl p-4 hover:bg-[#FCF32B] active:bg-[#FCF32B] cursor-pointer bg-lightGrey;
 }
 
 .selection {
