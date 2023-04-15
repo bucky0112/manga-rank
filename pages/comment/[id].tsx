@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { useForm } from 'react-hook-form'
 import styles from 'styles/comment.module.scss'
 import { Navbar, Footer } from 'components'
-import { SideBar } from 'components/shared'
+import { SideBar, TipsModal } from 'components/shared'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
@@ -45,6 +45,10 @@ const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
   const isOpen = useAppSelector(selectSideBarOpen)
+  const [showModal, setShowModal] = useState({
+    success: false,
+    fail: false
+  })
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [commentState, setCommentState] = useState<MangaComment>({
     mangaUuid: '',
@@ -118,6 +122,10 @@ const Page = () => {
     }
   }
 
+  // const toggleModal = (isVisible: boolean) => {
+  //   setShowModal(isVisible)
+  // }
+
   const newComment = async () => {
     const updatedCommentState = {
       ...commentState,
@@ -134,9 +142,28 @@ const Page = () => {
         ...storedValue,
         token: data?.retoken
       })
-      router.push(`/book/${uuid}`)
-    } catch (err) {
-      console.error(err)
+      setShowModal({
+        ...showModal,
+        success: true,
+      })
+      setTimeout(() => {
+        setShowModal({
+          ...showModal,
+          success: false,
+        })
+        router.push(`/book/${uuid}`)
+      }, 3000)
+    } catch (_) {
+      setShowModal({
+        ...showModal,
+        fail: true,
+      })
+      setTimeout(() => {
+        setShowModal({
+          ...showModal,
+          fail: false,
+        })
+      }, 3000)
     }
   }
 
@@ -151,6 +178,8 @@ const Page = () => {
       <Navbar isOpen={isOpen} />
       <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG font-inter overflow-hidden'>
         <SideBar isOpen={isOpen} />
+        {showModal.success && <TipsModal text='評論成功！' />}
+        {showModal.fail && <TipsModal text='好像伺服器出了一點錯，請重新點選下方「確認評論」' />}
         <div className='flex items-start basis-7/12'>
           <div className='flex h-[90%] w-[12%] mt-[80px] mr-[96px]'>
             <div className='flex flex-col items-center gap-y-1'>
