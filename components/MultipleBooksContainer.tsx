@@ -13,7 +13,7 @@ type Props = {
 }
 
 const renderBooks = (books: book[]) => (
-  <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-x-8 gap-y-14 mb-20'>
+  <ul className='grid grid-cols-1 2xl:grid-cols-7 xl:grid-cols-3 lg:grid-cols-2 gap-x-8 gap-y-14 mb-20'>
     {books?.map(({ uuid, title_cn, image, tag, is_adult, point }) => (
       <li
         key={uuid}
