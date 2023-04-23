@@ -39,6 +39,7 @@ module.exports = {
       backgroundImage: {
         index: "url('/KOMIC.png')",
         register: "url('/svg/signup_bg.svg')",
+        gap: "url('/svg/gap.svg')",
       }
     }
   },
