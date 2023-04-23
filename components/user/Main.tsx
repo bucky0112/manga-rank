@@ -75,14 +75,15 @@ const Main: FC<IndexProps> = ({ atClick }) => {
   }
 
   return (
-    <main className='w-screen bg-mainBG'>
-      <h1 className='text-center text-3xl font-semibold py-2'>註冊/登入</h1>
-      <div className='grid grid-cols-5 px-60 bg-[url("/svg/gap.svg")] bg-no-repeat bg-center'>
+    <main className='w-screen bg-mainBG pb-16'>
+      <h1 className='text-center text-3xl font-semibold py-16'>註冊/登入</h1>
+      <div className='relative grid grid-cols-5 px-60'>
+        <div className='absolute left-0 right-0 mx-auto w-64 h-full bg-gap bg-no-repeat bg-center' />
         <div className='col-start-1 col-end-3 grid grid-rows-4 justify-center'>
           <div className='row-span-2 my-10'>
             <Image
               src='/svg/signup.svg'
-              width={505}
+              width={495}
               height={340}
               layout='fixed'
               alt='sign up'
@@ -109,7 +110,7 @@ const Main: FC<IndexProps> = ({ atClick }) => {
           <div className='row-span-2 my-10'>
             <Image
               src='/svg/signin.svg'
-              width={505}
+              width={495}
               height={340}
               layout='fixed'
               alt='sign in'
