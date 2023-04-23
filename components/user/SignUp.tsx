@@ -65,9 +65,11 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
       <div className={styles.background}>
         <Image
           src='/svg/signup_bg.svg'
+          layout='fill'
+          objectFit='cover'
+          objectPosition='center'
           height={1240}
           width={850}
-          layout='responsive'
           alt='sign up'
         />
       </div>

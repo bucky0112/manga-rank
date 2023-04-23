@@ -2,14 +2,14 @@
   @apply grid grid-cols-5 bg-mainBG;
 
   .background {
-    @apply col-span-2;
+    @apply col-span-2 relative;
   }
 
   .signUp {
     @apply col-span-3 flex flex-col;
 
     & > h1 {
-      @apply text-3xl font-semibold mb-40 text-center;
+      @apply text-3xl font-semibold my-28 text-center;
     }
 
     & > form {
@@ -18,7 +18,7 @@
       .submit {
         @apply text-center;
         & > input {
-          @apply text-3xl font-semibold bg-bgPrimary p-6 rounded-full cursor-pointer;
+          @apply text-3xl font-semibold bg-bgPrimary p-6 rounded-full cursor-pointer mb-20;
         }
       }
     }
