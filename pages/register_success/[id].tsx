@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Footer } from '../../components'
-import { Navbar } from '../../components/user/'
+import { Footer } from 'components'
+import { Navbar } from 'components/user/'
 
 const Page = () => {
   const router = useRouter()
@@ -16,9 +16,9 @@ const Page = () => {
   return (
     <>
       <Navbar />
-      <main className='flex justify-between w-screen bg-mainBG'>
-        <div className='flex flex-col justify-around items-center w-1/2 bg-mainBG font-semibold'>
-          <div className='grid justify-center items-center w-159 h-159 rounded-full bg-lightGrey text-3xl'>
+      <main className='grid grid-cols-2 w-screen bg-mainBG'>
+        <div className='flex flex-col justify-around items-center bg-mainBG font-semibold'>
+          <div className='grid justify-center items-center w-[452px] h-[452px] rounded-full bg-lightGrey text-2xl text-center mt-20 mb-12'>
             <div>
               <p>我們已發註冊信到</p>
               <p className='mt-8 mb-20'>{mail}</p>
@@ -26,7 +26,7 @@ const Page = () => {
             </div>
           </div>
           <div className='flex flex-col items-center gap-4 text-mediumGrey text-xl'>
-            <p className='flex flex-col'>
+            <p className='flex flex-col mb-10'>
               <span>若五分鐘內沒有收到信件，</span>
               <span>請更改信箱或重新寄出信件。</span>
             </p>
@@ -38,13 +38,13 @@ const Page = () => {
             </button>
             <button
               type='button'
-              className='bg-lightGrey w-32 h-14 rounded-full'
+              className='bg-lightGrey w-32 h-14 rounded-full mb-28'
             >
               重新寄出
             </button>
           </div>
         </div>
-        <div className='bg-register bg-right h-screen w-1/2 bg-no-repeat'></div>
+        <div className='bg-register bg-no-repeat bg-cover bg-right' />
       </main>
       <Footer />
     </>
