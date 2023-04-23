@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Footer } from '../../components'
-import { Navbar, Main, SignUp } from '../../components/user'
+import { Footer } from 'components'
+import { Navbar, Main, SignUp } from 'components/user'
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState<string>('main')
