@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Footer } from '../../components'
-import { Navbar } from '../../components/user'
-import { user } from '../../lib/api/user'
+import { Footer } from 'components'
+import { Navbar } from 'components/user'
+import { user } from 'lib/api/user'
 
 const Page = () => {
   const router = useRouter()
@@ -31,7 +31,7 @@ const Page = () => {
     }
 
     if (sec === 0) {
-      router.push('/')
+      router.push('/relogin')
     }
   }, [isCounting, sec])
 
