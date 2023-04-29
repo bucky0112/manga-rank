@@ -28,9 +28,9 @@ const Page = () => {
           <div className='flex flex-col items-center gap-4 text-mediumGrey text-xl'>
             <p className='flex flex-col mb-10'>
               <span>若五分鐘內沒有收到信件，</span>
-              <span>請更改信箱或重新寄出信件。</span>
+              <span>請重新註冊</span>
             </p>
-            <button
+            {/* <button
               type='button'
               className='bg-lightGrey w-32 h-14 rounded-full'
             >
@@ -41,7 +41,7 @@ const Page = () => {
               className='bg-lightGrey w-32 h-14 rounded-full mb-28'
             >
               重新寄出
-            </button>
+            </button> */}
           </div>
         </div>
         <div className='bg-register bg-no-repeat bg-cover bg-right' />
