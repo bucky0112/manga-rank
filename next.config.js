@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['komic.s3.ap-south-1.amazonaws.com', 'fakeimg.pl', 'komic.tk'],
+    domains: ['fakeimg.pl', 'komic.tk'],
   },
   swcMinify: true,
 }
