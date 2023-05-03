@@ -26,7 +26,7 @@ const BookCard = ({ ...rest }: books) => {
         className='relative w-full h-full cursor-pointer'
         onClick={() => router.push(`/book/${uuid}`)}
       >
-        <div className='rounded-3xl relative w-full h-full'>
+        <div className='rounded-3xl relative w-[175px] h-[246px]'>
           <Image
             layout='fill'
             objectFit='cover'
@@ -39,7 +39,7 @@ const BookCard = ({ ...rest }: books) => {
               <Image
                 layout='intrinsic'
                 width={200}
-                height={200}
+                height={220}
                 src='/svg/r18Cover.svg'
                 alt='r18 cover'
                 className='rounded-3xl'
@@ -47,9 +47,9 @@ const BookCard = ({ ...rest }: books) => {
             </div>
           )}
         </div>
-        <div className='absolute right-0 bottom-0 bg-primary rounded-tl-full rounded-br-[2400px] w-[35%]'>
+        <div className='absolute right-0 bottom-0 bg-primary rounded-tl-full rounded-br-[2400px] w-[40%]'>
           <p className='flex flex-col items-center justify-start pt-3 ml-3'>
-            <span className='text-5xl font-semibold text-[#565656]'>
+            <span className='text-[31px] font-semibold text-[#565656]'>
               {point}
             </span>
             <span className='text-darkGrey'>/10人</span>
@@ -57,12 +57,12 @@ const BookCard = ({ ...rest }: books) => {
         </div>
       </div>
       <div>
-        <p className='text-center text-2xl font-semibold mt-4 mb-4'>{title}</p>
+        <p className='text-center text-[16px] font-[700] mt-4 mb-4 h-[51px] flex items-center justify-center'>{title}</p>
         {tag[0].uuid && (
-          <ul className='flex justify-center items-center gap-5'>
+          <ul className='flex justify-center items-center gap-[10px]'>
             {tag.map(({ uuid, name }) => (
-              <li key={uuid} className='bg-primary px-4 py-1 rounded-full'>
-                <span className='text-xl'>{name}</span>
+              <li key={uuid} className='bg-primary px-3 py-1 rounded-full'>
+                <span className='text-[13px] whitespace-nowrap'>{name}</span>
               </li>
             ))}
           </ul>
