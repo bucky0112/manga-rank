@@ -1,6 +1,5 @@
 import { FC, useState, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
-import { MdArrowDropDown } from 'react-icons/md'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectUserInfo } from 'store/feat/user/userInfoSlice'
 import { setSideBarOpen } from 'store/feat/share/sideBarSlice'
@@ -19,6 +18,7 @@ const SideBar: FC<Props> = ({ isOpen }) => {
   const dispatch = useAppDispatch()
   const { clearStorage } = useStorage('userInfo', {})
   const [isToggle, setIsToggle] = useState<Record<string, boolean>>({
+    popular: false,
     type: false
   })
 
@@ -40,6 +40,27 @@ const SideBar: FC<Props> = ({ isOpen }) => {
     }
   }
 
+  const toggles = [
+    {
+      id: 1,
+      title: '近期流行',
+      type: 'popular',
+      options: []
+    },
+    {
+      id: 2,
+      title: '依類別',
+      type: 'type',
+      options: categories
+    },
+    {
+      id: 3,
+      title: '依平台',
+      type: 'platform',
+      options: []
+    }
+  ]
+
   return (
     <div className={`${styles.waveBar} ${isOpen && styles.open}`}>
       <div className={styles.boxCenter}>
@@ -48,20 +69,20 @@ const SideBar: FC<Props> = ({ isOpen }) => {
           {userInfo?.nickname ? (
             <li onClick={handleLogout}>登出</li>
           ) : (
-            <li>登入/註冊</li>
+            <li className='mb-4'>登入/註冊</li>
           )}
-          <li>找漫畫</li>
-          <li>近期流行</li>
-          <li>
-            <SideBarOption
-              options={categories}
-              toggleType={isToggle.type}
-              onToggle={() => handleToggle('type')}
-              onClick={handleClick}
-              title="選擇類別"
-            />
-          </li>
-          <li>依平台</li>
+          <p className={styles.topline}>找漫畫</p>
+          {toggles.map((toggle) => (
+            <li key={toggle.id}>
+              <SideBarOption
+                options={toggle.options}
+                toggleType={isToggle[toggle.type]}
+                onToggle={() => handleToggle(toggle.type)}
+                onClick={handleClick}
+                title={toggle.title}
+              />
+            </li>
+          ))}
         </ul>
       </div>
     </div>
