@@ -18,7 +18,7 @@
       .submit {
         @apply text-center;
         & > input {
-          @apply text-3xl font-semibold bg-bgPrimary p-6 rounded-full cursor-pointer mb-20;
+          @apply text-3xl font-semibold bg-bgPrimary hover:bg-primary p-6 rounded-full cursor-pointer mb-20;
         }
       }
     }
