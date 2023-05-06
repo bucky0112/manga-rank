@@ -10,7 +10,7 @@ interface props {
   isOwn: number
   isThunder: number
   mangaUuid: string
-  point: number
+  point: string
   suspect: number
   uuid: string
   nickname: string

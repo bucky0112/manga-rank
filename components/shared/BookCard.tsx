@@ -22,10 +22,10 @@ const BookCard = ({ ...rest }: books) => {
 
   const pointToFixed = (point: string) => {
     const pointToNumber = Number(point)
-    if (pointToNumber % 1 === 0) {
-      return pointToNumber
+    if (pointToNumber % 1 !== 0) {
+      return pointToNumber.toFixed(1)
     } else {
-      pointToNumber.toFixed(1)
+      return pointToNumber.toFixed(0)
     }
   }
 

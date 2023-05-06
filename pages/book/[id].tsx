@@ -18,7 +18,7 @@ interface bookDetail {
   publisher: string
   tag: string
   title_cn: string
-  point: number
+  point: string
 }
 
 interface Comment {
@@ -29,7 +29,7 @@ interface Comment {
   isOwn: number
   isThunder: number
   mangaUuid: string
-  point: number
+  point: string
   suspect: number
   uuid: string
   nickname: string
@@ -75,6 +75,15 @@ const Page = () => {
     setIsAdult(is_adult === 1)
   }, [book])
 
+  const pointToFixed = (point: string) => {
+    const pointToNumber = Number(point)
+    if (pointToNumber % 1 !== 0) {
+      return pointToNumber.toFixed(2)
+    } else {
+      return pointToNumber.toFixed(0)
+    }
+  }
+
   return (
     <>
       <Navbar isOpen={isOpen} />
@@ -119,7 +128,7 @@ const Page = () => {
           <div className='col-span-2 xl:col-span-1'>
             <div className='flex flex-col p-6 border-t-2 border-r-2 border-darkGrey rounded-r-3xl rounded-b-none text-darkGrey leading-tight'>
               <p className='text-xl'>平均評分</p>
-              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>{point}</p>
+              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>{pointToFixed(point)}</p>
               <p className='self-end text-lg'>/300人</p>
             </div>
           </div>
