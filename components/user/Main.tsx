@@ -92,7 +92,7 @@ const Main: FC<IndexProps> = ({ atClick }) => {
           <div className='row-span-2 flex flex-col gap-14 w-full mt-12'>
             <button
               type='button'
-              className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full'
+              className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full hover:bg-primary'
               onClick={() => atClick('signUp')}
             >
               註冊新帳號
@@ -100,7 +100,7 @@ const Main: FC<IndexProps> = ({ atClick }) => {
             <button
               onClick={handleGoogleOauth}
               type='button'
-              className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full mt-1'
+              className='text-3xl font-semibold text-darkGrey bg-lightGrey rounded-full py-5 w-full mt-1 hover:bg-primary'
             >
               使用 Google 帳號註冊
             </button>
@@ -155,7 +155,7 @@ const Main: FC<IndexProps> = ({ atClick }) => {
                 <input
                   type='submit'
                   value='登入'
-                  className='text-3xl font-semibold bg-primary rounded-full px-6 py-3 cursor-pointer'
+                  className='text-3xl font-semibold bg-primary hover:bg-lightGrey rounded-full px-6 py-3 cursor-pointer'
                 />
                 <Link href='/'>
                   <a className='flex items-center text-xl text-mediumGrey'>
