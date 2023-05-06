@@ -103,7 +103,7 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
                 message: '超過25字'
               }
             }}
-            errorText='超過25字元'
+            errorText='不得超過 25 字元'
           />
           <InputText
             register={register}
@@ -133,10 +133,10 @@ const SignUp: FC<Props> = ({ setCurrentPage }) => {
               },
               minLength: {
                 value: 8,
-                message: '不得少於8個英文字母或數字'
+                message: '不得少於 8 個英文字母或數字'
               }
             }}
-            errorText='不得少於8個英文字母或數字'
+            errorText='不得少於 8 個英文字母或數字'
             type="password"
           />
           <div className={styles.submit}>
