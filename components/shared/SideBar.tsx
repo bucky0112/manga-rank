@@ -1,12 +1,13 @@
 import { FC, useState, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 import { MdArrowDropDown } from 'react-icons/md'
-import styles from 'styles/SideBar.module.scss'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectUserInfo } from 'store/feat/user/userInfoSlice'
 import { setSideBarOpen } from 'store/feat/share/sideBarSlice'
 import { useStorage } from 'lib/hooks'
 import categories from 'lib/utils/categories'
+import { SideBarOption } from './SideBarOption'
+import styles from 'styles/SideBar.module.scss'
 
 type Props = {
   isOpen: boolean
@@ -52,28 +53,13 @@ const SideBar: FC<Props> = ({ isOpen }) => {
           <li>找漫畫</li>
           <li>近期流行</li>
           <li>
-            <div
-              className='flex items-center gap-x-2'
-              onClick={() => handleToggle('type')}
-            >
-              <p>選擇類別</p>
-              <MdArrowDropDown />
-            </div>
-            <ul
-              className={`${styles.categoriesList} ${
-                isToggle.type && styles.open
-              }`}
-            >
-              {categories.map((category) => (
-                <li
-                  key={category.id}
-                  data-id={category.id}
-                  onClick={handleClick}
-                >
-                  {category.name}
-                </li>
-              ))}
-            </ul>
+            <SideBarOption
+              options={categories}
+              toggleType={isToggle.type}
+              onToggle={() => handleToggle('type')}
+              onClick={handleClick}
+              title="選擇類別"
+            />
           </li>
           <li>依平台</li>
         </ul>
