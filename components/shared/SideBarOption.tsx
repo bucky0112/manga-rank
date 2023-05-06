@@ -1,5 +1,5 @@
 import { MouseEvent } from 'react'
-import { MdArrowDropDown } from 'react-icons/md'
+import { MdArrowDropDown, MdArrowLeft } from 'react-icons/md'
 import styles from 'styles/SideBar.module.scss'
 
 type SideBarOptionProps = {
@@ -21,13 +21,13 @@ const SideBarOption: React.FC<SideBarOptionProps> = ({
   title
 }) => (
   <>
-    <div className='flex items-center gap-x-2' onClick={() => onToggle('type')}>
-      <p>{title}</p>
-      <MdArrowDropDown />
+    <div className='flex items-center gap-x-8' onClick={() => onToggle('type')}>
+      <p className='font-medium'>{title}</p>
+      {toggleType ? <MdArrowDropDown size="26" /> : <MdArrowLeft size="26" />}
     </div>
     <ul className={`${styles.categoriesList} ${toggleType && styles.open}`}>
       {options.map((category) => (
-        <li key={category.id} data-id={category.id} onClick={onClick}>
+        <li key={category.id} data-id={category.id} onClick={onClick} className='mr-2'>
           {category.name}
         </li>
       ))}
