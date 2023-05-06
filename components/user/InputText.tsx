@@ -2,7 +2,6 @@ import { FC } from 'react'
 import styles from '../../styles/user/SignUp.module.scss'
 import { UseFormRegister, FieldValues } from 'react-hook-form'
 
-// Todo: errors 要修改
 interface Props {
   register: any
   errors?: any
@@ -34,7 +33,7 @@ const InputText: FC<Props> = ({
     </label>
     {errors?.[name] ? (
       <p className='text-red-500 ml-2 mt-4 text-xl'>{errors?.[name].message}</p>
-    ) : <p className='text-xl ml-2 mt-4'>{errorText}</p>}
+    ) : <p className='text-xl ml-2 mt-4 text-mediumGrey'>{errorText}</p>}
   </div>
 )
 
