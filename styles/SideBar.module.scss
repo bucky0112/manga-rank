@@ -44,14 +44,11 @@
   padding: 0.5rem 0;
 }
 
-.dropdown {
-  @apply relative inline-block;
+.categoriesList {
+  @apply pl-4 overflow-hidden max-h-0;
+  transition: max-height 0.3s ease;
 }
 
-.select {
-  @apply focus:outline-none appearance-none bg-transparent;
-}
-
-.arrowIcon {
-  @apply absolute top-1/2 -right-8 -translate-y-1/2 pointer-events-none;
+.categoriesList.open {
+  max-height: 500px;
 }

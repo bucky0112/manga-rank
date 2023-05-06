@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useState, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 import { MdArrowDropDown } from 'react-icons/md'
 import styles from 'styles/SideBar.module.scss'
@@ -17,17 +17,26 @@ const SideBar: FC<Props> = ({ isOpen }) => {
   const userInfo = useAppSelector(selectUserInfo)
   const dispatch = useAppDispatch()
   const { clearStorage } = useStorage('userInfo', {})
-  const [selectedCategory, setSelectedCategory] = useState('')
+  const [isToggle, setIsToggle] = useState<Record<string, boolean>>({
+    type: false
+  })
 
   const handleLogout = () => {
     clearStorage()
     router.reload()
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value)
-    dispatch(setSideBarOpen({ isOpen: false }))
-    window.location.assign(`/category/${e.target.value}`)
+  const handleToggle = (type: string) => {
+    setIsToggle({ ...isToggle, [type]: !isToggle[type] })
+  }
+
+  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+    const value = e.currentTarget.getAttribute('data-id')
+
+    if (value) {
+      dispatch(setSideBarOpen({ isOpen: false }))
+      window.location.assign(`/category/${value}`)
+    }
   }
 
   return (
@@ -42,20 +51,29 @@ const SideBar: FC<Props> = ({ isOpen }) => {
           )}
           <li>找漫畫</li>
           <li>近期流行</li>
-          <li className={styles.dropdown}>
-            <select
-              value={selectedCategory}
-              onChange={handleChange}
-              className={styles.select}
+          <li>
+            <div
+              className='flex items-center gap-x-2'
+              onClick={() => handleToggle('type')}
             >
-              <option value=''>選擇類別</option>
+              <p>選擇類別</p>
+              <MdArrowDropDown />
+            </div>
+            <ul
+              className={`${styles.categoriesList} ${
+                isToggle.type && styles.open
+              }`}
+            >
               {categories.map((category) => (
-                <option key={category.id} value={category.id}>
+                <li
+                  key={category.id}
+                  data-id={category.id}
+                  onClick={handleClick}
+                >
                   {category.name}
-                </option>
+                </li>
               ))}
-            </select>
-            <MdArrowDropDown className={styles.arrowIcon} />
+            </ul>
           </li>
           <li>依平台</li>
         </ul>
