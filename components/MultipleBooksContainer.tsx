@@ -13,11 +13,11 @@ type Props = {
 }
 
 const renderBooks = (books: book[]) => (
-  <ul className='grid grid-cols-1 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-x-8 gap-y-14 mb-20'>
+  <ul className='grid grid-cols-7 2xl:grid-cols-7 2xl:gap-x-[71px] xl:grid-cols-5 slg:grid-cols-4 ssm:grid-cols-3 ssm:gap-x-[90px] xs:grid-cols-2 xs:gap-x-[48px] xl:gap-x-[84px] slg:gap-x-[45px] gap-y-[60px] mt-[60px]'>
     {books?.map(({ uuid, title_cn, image, tag, is_adult, point }) => (
       <li
         key={uuid}
-        className='justify-self-center flex flex-col justify-center items-center w-77 h-135'
+        className='flex flex-col items-center w-[175px] h-[361px]'
       >
         <BookCard
           title={title_cn}
