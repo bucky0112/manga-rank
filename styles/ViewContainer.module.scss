@@ -1,3 +1,9 @@
 .container {
   @apply flex flex-col justify-center py-10 px-[60px] bg-index bg-fixed bg-[length:300px] bg-no-repeat top-0 left-0 overflow-x-hidden relative font-inter;
+
+  background-position: 45px 0;
+
+  @media screen and (max-width: 900px) {
+    @apply bg-none;
+  }
 }
