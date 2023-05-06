@@ -20,6 +20,15 @@ const BookCard = ({ ...rest }: books) => {
 
   const router = useRouter()
 
+  const pointToFixed = (point: string) => {
+    const pointToNumber = Number(point)
+    if (pointToNumber % 1 === 0) {
+      return pointToNumber
+    } else {
+      pointToNumber.toFixed(1)
+    }
+  }
+
   return (
     <>
       <div
@@ -50,7 +59,7 @@ const BookCard = ({ ...rest }: books) => {
         <div className='absolute right-0 bottom-0 bg-primary rounded-tl-full rounded-br-[2400px] w-[40%]'>
           <p className='flex flex-col items-center justify-start pt-3 ml-3'>
             <span className='text-[31px] font-semibold text-[#565656]'>
-              {point}
+              {pointToFixed(point)}
             </span>
             <span className='text-darkGrey'>/10人</span>
           </p>
