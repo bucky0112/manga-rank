@@ -8,6 +8,7 @@ import { useAppSelector } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
+import { useStorage } from 'lib/hooks'
 
 interface bookDetail {
   author: string
@@ -40,6 +41,9 @@ const Page = () => {
   const id = router.query.id as string
 
   const isOpen = useAppSelector(selectSideBarOpen)
+  const { storedValue } = useStorage('userInfo', {})
+  const token = storedValue?.token || ''
+  console.log(token)
 
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [comments, setComments] = useState<Comment[]>([])
@@ -57,7 +61,7 @@ const Page = () => {
 
   const fetchComment = async () => {
     try {
-      const { data } = await comment.getComments(id)
+      const { data } = await comment.getComments(id, token)
       setComments(data?.data)
     } catch (err) {
       console.error(err)
