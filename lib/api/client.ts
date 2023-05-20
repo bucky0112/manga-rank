@@ -15,6 +15,10 @@ class APIClient {
     return this.client.get(`${path}/${data}`)
   }
 
+  verifyGet(path: string, data: any, headers: { [key: string]: string }) {
+    return this.client.get(`${path}/${data}`, { headers })
+  }
+
   post(path: string, data: {}, headers: {[key: string]: string}) {
     return this.client.post(path, data, { headers })
   }
