@@ -12,7 +12,16 @@ interface Comment {
 }
 
 const comment = {
-  getComments: (id: string) => client.get(Endpoints.Comment.Get, `${id}/1`),
+  getComments: (id: string, token: string) => {
+    const headers = {
+      Authorization: token
+    }
+    if (token) {
+      return client.verifyGet(Endpoints.Comment.Get, `${id}/1`, headers)
+    } else {
+      return client.get(Endpoints.Comment.Get, `${id}/1`)
+    }
+  },
   new: (data: Comment, token: string) => {
     const headers = {
       Authorization: token
