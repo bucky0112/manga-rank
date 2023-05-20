@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import Image from 'next/image'
-import explodeSVG from '../../public/svg/explode.svg'
+import classNames from 'classnames'
+import explodeSVG from 'public/svg/explode.svg'
 
 interface props {
   agree: number
@@ -63,8 +64,14 @@ const UserComment: FC<Props> = ({ state }) => {
             </button>
           </div>
           <p className='leading-9 w-[90%]'>{description}</p>
-          {isThunder === 1 && (
-            <div className='flex items-center justify-between'>
+          <div
+            className={classNames({
+              'flex items-center': true,
+              'justify-between': isThunder === 1,
+              'justify-end': isThunder !== 1
+            })}
+          >
+            {isThunder === 1 && (
               <p className='flex items-center gap-2'>
                 <Image
                   src={explodeSVG}
@@ -84,49 +91,49 @@ const UserComment: FC<Props> = ({ state }) => {
                   alt='explode'
                 />
               </p>
-              <div className='flex items-center gap-10'>
-                <button
-                  type='button'
-                  className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
-                >
-                  <Image
-                    src='/svg/minus.svg'
-                    layout='fixed'
-                    width='18'
-                    height='4'
-                    alt='not'
-                  />
-                  <span>不贊同</span>
-                </button>
-                <button
-                  type='button'
-                  className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
-                >
-                  <Image
-                    src='/svg/question.svg'
-                    layout='fixed'
-                    width='11'
-                    height='20'
-                    alt='question'
-                  />
-                  <span>質疑</span>
-                </button>
-                <button
-                  type='button'
-                  className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
-                >
-                  <Image
-                    src='/svg/right_arrow.svg'
-                    layout='fixed'
-                    width='20'
-                    height='20'
-                    alt='agree'
-                  />
-                  <span>贊同</span>
-                </button>
-              </div>
+            )}
+            <div className='flex items-center gap-10'>
+              <button
+                type='button'
+                className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
+              >
+                <Image
+                  src='/svg/minus.svg'
+                  layout='fixed'
+                  width='18'
+                  height='4'
+                  alt='not'
+                />
+                <span>不贊同</span>
+              </button>
+              <button
+                type='button'
+                className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
+              >
+                <Image
+                  src='/svg/question.svg'
+                  layout='fixed'
+                  width='11'
+                  height='20'
+                  alt='question'
+                />
+                <span>質疑</span>
+              </button>
+              <button
+                type='button'
+                className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
+              >
+                <Image
+                  src='/svg/right_arrow.svg'
+                  layout='fixed'
+                  width='20'
+                  height='20'
+                  alt='agree'
+                />
+                <span>贊同</span>
+              </button>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
