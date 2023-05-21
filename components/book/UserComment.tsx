@@ -1,7 +1,9 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import Image from 'next/image'
 import classNames from 'classnames'
 import explodeSVG from 'public/svg/explode.svg'
+import { comment } from 'lib/api/comment'
+import { useStorage } from 'lib/hooks'
 
 interface props {
   agree: number
@@ -36,6 +38,28 @@ const UserComment: FC<Props> = ({ state }) => {
     nickname
   } = state
 
+  const { storedValue, setValue } = useStorage('userInfo', {})
+  const token = storedValue?.token
+
+  const [showUpdate, setShowUpdate] = useState(false)
+
+  const handleShowUpdate = () => {
+    setShowUpdate(!showUpdate)
+  }
+
+  const handleDeleteComment = async () => {
+    try {
+      const res = await comment.delete(uuid, token)
+      console.log(res)
+      // setValue({
+      //   ...storedValue,
+      //   token: data?.retoken
+      // })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div className='flex items-center border border-lightGrey px-14 rounded-3xl shadow-2xl w-full pt-12 pb-8'>
       <div className='flex flex-col items-center gap-y-1'>
@@ -57,11 +81,27 @@ const UserComment: FC<Props> = ({ state }) => {
           </p>
         </div>
         <div className='flex-1 flex flex-col gap-5'>
-          <div className='flex items-center justify-between text-2xl font-semibold'>
-            <h5>{chapter}</h5>
-            <button type='button' className='rotate-90'>
-              <span>...</span>
-            </button>
+          <div className='flex items-center justify-between'>
+            <h5 className='text-2xl font-semibold'>{chapter}</h5>
+            {isOwn === 1 && (
+              <div>
+                <button
+                  type='button'
+                  className='rotate-90'
+                  onClick={handleShowUpdate}
+                >
+                  <span className='text-2xl font-semibold'>...</span>
+                </button>
+                {showUpdate && (
+                  <ul className='flex flex-col gap-y-2 border border-lightGrey rounded-lg shadow-2xl text-darkGrey p-6'>
+                    <li className='cursor-pointer border-b border-darkGrey pb-2'>
+                      修改評論
+                    </li>
+                    <li className='cursor-pointer' onClick={handleDeleteComment}>刪除評論</li>
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
           <p className='leading-9 w-[90%]'>{description}</p>
           <div
