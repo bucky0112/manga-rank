@@ -122,10 +122,6 @@ const Page = () => {
     }
   }
 
-  // const toggleModal = (isVisible: boolean) => {
-  //   setShowModal(isVisible)
-  // }
-
   const newComment = async () => {
     const updatedCommentState = {
       ...commentState,
