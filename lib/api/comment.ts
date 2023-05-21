@@ -28,6 +28,12 @@ const comment = {
     }
     return client.post(Endpoints.Comment.New, data, headers)
   },
+  delete: (id: string, token: string) => {
+    const headers = {
+      Authorization: token
+    }
+    return client.delete(Endpoints.Comment.Delete, id, headers)
+  }
 };
 
 export { comment }
