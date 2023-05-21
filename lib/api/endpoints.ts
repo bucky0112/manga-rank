@@ -21,7 +21,8 @@ export const Endpoints = {
   },
   Comment: {
     Get: '/point',
-    New: '/point'
+    New: '/point',
+    Delete: '/point'
   },
 }
 
