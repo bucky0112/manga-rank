@@ -11,6 +11,14 @@ interface Comment {
   point: number
 }
 
+interface UpdateComment {
+  uuid: string
+  chapter: string
+  point: number
+  description: string
+  isThunder: number
+}
+
 const comment = {
   getComments: (id: string, token: string) => {
     const headers = {
@@ -27,6 +35,12 @@ const comment = {
       Authorization: token
     }
     return client.post(Endpoints.Comment.New, data, headers)
+  },
+  update: (data: UpdateComment, token: string) => {
+    const headers = {
+      Authorization: token
+    }
+    return client.put(Endpoints.Comment.Put, data, headers)
   },
   delete: (id: string, token: string) => {
     const headers = {

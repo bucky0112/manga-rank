@@ -1,3 +1,5 @@
+const comment = '/point'
+
 export const Endpoints = {
   Home: {
     NewRelease: '/manga/newstest',
@@ -20,8 +22,9 @@ export const Endpoints = {
     keywords: 'manga/search'
   },
   Comment: {
-    Get: '/point',
-    New: '/point',
-    Delete: '/point'
-  },
+    Get: comment,
+    New: comment,
+    Delete: comment,
+    Put: comment
+  }
 }
