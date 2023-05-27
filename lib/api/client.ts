@@ -23,6 +23,10 @@ class APIClient {
     return this.client.post(path, data, { headers })
   }
 
+  put(path: string, data: {}, headers: { [key: string]: string }) {
+    return this.client.put(path, data, { headers })
+  }
+
   delete(path: string, data: {}, headers: { [key: string]: string }) {
     return this.client.delete(path, { data: data, headers: headers })
   }
