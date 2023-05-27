@@ -8,6 +8,7 @@ interface CommentDetail {
   point?: string
   chapter?: string
   bookTitle?: string
+  mangaUuid?: string
 }
 
 interface CommentState {
@@ -22,7 +23,8 @@ const initialState: CommentState = {
     isThunder: 0,
     point: '0',
     chapter: '',
-    bookTitle: ''
+    bookTitle: '',
+    mangaUuid: ''
   }
 }
 
