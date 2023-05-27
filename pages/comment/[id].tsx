@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import classNames from 'classnames'
-import { set, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import styles from 'styles/comment.module.scss'
 import { Navbar, Footer } from 'components'
 import { SideBar, TipsModal } from 'components/shared'
@@ -51,7 +51,7 @@ const Page = () => {
   const isOpen = useAppSelector(selectSideBarOpen)
   const isEditPermission = useAppSelector(selectEditPermission)
   const commentDetail = useAppSelector(selectCommentDetail)
-  const { description, isThunder, point, chapter, bookTitle } = commentDetail
+  const { description, isThunder, point, chapter, bookTitle, mangaUuid } = commentDetail
   const [showModal, setShowModal] = useState({
     success: false,
     fail: false
@@ -79,6 +79,7 @@ const Page = () => {
 
   const pointState = watch('point')
   const descriptionState = watch('description')
+  const isThunderState = watch('isThunder')
 
   const updateCommentState = (key: string, value: string | number) => {
     setCommentState((prevState) => ({
@@ -137,10 +138,25 @@ const Page = () => {
     }
 
     try {
-      const { data } = await comment.new(
-        updatedCommentState,
-        storedValue?.token
-      )
+      let apiResponse
+      if (isEditPermission) {
+        apiResponse = await comment.update(
+          {
+            uuid: id,
+            point: pointState,
+            description: descriptionState,
+            chapter: chapter!,
+            isThunder: isThunderState
+          },
+          storedValue?.token
+        )
+      } else {
+        apiResponse = await comment.new(
+          updatedCommentState,
+          storedValue?.token
+        )
+      }
+      const { data } = apiResponse
       setValue({
         ...storedValue,
         token: data?.retoken
@@ -154,7 +170,11 @@ const Page = () => {
           ...showModal,
           success: false
         })
-        router.push(`/book/${uuid}`)
+        if (isEditPermission) {
+          router.push(`/book/${mangaUuid}`)
+        } else {
+          router.push(`/book/${id}`)
+        }
       }, 3000)
     } catch (_) {
       setShowModal({
