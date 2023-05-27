@@ -43,7 +43,6 @@ const Page = () => {
   const isOpen = useAppSelector(selectSideBarOpen)
   const { storedValue } = useStorage('userInfo', {})
   const token = storedValue?.token || ''
-  console.log(token)
 
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [comments, setComments] = useState<Comment[]>([])
@@ -167,7 +166,7 @@ const Page = () => {
         </div>
         <div className='flex flex-col gap-20 mt-36 mb-32 w-full'>
           {comments?.map((comment) => (
-            <UserComment key={comment.uuid} state={comment} />
+            <UserComment key={comment.uuid} state={{ ...comment, bookTitle: title_cn }} />
           ))}
         </div>
         <Another />
