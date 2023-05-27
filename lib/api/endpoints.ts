@@ -25,5 +25,3 @@ export const Endpoints = {
     Delete: '/point'
   },
 }
-
-// https://x4cczk9r43.execute-api.ap-south-1.amazonaws.com/v1/oauth/google
