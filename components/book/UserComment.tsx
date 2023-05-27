@@ -1,9 +1,15 @@
 import { FC, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import classNames from 'classnames'
 import explodeSVG from 'public/svg/explode.svg'
 import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
+import { useAppDispatch } from 'store/hooks'
+import {
+  setEditPermission,
+  setCommentDetail
+} from 'store/feat/user/commentSlice'
 
 interface props {
   agree: number
@@ -17,6 +23,7 @@ interface props {
   suspect: number
   uuid: string
   nickname: string
+  bookTitle: string
 }
 
 interface Props {
@@ -35,11 +42,15 @@ const UserComment: FC<Props> = ({ state }) => {
     point,
     suspect,
     uuid,
-    nickname
+    nickname,
+    bookTitle
   } = state
 
   const { storedValue, setValue } = useStorage('userInfo', {})
   const token = storedValue?.token
+  const dispatch = useAppDispatch()
+
+  const router = useRouter()
 
   const [showUpdate, setShowUpdate] = useState(false)
 
@@ -51,13 +62,23 @@ const UserComment: FC<Props> = ({ state }) => {
     try {
       const res = await comment.delete(uuid, token)
       console.log(res)
-      // setValue({
-      //   ...storedValue,
-      //   token: data?.retoken
-      // })
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.error(error)
     }
+  }
+
+  const handleEditComment = () => {
+    dispatch(setEditPermission(true))
+    dispatch(
+      setCommentDetail({
+        description,
+        isThunder,
+        point,
+        chapter,
+        bookTitle
+      })
+    )
+    router.push(`/comment/${uuid}`)
   }
 
   return (
@@ -94,10 +115,18 @@ const UserComment: FC<Props> = ({ state }) => {
                 </button>
                 {showUpdate && (
                   <ul className='flex flex-col gap-y-2 border border-lightGrey rounded-lg shadow-2xl text-darkGrey p-6'>
-                    <li className='cursor-pointer border-b border-darkGrey pb-2'>
+                    <li
+                      className='cursor-pointer border-b border-darkGrey pb-2'
+                      onClick={handleEditComment}
+                    >
                       修改評論
                     </li>
-                    <li className='cursor-pointer' onClick={handleDeleteComment}>刪除評論</li>
+                    <li
+                      className='cursor-pointer'
+                      onClick={handleDeleteComment}
+                    >
+                      刪除評論
+                    </li>
                   </ul>
                 )}
               </div>
