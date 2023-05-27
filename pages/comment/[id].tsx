@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import classNames from 'classnames'
-import { useForm } from 'react-hook-form'
+import { set, useForm } from 'react-hook-form'
 import styles from 'styles/comment.module.scss'
 import { Navbar, Footer } from 'components'
 import { SideBar, TipsModal } from 'components/shared'
@@ -11,6 +11,10 @@ import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
 import { useAppSelector } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
+import {
+  selectEditPermission,
+  selectCommentDetail
+} from 'store/feat/user/commentSlice'
 
 interface bookDetail {
   author: string
@@ -45,6 +49,9 @@ const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
   const isOpen = useAppSelector(selectSideBarOpen)
+  const isEditPermission = useAppSelector(selectEditPermission)
+  const commentDetail = useAppSelector(selectCommentDetail)
+  const { description, isThunder, point, chapter, bookTitle } = commentDetail
   const [showModal, setShowModal] = useState({
     success: false,
     fail: false
@@ -140,34 +147,43 @@ const Page = () => {
       })
       setShowModal({
         ...showModal,
-        success: true,
+        success: true
       })
       setTimeout(() => {
         setShowModal({
           ...showModal,
-          success: false,
+          success: false
         })
         router.push(`/book/${uuid}`)
       }, 3000)
     } catch (_) {
       setShowModal({
         ...showModal,
-        fail: true,
+        fail: true
       })
       setTimeout(() => {
         setShowModal({
           ...showModal,
-          fail: false,
+          fail: false
         })
       }, 3000)
     }
   }
 
   useEffect(() => {
-    if (id) {
+    if (isEditPermission) {
+      setFormValue('point', Number(point))
+      setFormValue('description', description ?? '')
+      setFormValue('isThunder', isThunder ?? 0)
+      setFormValue('chapter', chapter ?? '')
+      setBook({
+        ...book,
+        title_cn: bookTitle ?? ''
+      })
+    } else {
       fetchDetail()
     }
-  }, [id])
+  }, [id, isEditPermission])
 
   return (
     <>
@@ -175,7 +191,9 @@ const Page = () => {
       <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG font-inter overflow-hidden'>
         <SideBar isOpen={isOpen} />
         {showModal.success && <TipsModal text='評論成功！' />}
-        {showModal.fail && <TipsModal text='好像伺服器出了一點錯，請重新點選下方「確認評論」' />}
+        {showModal.fail && (
+          <TipsModal text='好像伺服器出了一點錯，請重新點選下方「確認評論」' />
+        )}
         <div className='flex items-start basis-7/12'>
           <div className='flex h-[90%] w-[12%] mt-[80px] mr-[96px]'>
             <div className='flex flex-col items-center gap-y-1'>
@@ -206,8 +224,11 @@ const Page = () => {
               {...register('chapter')}
               className={styles.selection}
               onChange={(e) => handleOptionChange('chapter', e.target.value)}
+              disabled={isEditPermission || !episode?.length}
             >
-              {episode?.length > 0 ? (
+              {isEditPermission ? (
+                <option value={chapter}>{chapter}</option>
+              ) : episode?.length > 0 ? (
                 episode.map((item, index) => (
                   <option key={item} value={`第${index + 1}集`}>
                     {`第${index + 1}集`}
@@ -224,7 +245,7 @@ const Page = () => {
                   <button
                     type='button'
                     className={classNames({
-                      'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey':
+                      'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey hover:bg-primary':
                         true,
                       'bg-lightGrey': pointState !== i + 1,
                       'bg-primary': pointState === i + 1
@@ -242,7 +263,7 @@ const Page = () => {
               type='button'
               {...register('isThunder')}
               className={classNames({
-                'flex justify-center items-center ml-4 font-semibold text-base text-darkGry w-[102px] h-[50px] rounded-full my-[49px]':
+                'flex justify-center items-center ml-4 font-semibold text-base text-darkGry w-[102px] h-[50px] rounded-full my-[49px] hover:bg-primary':
                   true,
                 'bg-lightGrey': commentState?.isThunder === 0,
                 'bg-primary': commentState?.isThunder === 1
@@ -264,12 +285,12 @@ const Page = () => {
                 className={styles.commentBtn}
                 onClick={handelCancel}
               >
-                取消評論
+                {isEditPermission ? '取消修改' : '取消評論'}
               </button>
               <input
                 type='submit'
                 className={styles.commentBtn}
-                value='確認評論'
+                value={isEditPermission ? '確認修改' : '確認評論'}
               />
             </div>
           </form>
