@@ -32,15 +32,12 @@ interface Props {
 
 const UserComment: FC<Props> = ({ state }) => {
   const {
-    agree,
     chapter,
     description,
-    disagree,
     isOwn,
     isThunder,
     mangaUuid,
     point,
-    suspect,
     uuid,
     nickname,
     bookTitle
@@ -60,8 +57,8 @@ const UserComment: FC<Props> = ({ state }) => {
 
   const handleDeleteComment = async () => {
     try {
-      const res = await comment.delete(uuid, token)
-      console.log(res)
+      await comment.delete(uuid, token)
+      router.reload()
     } catch (error) {
       console.error(error)
     }
@@ -75,7 +72,8 @@ const UserComment: FC<Props> = ({ state }) => {
         isThunder,
         point,
         chapter,
-        bookTitle
+        bookTitle,
+        mangaUuid,
       })
     )
     router.push(`/comment/${uuid}`)
