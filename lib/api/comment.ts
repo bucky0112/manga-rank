@@ -1,7 +1,7 @@
-import APIClient from "./client";
-import { Endpoints } from "./endpoints";
+import APIClient from './client'
+import { Endpoints } from './endpoints'
 
-const client = new APIClient();
+const client = new APIClient()
 
 interface Comment {
   chapter: string
@@ -32,8 +32,11 @@ const comment = {
     const headers = {
       Authorization: token
     }
-    return client.delete(Endpoints.Comment.Delete, id, headers)
+    const data = {
+      uuid: id
+    }
+    return client.delete(Endpoints.Comment.Delete, data, headers)
   }
-};
+}
 
 export { comment }
