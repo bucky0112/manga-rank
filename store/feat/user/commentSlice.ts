@@ -15,12 +15,14 @@ interface CommentDetail {
 interface CommentState {
   editPermission: boolean
   deletePermission: boolean
+  cancelEditPermission: boolean
   commentDetail: CommentDetail
 }
 
 const initialState: CommentState = {
   editPermission: false,
   deletePermission: false,
+  cancelEditPermission: false,
   commentDetail: {
     description: '',
     isThunder: 0,
@@ -45,14 +47,19 @@ export const commentSlice = createSlice({
     setCommentDetail: (state, action: PayloadAction<CommentDetail>) => {
       state.commentDetail = action.payload
     },
+    setCancelEditPermission: (state, action: PayloadAction<boolean>) => {
+      state.cancelEditPermission = action.payload
+    }
   }
 })
 
-export const { setEditPermission, setCommentDetail, setDeletePermission } = commentSlice.actions
+export const { setEditPermission, setCommentDetail, setDeletePermission, setCancelEditPermission } = commentSlice.actions
 export const selectEditPermission = (state: RootState) =>
   state.comment.editPermission
 export const selectCommentDetail = (state: RootState) =>
   state.comment.commentDetail
 export const selectDeletePermission = (state: RootState) =>
   state.comment.deletePermission
+export const selectCancelEditPermission = (state: RootState) =>
+  state.comment.cancelEditPermission
 export default commentSlice.reducer
