@@ -5,15 +5,17 @@ import classNames from 'classnames'
 import { useForm } from 'react-hook-form'
 import styles from 'styles/comment.module.scss'
 import { Navbar, Footer } from 'components'
-import { SideBar, TipsModal } from 'components/shared'
+import { SideBar, TipsModal, ConfirmModal } from 'components/shared'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 import {
   selectEditPermission,
-  selectCommentDetail
+  selectCommentDetail,
+  selectCancelEditPermission,
+  setCancelEditPermission
 } from 'store/feat/user/commentSlice'
 
 interface bookDetail {
@@ -51,7 +53,8 @@ const Page = () => {
   const isOpen = useAppSelector(selectSideBarOpen)
   const isEditPermission = useAppSelector(selectEditPermission)
   const commentDetail = useAppSelector(selectCommentDetail)
-  const { description, isThunder, point, chapter, bookTitle, mangaUuid } = commentDetail
+  const { description, isThunder, point, chapter, bookTitle, mangaUuid } =
+    commentDetail
   const [showModal, setShowModal] = useState({
     success: false,
     fail: false
@@ -104,7 +107,20 @@ const Page = () => {
     setFormValue('point', index + 1)
   }
 
+  const isCancelVisible = useAppSelector(selectCancelEditPermission)
+  const dispatch = useAppDispatch()
+
+  const handleCancelEditComment = () => {
+    dispatch(setCancelEditPermission(false))
+    router.back()
+  }
+
+  const handleContinueEditComment = () => {
+    dispatch(setCancelEditPermission(false))
+  }
+
   const handelCancel = () => {
+    dispatch(setCancelEditPermission(true))
     setCommentState({
       ...commentState,
       point: 0,
@@ -151,10 +167,7 @@ const Page = () => {
           storedValue?.token
         )
       } else {
-        apiResponse = await comment.new(
-          updatedCommentState,
-          storedValue?.token
-        )
+        apiResponse = await comment.new(updatedCommentState, storedValue?.token)
       }
       const { data } = apiResponse
       setValue({
@@ -207,6 +220,14 @@ const Page = () => {
 
   return (
     <>
+      <ConfirmModal
+        title='你確定要放棄此次修改嗎？'
+        cancelText='確認並回上一頁'
+        continueText='繼續修改'
+        visible={isCancelVisible}
+        onCancel={handleCancelEditComment}
+        onContinue={handleContinueEditComment}
+      />
       <Navbar isOpen={isOpen} />
       <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG font-inter overflow-hidden'>
         <SideBar isOpen={isOpen} />

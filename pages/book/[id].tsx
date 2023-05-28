@@ -9,7 +9,7 @@ import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 import {
   selectDeletePermission,
   setDeletePermission,
-  selectCommentDetail
+  selectCommentDetail,
 } from 'store/feat/user/commentSlice'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
