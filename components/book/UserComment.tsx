@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import classNames from 'classnames'
@@ -7,7 +7,7 @@ import { useAppDispatch } from 'store/hooks'
 import {
   setEditPermission,
   setCommentDetail,
-  setDeletePermission,
+  setDeletePermission
 } from 'store/feat/user/commentSlice'
 
 interface props {
@@ -46,6 +46,23 @@ const UserComment: FC<Props> = ({ state }) => {
   const router = useRouter()
 
   const [showUpdate, setShowUpdate] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setShowUpdate(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [wrapperRef])
 
   const handleShowUpdate = () => {
     setShowUpdate(!showUpdate)
@@ -57,7 +74,7 @@ const UserComment: FC<Props> = ({ state }) => {
         chapter,
         bookTitle,
         mangaUuid,
-        uuid,
+        uuid
       })
     )
   }
@@ -95,7 +112,7 @@ const UserComment: FC<Props> = ({ state }) => {
           <div className='flex items-center justify-between'>
             <h5 className='text-2xl font-semibold'>{chapter}</h5>
             {isOwn === 1 && (
-              <div>
+              <div ref={wrapperRef}>
                 <button
                   type='button'
                   className='rotate-90'
