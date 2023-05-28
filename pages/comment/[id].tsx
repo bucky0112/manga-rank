@@ -68,7 +68,7 @@ const Page = () => {
     isThunder: 0
   })
 
-  const { title_cn, episode, uuid } = book
+  const { title_cn, episode } = book
 
   const { storedValue, setValue } = useStorage('userInfo', {})
 

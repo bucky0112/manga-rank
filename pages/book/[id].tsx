@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { Navbar, Footer } from 'components'
-import { SideBar, ConfirmModal } from 'components/shared'
+import { SideBar, ConfirmModal, TipsModal } from 'components/shared'
 import { UserComment, Another, AgeTips } from 'components/book'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 import {
   selectDeletePermission,
   setDeletePermission,
-  selectCommentDetail,
+  selectCommentDetail
 } from 'store/feat/user/commentSlice'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
@@ -56,6 +56,10 @@ const Page = () => {
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [comments, setComments] = useState<Comment[]>([])
   const [isAdult, setIsAdult] = useState(false)
+  const [showModal, setShowModal] = useState({
+    success: false,
+    fail: false
+  })
   const { author, description, image, is_adult, publisher, title_cn, point } =
     book
 
@@ -102,11 +106,31 @@ const Page = () => {
   }
 
   const handleDeleteComment = async () => {
+    dispatch(setDeletePermission(false))
     try {
       await comment.delete(uuid!, token)
-      router.reload()
-    } catch (error) {
-      console.error(error)
+      setShowModal({
+        ...showModal,
+        success: true
+      })
+      setTimeout(() => {
+        setShowModal({
+          ...showModal,
+          success: false
+        })
+        router.reload()
+      }, 3000)
+    } catch (_) {
+      setShowModal({
+        ...showModal,
+        fail: true
+      })
+      setTimeout(() => {
+        setShowModal({
+          ...showModal,
+          fail: false
+        })
+      }, 3000)
     }
   }
 
@@ -123,6 +147,10 @@ const Page = () => {
       <Navbar isOpen={isOpen} />
       <main className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-52 relative bg-mainBG overflow-x-hidden font-inter'>
         <SideBar isOpen={isOpen} />
+        {showModal.success && <TipsModal text='刪除成功！' />}
+        {showModal.fail && (
+          <TipsModal text='好像伺服器出了一點錯，請重新點選「刪除評論」' />
+        )}
         {isAdult && (
           <AgeTips isOpen={isAdult} atClose={() => setIsAdult(false)} />
         )}
