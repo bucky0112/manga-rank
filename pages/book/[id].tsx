@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { Navbar, Footer } from 'components'
-import { SideBar } from 'components/shared'
+import { SideBar, ConfirmModal } from 'components/shared'
 import { UserComment, Another, AgeTips } from 'components/book'
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
+import {
+  selectDeletePermission,
+  setDeletePermission,
+  selectCommentDetail
+} from 'store/feat/user/commentSlice'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
@@ -40,14 +45,19 @@ const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
 
+  const dispatch = useAppDispatch()
   const isOpen = useAppSelector(selectSideBarOpen)
+  const isDeleteVisible = useAppSelector(selectDeletePermission)
+  const commentDetail = useAppSelector(selectCommentDetail)
+  const { uuid } = commentDetail
   const { storedValue } = useStorage('userInfo', {})
   const token = storedValue?.token || ''
 
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [comments, setComments] = useState<Comment[]>([])
   const [isAdult, setIsAdult] = useState(false)
-  const { author, description, image, is_adult, publisher, title_cn, point } = book
+  const { author, description, image, is_adult, publisher, title_cn, point } =
+    book
 
   const fetchDetail = async () => {
     try {
@@ -87,8 +97,29 @@ const Page = () => {
     }
   }
 
+  const handleCancelDeleteComment = () => {
+    dispatch(setDeletePermission(false))
+  }
+
+  const handleDeleteComment = async () => {
+    try {
+      await comment.delete(uuid!, token)
+      router.reload()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
+      <ConfirmModal
+        title='你確定要刪除此評論嗎？'
+        cancelText='不要刪除'
+        continueText='確認刪除'
+        visible={isDeleteVisible}
+        onCancel={handleCancelDeleteComment}
+        onContinue={handleDeleteComment}
+      />
       <Navbar isOpen={isOpen} />
       <main className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-52 relative bg-mainBG overflow-x-hidden font-inter'>
         <SideBar isOpen={isOpen} />
@@ -131,7 +162,9 @@ const Page = () => {
           <div className='col-span-2 xl:col-span-1'>
             <div className='flex flex-col p-6 border-t-2 border-r-2 border-darkGrey rounded-r-3xl rounded-b-none text-darkGrey leading-tight'>
               <p className='text-xl'>平均評分</p>
-              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>{pointToFixed(point)}</p>
+              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>
+                {pointToFixed(point)}
+              </p>
               <p className='self-end text-lg'>/300人</p>
             </div>
           </div>
@@ -166,7 +199,10 @@ const Page = () => {
         </div>
         <div className='flex flex-col gap-20 mt-36 mb-32 w-full'>
           {comments?.map((comment) => (
-            <UserComment key={comment.uuid} state={{ ...comment, bookTitle: title_cn }} />
+            <UserComment
+              key={comment.uuid}
+              state={{ ...comment, bookTitle: title_cn }}
+            />
           ))}
         </div>
         <Another />

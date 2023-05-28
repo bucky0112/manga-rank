@@ -1,14 +1,13 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import classNames from 'classnames'
 import explodeSVG from 'public/svg/explode.svg'
-import { comment } from 'lib/api/comment'
-import { useStorage } from 'lib/hooks'
 import { useAppDispatch } from 'store/hooks'
 import {
   setEditPermission,
-  setCommentDetail
+  setCommentDetail,
+  setDeletePermission,
 } from 'store/feat/user/commentSlice'
 
 interface props {
@@ -42,9 +41,6 @@ const UserComment: FC<Props> = ({ state }) => {
     nickname,
     bookTitle
   } = state
-
-  const { storedValue, setValue } = useStorage('userInfo', {})
-  const token = storedValue?.token
   const dispatch = useAppDispatch()
 
   const router = useRouter()
@@ -53,19 +49,6 @@ const UserComment: FC<Props> = ({ state }) => {
 
   const handleShowUpdate = () => {
     setShowUpdate(!showUpdate)
-  }
-
-  const handleDeleteComment = async () => {
-    try {
-      await comment.delete(uuid, token)
-      router.reload()
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const handleEditComment = () => {
-    dispatch(setEditPermission(true))
     dispatch(
       setCommentDetail({
         description,
@@ -74,8 +57,17 @@ const UserComment: FC<Props> = ({ state }) => {
         chapter,
         bookTitle,
         mangaUuid,
+        uuid,
       })
     )
+  }
+
+  const handleDeleteComment = async () => {
+    dispatch(setDeletePermission(true))
+  }
+
+  const handleEditComment = () => {
+    dispatch(setEditPermission(true))
     router.push(`/comment/${uuid}`)
   }
 
