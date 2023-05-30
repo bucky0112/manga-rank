@@ -52,7 +52,8 @@
 }
 
 .textMain {
-  @apply leading-9 mt-[54px] mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none min-h-[170px] w-full resize-none overflow-auto;
+  @apply leading-9 mt-[54px] mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none w-full resize-none overflow-auto mt-8 h-[218px];
+  
 
   /* 原為text，鎖定將無法修改 */
   cursor:unset;
