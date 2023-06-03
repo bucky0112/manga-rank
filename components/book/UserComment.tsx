@@ -2,6 +2,8 @@ import { FC, useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import classNames from 'classnames'
+import { MdOutlineQuestionMark } from 'react-icons/md'
+import { HiPlus, HiMinus } from 'react-icons/hi'
 import explodeSVG from 'public/svg/explode.svg'
 import { useAppDispatch } from 'store/hooks'
 import {
@@ -39,7 +41,10 @@ const UserComment: FC<Props> = ({ state }) => {
     point,
     uuid,
     nickname,
-    bookTitle
+    bookTitle,
+    agree,
+    disagree,
+    suspect
   } = state
   const dispatch = useAppDispatch()
 
@@ -87,6 +92,12 @@ const UserComment: FC<Props> = ({ state }) => {
     dispatch(setEditPermission(true))
     router.push(`/comment/${uuid}`)
   }
+
+  const buttonStyle = 'flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full hover:bg-primary'
+
+  const agreeNumber = agree || ""
+  const disagreeNumber = disagree || ""
+  const suspectNumber = suspect || ""
 
   return (
     <div className='flex items-center border border-lightGrey px-14 rounded-3xl shadow-2xl w-full pt-12 pb-8'>
@@ -171,42 +182,24 @@ const UserComment: FC<Props> = ({ state }) => {
             <div className='flex items-center gap-10'>
               <button
                 type='button'
-                className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
+                className={buttonStyle}
               >
-                <Image
-                  src='/svg/minus.svg'
-                  layout='fixed'
-                  width='18'
-                  height='4'
-                  alt='not'
-                />
-                <span>不贊同</span>
+                <HiMinus size='24' />
+                <span>不贊同{disagreeNumber}</span>
               </button>
               <button
                 type='button'
-                className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
+                className={buttonStyle}
               >
-                <Image
-                  src='/svg/question.svg'
-                  layout='fixed'
-                  width='11'
-                  height='20'
-                  alt='question'
-                />
-                <span>質疑</span>
+                <MdOutlineQuestionMark size='24' />
+                <span>質疑{suspectNumber}</span>
               </button>
               <button
                 type='button'
-                className='flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full'
+                className={buttonStyle}
               >
-                <Image
-                  src='/svg/right_arrow.svg'
-                  layout='fixed'
-                  width='20'
-                  height='20'
-                  alt='agree'
-                />
-                <span>贊同</span>
+                <HiPlus size='24' />
+                <span>贊同{agreeNumber}</span>
               </button>
             </div>
           </div>
