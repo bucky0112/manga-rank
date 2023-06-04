@@ -1,0 +1,36 @@
+.container {
+  @apply flex items-center border border-lightGrey px-14 rounded-3xl shadow-2xl w-full pt-12 pb-8;
+}
+
+.userInfo {
+  @apply flex flex-col items-center gap-y-1;
+
+  .image {
+    @apply rounded-full;
+  }
+
+  > p {
+    @apply text-2xl font-semibold;
+  } 
+}
+
+.divider {
+  @apply w-[1px] h-28 bg-[#7a7a7a] relative left-5;
+}
+
+.main {
+  @apply flex items-center pt-12 pb-8 w-full;
+}
+
+.disGradientBtn {
+  @apply flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full hover:bg-primary;
+}
+
+.gradientBtn {
+  @apply flex items-center justify-center gap-1 text-darkGrey w-28 h-12 rounded-full;
+  background-image: linear-gradient(to right, #fcda24, #f4a51b);
+}
+
+.gradientBtn:hover {
+  background-image: linear-gradient(to right, #f1d955, #f5b84f);
+}
