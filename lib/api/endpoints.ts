@@ -26,5 +26,8 @@ export const Endpoints = {
     New: comment,
     Delete: comment,
     Put: comment
+  },
+  agree: {
+    post: '/agree'
   }
 }
