@@ -11,6 +11,9 @@ import {
   setCommentDetail,
   setDeletePermission
 } from 'store/feat/user/commentSlice'
+import { useStorage } from 'lib/hooks'
+import { agreeAPI } from 'lib/api/agree'
+import styles from 'styles/book/UserComment.module.scss'
 
 interface props {
   agree: number
@@ -31,6 +34,33 @@ interface Props {
   state: props
 }
 
+interface ButtonProps {
+  number: number
+  text: string
+  icon: React.ReactNode
+  atPress?: () => void
+}
+
+interface params {
+  uuid: string
+  status: number
+}
+
+const Button: React.FC<ButtonProps> = ({ number, text, icon, atPress }) => {
+  const disGradientBtn = styles.disGradientBtn
+  const gradientBtn = styles.gradientBtn
+
+  return (
+    <button type='button' className={number ? gradientBtn : disGradientBtn} onClick={atPress}>
+      {icon}
+      <span>
+        {text}
+        {number || ''}
+      </span>
+    </button>
+  )
+}
+
 const UserComment: FC<Props> = ({ state }) => {
   const {
     chapter,
@@ -47,9 +77,9 @@ const UserComment: FC<Props> = ({ state }) => {
     suspect
   } = state
   const dispatch = useAppDispatch()
-
+  const { storedValue ,setValue } = useStorage('userInfo', {})
+  const token = storedValue?.token || ''
   const router = useRouter()
-
   const [showUpdate, setShowUpdate] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
 
@@ -93,27 +123,37 @@ const UserComment: FC<Props> = ({ state }) => {
     router.push(`/comment/${uuid}`)
   }
 
-  const buttonStyle = 'flex items-center justify-center gap-1 bg-[#f1f1f1] text-darkGrey w-28 h-12 rounded-full hover:bg-primary'
-
-  const agreeNumber = agree || ""
-  const disagreeNumber = disagree || ""
-  const suspectNumber = suspect || ""
+  const handleAgree = async (status: number) => {
+    try {
+      const { data } = await agreeAPI.put({
+        pointUuid: uuid,
+        userUuid: '',
+        status
+      }, token)
+      setValue({
+        ...storedValue,
+        token: data?.retoken
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
-    <div className='flex items-center border border-lightGrey px-14 rounded-3xl shadow-2xl w-full pt-12 pb-8'>
-      <div className='flex flex-col items-center gap-y-1'>
+    <div className={styles.container}>
+      <div className={styles.userInfo}>
         <Image
           src='https://fakeimg.pl/108x108/'
           layout='fixed'
           width='108'
           height='108'
           alt='user'
-          className='rounded-full'
+          className={styles.image}
         />
-        <p className='text-2xl font-semibold'>{nickname}</p>
+        <p>{nickname}</p>
       </div>
-      <div className='w-[1px] h-28 bg-[#7a7a7a] relative left-5' />
-      <div className='flex items-center pt-12 pb-8 w-full'>
+      <div className={styles.divider} />
+      <div className={styles.main}>
         <div className='w-[10%] flex justify-center'>
           <p className='flex justify-center items-center w-11 h-11 rounded-full bg-lightGrey text-4xl text-darkGrey'>
             {point}
@@ -180,27 +220,24 @@ const UserComment: FC<Props> = ({ state }) => {
               </p>
             )}
             <div className='flex items-center gap-10'>
-              <button
-                type='button'
-                className={buttonStyle}
-              >
-                <HiMinus size='24' />
-                <span>不贊同{disagreeNumber}</span>
-              </button>
-              <button
-                type='button'
-                className={buttonStyle}
-              >
-                <MdOutlineQuestionMark size='24' />
-                <span>質疑{suspectNumber}</span>
-              </button>
-              <button
-                type='button'
-                className={buttonStyle}
-              >
-                <HiPlus size='24' />
-                <span>贊同{agreeNumber}</span>
-              </button>
+              <Button
+                number={disagree}
+                text='不贊同'
+                icon={<HiMinus size='24' />}
+                atPress={() => handleAgree(0)}
+              />
+              <Button
+                number={suspect}
+                text='質疑'
+                icon={<MdOutlineQuestionMark size='24' />}
+                atPress={() => handleAgree(1)}
+              />
+              <Button
+                number={agree}
+                text='贊同'
+                icon={<HiPlus size='24' />}
+                atPress={() => handleAgree(2)}
+              />
             </div>
           </div>
         </div>
