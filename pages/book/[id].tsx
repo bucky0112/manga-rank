@@ -60,6 +60,7 @@ const Page = () => {
     success: false,
     fail: false
   })
+  const [updateAgree, setUpdateAgree] = useState(false)
   const { author, description, image, is_adult, publisher, title_cn, point } =
     book
 
@@ -76,6 +77,7 @@ const Page = () => {
     try {
       const { data } = await comment.getComments(id, token)
       setComments(data?.data)
+      setUpdateAgree(false)
     } catch (err) {
       console.error(err)
     }
@@ -86,7 +88,11 @@ const Page = () => {
       fetchDetail()
       fetchComment()
     }
-  }, [id])
+
+    if (updateAgree) {
+      fetchComment()
+    }
+  }, [id, updateAgree])
 
   useEffect(() => {
     setIsAdult(is_adult === 1)
@@ -230,6 +236,7 @@ const Page = () => {
             <UserComment
               key={comment.uuid}
               state={{ ...comment, bookTitle: title_cn }}
+              update={() => setUpdateAgree(true)}
             />
           ))}
         </div>
