@@ -29,6 +29,10 @@
 .gradientBtn {
   @apply flex items-center justify-center gap-1 text-darkGrey w-28 h-12 rounded-full;
   background-image: linear-gradient(to right, #fcda24, #f4a51b);
+
+  > p > span {
+    @apply ml-1;
+  }
 }
 
 .gradientBtn:hover {
