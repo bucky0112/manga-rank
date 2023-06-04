@@ -14,6 +14,7 @@ import {
 import { useStorage } from 'lib/hooks'
 import { agreeAPI } from 'lib/api/agree'
 import styles from 'styles/book/UserComment.module.scss'
+import { set } from 'react-hook-form'
 
 interface props {
   agree: number
@@ -32,6 +33,7 @@ interface props {
 
 interface Props {
   state: props
+  update: () => void
 }
 
 interface ButtonProps {
@@ -50,18 +52,26 @@ const Button: React.FC<ButtonProps> = ({ number, text, icon, atPress }) => {
   const disGradientBtn = styles.disGradientBtn
   const gradientBtn = styles.gradientBtn
 
+  const numberText = number > 100 ? '99+' : number
+
   return (
-    <button type='button' className={number ? gradientBtn : disGradientBtn} onClick={atPress}>
+    <button
+      type='button'
+      className={number ? gradientBtn : disGradientBtn}
+      onClick={atPress}
+    >
       {icon}
-      <span>
+      <p>
         {text}
-        {number || ''}
-      </span>
+        <span>
+          {numberText || ''}
+        </span>
+      </p>
     </button>
   )
 }
 
-const UserComment: FC<Props> = ({ state }) => {
+const UserComment: FC<Props> = ({ state, update }) => {
   const {
     chapter,
     description,
@@ -77,7 +87,7 @@ const UserComment: FC<Props> = ({ state }) => {
     suspect
   } = state
   const dispatch = useAppDispatch()
-  const { storedValue ,setValue } = useStorage('userInfo', {})
+  const { storedValue, setValue } = useStorage('userInfo', {})
   const token = storedValue?.token || ''
   const router = useRouter()
   const [showUpdate, setShowUpdate] = useState(false)
@@ -125,15 +135,19 @@ const UserComment: FC<Props> = ({ state }) => {
 
   const handleAgree = async (status: number) => {
     try {
-      const { data } = await agreeAPI.put({
-        pointUuid: uuid,
-        userUuid: '',
-        status
-      }, token)
+      const { data } = await agreeAPI.put(
+        {
+          pointUuid: uuid,
+          userUuid: '',
+          status
+        },
+        token
+      )
       setValue({
         ...storedValue,
         token: data?.retoken
       })
+      update()
     } catch (err) {
       console.log(err)
     }
