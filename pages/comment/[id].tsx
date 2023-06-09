@@ -177,7 +177,7 @@ const Page = () => {
   return (
     <>
       <Navbar isOpen={isOpen} />
-      <div className='flex flex-col px-60 2xl:px-[15%] xl:px-12 lg:px-10 py-2 relative bg-mainBG font-inter overflow-hidden'>
+      <div className='flex flex-col 3xl:px-80 2.5xl:px-36 2xl:px-[10%] xl:px-16 lg:px-28 slg:px-20 xls:px-12 py-2 relative bg-mainBG font-inter overflow-hidden'>
         <SideBar isOpen={isOpen} />
         {showModal.success && <TipsModal text='評論成功！' />}
         {showModal.fail && <TipsModal text='好像伺服器出了一點錯，請重新點選下方「確認評論」' />}
@@ -204,7 +204,7 @@ const Page = () => {
               </div>
               <div className='flex flex-col mx-5 pt-4 pb-8 w-full'>
                 <div className='flex items-center'>
-                  <h4 className='text-base pr-[37px] font-semibold tracking-wider'>
+                  <h4 className='text-base pr-[37px] font-semibold tracking-wider whitespace-nowrap'>
                     作品名稱
                   </h4>
                   <p className={styles.titleBox}>{title_cn}</p>
@@ -231,7 +231,7 @@ const Page = () => {
                       <button
                         type='button'
                         className={classNames({
-                          'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey':
+                          'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey xl:flex xs:hidden':
                             true,
                           'bg-lightGrey': pointState !== i + 1,
                           'bg-primary': pointState === i + 1
@@ -243,6 +243,17 @@ const Page = () => {
                         {i + 1}
                       </button>
                     ))}
+                    <select
+                      className={styles.selectMenu}
+                      value={pointState}
+                      onChange={(event) => setFormValue('point', parseInt(event.target.value))}
+                    >
+                      {[...Array(10)].map((_, i) => (
+                        <option value={i + 1} key={i}>
+                          {i + 1}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <button
@@ -270,7 +281,7 @@ const Page = () => {
                 </div>
               </div>
             </div>
-            <div className='flex justify-center gap-[239px] pb-[50px]'>
+            <div className='flex justify-center slg:gap-[239px] md:gap-[150px] xs:gap-[75px] pb-[50px]'>
               <button
                 type='button'
                 className={styles.commentBtn}
