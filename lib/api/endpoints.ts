@@ -1,3 +1,5 @@
+const comment = '/point'
+
 export const Endpoints = {
   Home: {
     NewRelease: '/manga/newstest',
@@ -20,9 +22,12 @@ export const Endpoints = {
     keywords: 'manga/search'
   },
   Comment: {
-    Get: '/point',
-    New: '/point'
+    Get: comment,
+    New: comment,
+    Delete: comment,
+    Put: comment
   },
+  agree: {
+    post: '/agree'
+  }
 }
-
-// https://x4cczk9r43.execute-api.ap-south-1.amazonaws.com/v1/oauth/google

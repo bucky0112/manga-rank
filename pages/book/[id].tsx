@@ -2,12 +2,18 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { Navbar, Footer } from 'components'
-import { SideBar } from 'components/shared'
+import { SideBar, ConfirmModal, TipsModal } from 'components/shared'
 import { UserComment, Another, AgeTips } from 'components/book'
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
+import {
+  selectDeletePermission,
+  setDeletePermission,
+  selectCommentDetail
+} from 'store/feat/user/commentSlice'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
+import { useStorage } from 'lib/hooks'
 
 interface bookDetail {
   author: string
@@ -39,12 +45,24 @@ const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
 
+  const dispatch = useAppDispatch()
   const isOpen = useAppSelector(selectSideBarOpen)
+  const isDeleteVisible = useAppSelector(selectDeletePermission)
+  const commentDetail = useAppSelector(selectCommentDetail)
+  const { uuid } = commentDetail
+  const { storedValue } = useStorage('userInfo', {})
+  const token = storedValue?.token || ''
 
   const [book, setBook] = useState<bookDetail>({} as bookDetail)
   const [comments, setComments] = useState<Comment[]>([])
   const [isAdult, setIsAdult] = useState(false)
-  const { author, description, image, is_adult, publisher, title_cn, point } = book
+  const [showModal, setShowModal] = useState({
+    success: false,
+    fail: false
+  })
+  const [updateAgree, setUpdateAgree] = useState(false)
+  const { author, description, image, is_adult, publisher, title_cn, point } =
+    book
 
   const fetchDetail = async () => {
     try {
@@ -57,8 +75,9 @@ const Page = () => {
 
   const fetchComment = async () => {
     try {
-      const { data } = await comment.getComments(id)
+      const { data } = await comment.getComments(id, token)
       setComments(data?.data)
+      setUpdateAgree(false)
     } catch (err) {
       console.error(err)
     }
@@ -69,7 +88,11 @@ const Page = () => {
       fetchDetail()
       fetchComment()
     }
-  }, [id])
+
+    if (updateAgree) {
+      fetchComment()
+    }
+  }, [id, updateAgree])
 
   useEffect(() => {
     setIsAdult(is_adult === 1)
@@ -84,11 +107,56 @@ const Page = () => {
     }
   }
 
+  const handleCancelDeleteComment = () => {
+    dispatch(setDeletePermission(false))
+  }
+
+  const handleDeleteComment = async () => {
+    dispatch(setDeletePermission(false))
+    try {
+      await comment.delete(uuid!, token)
+      setShowModal({
+        ...showModal,
+        success: true
+      })
+      setTimeout(() => {
+        setShowModal({
+          ...showModal,
+          success: false
+        })
+        router.reload()
+      }, 3000)
+    } catch (_) {
+      setShowModal({
+        ...showModal,
+        fail: true
+      })
+      setTimeout(() => {
+        setShowModal({
+          ...showModal,
+          fail: false
+        })
+      }, 3000)
+    }
+  }
+
   return (
     <>
+      <ConfirmModal
+        title='你確定要刪除此評論嗎？'
+        cancelText='不要刪除'
+        continueText='確認刪除'
+        visible={isDeleteVisible}
+        onCancel={handleCancelDeleteComment}
+        onContinue={handleDeleteComment}
+      />
       <Navbar isOpen={isOpen} />
       <main className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-52 relative bg-mainBG overflow-x-hidden font-inter'>
         <SideBar isOpen={isOpen} />
+        {showModal.success && <TipsModal text='刪除成功！' />}
+        {showModal.fail && (
+          <TipsModal text='好像伺服器出了一點錯，請重新點選「刪除評論」' />
+        )}
         {isAdult && (
           <AgeTips isOpen={isAdult} atClose={() => setIsAdult(false)} />
         )}
@@ -128,7 +196,9 @@ const Page = () => {
           <div className='col-span-2 xl:col-span-1'>
             <div className='flex flex-col p-6 border-t-2 border-r-2 border-darkGrey rounded-r-3xl rounded-b-none text-darkGrey leading-tight'>
               <p className='text-xl'>平均評分</p>
-              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>{pointToFixed(point)}</p>
+              <p className='text-[12.5rem] xl:text-[10.5rem] self-end'>
+                {pointToFixed(point)}
+              </p>
               <p className='self-end text-lg'>/300人</p>
             </div>
           </div>
@@ -163,7 +233,11 @@ const Page = () => {
         </div>
         <div className='flex flex-col gap-20 mt-36 mb-32 w-full'>
           {comments?.map((comment) => (
-            <UserComment key={comment.uuid} state={comment} />
+            <UserComment
+              key={comment.uuid}
+              state={{ ...comment, bookTitle: title_cn }}
+              update={() => setUpdateAgree(true)}
+            />
           ))}
         </div>
         <Another />

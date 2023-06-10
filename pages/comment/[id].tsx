@@ -5,13 +5,19 @@ import classNames from 'classnames'
 import { useForm } from 'react-hook-form'
 import styles from 'styles/comment.module.scss'
 import { Navbar, Footer } from 'components'
-import { SideBar, TipsModal } from 'components/shared'
+import { SideBar, TipsModal, ConfirmModal } from 'components/shared'
 import { manga } from 'lib/api/manga'
 import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 import { AiOutlineCheck } from 'react-icons/ai'
+import {
+  selectEditPermission,
+  selectCommentDetail,
+  selectCancelEditPermission,
+  setCancelEditPermission
+} from 'store/feat/user/commentSlice'
 
 interface bookDetail {
   author: string
@@ -46,6 +52,10 @@ const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
   const isOpen = useAppSelector(selectSideBarOpen)
+  const isEditPermission = useAppSelector(selectEditPermission)
+  const commentDetail = useAppSelector(selectCommentDetail)
+  const { description, isThunder, point, chapter, bookTitle, mangaUuid } =
+    commentDetail
   const [showModal, setShowModal] = useState({
     success: false,
     fail: false
@@ -59,7 +69,7 @@ const Page = () => {
     isThunder: 0
   })
 
-  const { title_cn, episode, uuid } = book
+  const { title_cn, episode } = book
 
   const { storedValue, setValue } = useStorage('userInfo', {})
 
@@ -73,6 +83,7 @@ const Page = () => {
 
   const pointState = watch('point')
   const descriptionState = watch('description')
+  const isThunderState = watch('isThunder')
 
   const updateCommentState = (key: string, value: string | number) => {
     setCommentState((prevState) => ({
@@ -97,7 +108,20 @@ const Page = () => {
     setFormValue('point', index + 1)
   }
 
+  const isCancelVisible = useAppSelector(selectCancelEditPermission)
+  const dispatch = useAppDispatch()
+
+  const handleCancelEditComment = () => {
+    dispatch(setCancelEditPermission(false))
+    router.back()
+  }
+
+  const handleContinueEditComment = () => {
+    dispatch(setCancelEditPermission(false))
+  }
+
   const handelCancel = () => {
+    dispatch(setCancelEditPermission(true))
     setCommentState({
       ...commentState,
       point: 0,
@@ -123,10 +147,6 @@ const Page = () => {
     }
   }
 
-  // const toggleModal = (isVisible: boolean) => {
-  //   setShowModal(isVisible)
-  // }
-
   const newComment = async () => {
     const updatedCommentState = {
       ...commentState,
@@ -135,52 +155,87 @@ const Page = () => {
     }
 
     try {
-      const { data } = await comment.new(
-        updatedCommentState,
-        storedValue?.token
-      )
+      let apiResponse
+      if (isEditPermission) {
+        apiResponse = await comment.update(
+          {
+            uuid: id,
+            point: pointState,
+            description: descriptionState,
+            chapter: chapter!,
+            isThunder: isThunderState
+          },
+          storedValue?.token
+        )
+      } else {
+        apiResponse = await comment.new(updatedCommentState, storedValue?.token)
+      }
+      const { data } = apiResponse
       setValue({
         ...storedValue,
         token: data?.retoken
       })
       setShowModal({
         ...showModal,
-        success: true,
+        success: true
       })
       setTimeout(() => {
         setShowModal({
           ...showModal,
-          success: false,
+          success: false
         })
-        router.push(`/book/${uuid}`)
+        if (isEditPermission) {
+          router.push(`/book/${mangaUuid}`)
+        } else {
+          router.push(`/book/${id}`)
+        }
       }, 3000)
     } catch (_) {
       setShowModal({
         ...showModal,
-        fail: true,
+        fail: true
       })
       setTimeout(() => {
         setShowModal({
           ...showModal,
-          fail: false,
+          fail: false
         })
       }, 3000)
     }
   }
 
   useEffect(() => {
-    if (id) {
+    if (isEditPermission) {
+      setFormValue('point', Number(point))
+      setFormValue('description', description ?? '')
+      setFormValue('isThunder', isThunder ?? 0)
+      setFormValue('chapter', chapter ?? '')
+      setBook({
+        ...book,
+        title_cn: bookTitle ?? ''
+      })
+    } else {
       fetchDetail()
     }
-  }, [id])
+  }, [id, isEditPermission])
 
   return (
     <>
+      <ConfirmModal
+        title='你確定要放棄此次修改嗎？'
+        cancelText='確認並回上一頁'
+        continueText='繼續修改'
+        visible={isCancelVisible}
+        onCancel={handleCancelEditComment}
+        onContinue={handleContinueEditComment}
+      />
       <Navbar isOpen={isOpen} />
       <div className='flex flex-col 3xl:px-80 2.5xl:px-36 2xl:px-[10%] xl:px-16 lg:px-28 slg:px-20 xls:px-12 py-2 relative bg-mainBG font-inter overflow-hidden'>
         <SideBar isOpen={isOpen} />
         {showModal.success && <TipsModal text='評論成功！' />}
-        {showModal.fail && <TipsModal text='好像伺服器出了一點錯，請重新點選下方「確認評論」' />}
+        {showModal.fail && (
+          <TipsModal text='好像伺服器出了一點錯，請重新點選下方「確認評論」' />
+        )}
         <div className='flex items-start basis-7/12 xl:basis-10/12'>
           <form
             onSubmit={handleSubmit(newComment)}
@@ -287,12 +342,12 @@ const Page = () => {
                 className={styles.commentBtn}
                 onClick={handelCancel}
               >
-                取消評論
+                {isEditPermission ? '取消修改' : '取消評論'}
               </button>
               <input
                 type='submit'
                 className={styles.commentBtn}
-                value='確認評論'
+                value={isEditPermission ? '確認修改' : '確認評論'}
               />
             </div>
           </form>
