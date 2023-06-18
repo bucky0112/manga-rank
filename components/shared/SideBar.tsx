@@ -61,11 +61,15 @@ const SideBar: FC<Props> = ({ isOpen }) => {
     }
   ]
 
+  const handleToUserProfile = () => {
+    router.push('user/profile')
+  }
+
   return (
     <div className={`${styles.waveBar} ${isOpen && styles.open}`}>
       <div className={styles.boxCenter}>
         <ul>
-          <li>會員中心</li>
+          <li onClick={handleToUserProfile}>會員中心</li>
           {userInfo?.nickname ? (
             <li onClick={handleLogout}>登出</li>
           ) : (
