@@ -3,7 +3,7 @@
 }
 
 .titleBox {
-  @apply font-semibold text-2xl p-2 pl-4 w-[630px] h-[50px] tracking-wider;
+  @apply font-semibold text-lg p-2 pl-4 xl:w-[630px] md:w-full sm:w-[230px] xls:w-[180px] xs:w-[150px] h-[50px] tracking-wider xs:text-ellipsis xs:overflow-hidden whitespace-nowrap;
   background: #F1F1F1;
   color: #000000;
   border-radius: 50px;
@@ -25,6 +25,7 @@
 .selection {
   @apply bg-lightGrey w-60 h-14 mt-[42px] mb-[48px] rounded-[50px] font-semibold text-base p-4 tracking-wider before:border-0 hover:border-0;
 
+  font-size: 18px;
   box-sizing: border-box;
   border-radius: 50px;
   font-weight: 600;
@@ -52,7 +53,7 @@
 }
 
 .textMain {
-  @apply leading-9 mt-[54px] mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none min-h-[170px] w-full resize-none overflow-auto;
+  @apply leading-9 mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none w-full resize-none overflow-auto mt-8 h-[218px];
 
   /* 原為text，鎖定將無法修改 */
   cursor:unset;
@@ -65,6 +66,41 @@
     border-radius: 5px;
     border: 1px solid #f1f1f1;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.selectMenu {
+  @apply bg-lightGrey w-[80px] h-14 mt-[42px] mb-[48px] rounded-[50px] font-semibold text-base p-4 tracking-wider before:border-0 hover:border-0;
+
+  font-size: 18px;
+  display: none;
+  box-sizing: border-box;
+  border-radius: 50px;
+  font-weight: 600;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /*自定義圖標*/
+  background-image: url('/svg/polygon.svg');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px 12px;
+
+  & > option {
+    @apply rounded-[50px] bg-lightGrey h-[50px];
+
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    padding: 8px 12px;
+    border: none;
+  }
+
+  @media screen and (max-width: 1279px) {
+    display: block;
   }
 }
 

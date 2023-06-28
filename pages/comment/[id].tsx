@@ -11,6 +11,7 @@ import { comment } from 'lib/api/comment'
 import { useStorage } from 'lib/hooks'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
+import { AiOutlineCheck } from 'react-icons/ai'
 import {
   selectEditPermission,
   selectCommentDetail,
@@ -229,98 +230,113 @@ const Page = () => {
         onContinue={handleContinueEditComment}
       />
       <Navbar isOpen={isOpen} />
-      <div className='flex flex-col justify-center items-center px-60 2xl:px-36 xl:px-32 py-2 relative bg-mainBG font-inter overflow-hidden'>
+      <div className='flex flex-col 3xl:px-80 2.5xl:px-36 2xl:px-[10%] xl:px-16 lg:px-28 slg:px-20 xls:px-12 py-2 relative bg-mainBG font-inter overflow-hidden'>
         <SideBar isOpen={isOpen} />
         {showModal.success && <TipsModal text='評論成功！' />}
         {showModal.fail && (
           <TipsModal text='好像伺服器出了一點錯，請重新點選下方「確認評論」' />
         )}
-        <div className='flex items-start basis-7/12'>
-          <div className='flex h-[90%] w-[12%] mt-[80px] mr-[96px]'>
-            <div className='flex flex-col items-center gap-y-1'>
-              <Image
-                src='https://fakeimg.pl/108x108/'
-                layout='fixed'
-                width='108'
-                height='108'
-                alt='user'
-                className='rounded-full'
-              />
-              <p className='text-2xl font-semibold tracking-wider'>
-                {storedValue?.nickname}
-              </p>
-            </div>
-          </div>
+        <div className='flex items-start basis-7/12 xl:basis-10/12'>
           <form
             onSubmit={handleSubmit(newComment)}
-            className='flex flex-col ml-5 pt-12 pb-8 w-full mt-[2rem]'
+            className='flex flex-col ml-5 pt-12 pb-8 w-full'
           >
-            <div className='flex items-center'>
-              <h4 className='text-base pr-[37px] font-semibold tracking-wider'>
-                作品名稱
-              </h4>
-              <p className={styles.titleBox}>{title_cn}</p>
-            </div>
-            <select
-              {...register('chapter')}
-              className={styles.selection}
-              onChange={(e) => handleOptionChange('chapter', e.target.value)}
-              disabled={isEditPermission || !episode?.length}
-            >
-              {isEditPermission ? (
-                <option value={chapter}>{chapter}</option>
-              ) : episode?.length > 0 ? (
-                episode.map((item, index) => (
-                  <option key={item} value={`第${index + 1}集`}>
-                    {`第${index + 1}集`}
-                  </option>
-                ))
-              ) : (
-                <option value='第1集'>第1集</option>
-              )}
-            </select>
-            <div className='w-[933px] h-[83px] flex justify-start items-center gap-[38px] border-l-[1px] border-[#7a7a7a] pl-2'>
-              <p className='font-bold text-darkGrey text-center ml-6'>評分</p>
-              <div className='flex item-center gap-x-10'>
-                {[...Array(10)].map((_, i) => (
-                  <button
-                    type='button'
-                    className={classNames({
-                      'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey hover:bg-primary':
-                        true,
-                      'bg-lightGrey': pointState !== i + 1,
-                      'bg-primary': pointState === i + 1
-                    })}
-                    key={i}
-                    data-value={i}
-                    onClick={handlePointChange}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+            <div className='flex'>
+              <div className='flex h-[90%] w-[12%] mt-[40px] mr-[96px]'>
+                <div className='flex flex-col items-center gap-y-1'>
+                  <Image
+                    src='https://fakeimg.pl/108x108/'
+                    layout='fixed'
+                    width='108'
+                    height='108'
+                    alt='user'
+                    className='rounded-full'
+                  />
+                  <p className='text-2xl font-semibold tracking-wider'>
+                    {storedValue?.nickname}
+                  </p>
+                </div>
+              </div>
+              <div className='flex flex-col mx-5 pt-4 pb-8 w-full'>
+                <div className='flex items-center'>
+                  <h4 className='text-base pr-[37px] font-semibold tracking-wider whitespace-nowrap'>
+                    作品名稱
+                  </h4>
+                  <p className={styles.titleBox}>{title_cn}</p>
+                </div>
+                <select
+                  {...register('chapter')}
+                  className={styles.selection}
+                  onChange={(e) => handleOptionChange('chapter', e.target.value)}
+                >
+                  {episode?.length > 0 ? (
+                    episode.map((item, index) => (
+                      <option key={item} value={`第${index + 1}集`}>
+                        {`第${index + 1}集`}
+                      </option>
+                    ))
+                  ) : (
+                    <option value='第1集'>第1集</option>
+                  )}
+                </select>
+                <div className='h-[83px] flex justify-start items-center gap-[38px] border-l-[1px] border-[#7a7a7a] pl-2'>
+                  <p className='font-bold text-darkGrey text-center ml-6 whitespace-nowrap'>評分</p>
+                  <div className='flex item-center gap-x-10'>
+                    {[...Array(10)].map((_, i) => (
+                      <button
+                        type='button'
+                        className={classNames({
+                          'flex justify-center items-center w-[46px] h-[46px] rounded-full text-4xl text-darkGrey xl:flex xs:hidden':
+                            true,
+                          'bg-lightGrey': pointState !== i + 1,
+                          'bg-primary': pointState === i + 1
+                        })}
+                        key={i}
+                        data-value={i}
+                        onClick={handlePointChange}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
+                    <select
+                      className={styles.selectMenu}
+                      value={pointState}
+                      onChange={(event) => setFormValue('point', parseInt(event.target.value))}
+                    >
+                      {[...Array(10)].map((_, i) => (
+                        <option value={i + 1} key={i}>
+                          {i + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <button
+                  type='button'
+                  {...register('isThunder')}
+                  className={classNames({
+                    'flex justify-center items-center font-semibold text-base text-darkGry h-[50px] rounded-full my-[49px] gap-5':
+                      true,
+                    'bg-lightGrey w-[111px]': commentState?.isThunder === 0,
+                    'bg-primary w-[144px]': commentState?.isThunder === 1
+                  })}
+                  onClick={() => handleIsSpoiler(commentState?.isThunder ? 0 : 1)}
+                >
+                  爆雷上標<AiOutlineCheck className={classNames({
+                    'hidden': commentState?.isThunder === 0,
+                    'flex': commentState?.isThunder === 1
+                  })} />
+                </button>
+                <div className='flex border-t-2 border-r-2 border-gray-400 rounded-t-3xl rounded-l-none rounded-b-none text-[#3E3E3E] leading-tight xs:mr-[2rem] md:mr-0'>
+                  <textarea
+                    {...register('description', { required: true, minLength: 1 })}
+                    className={styles.textMain}
+                    placeholder='打下你對作品的評論吧！'
+                  />
+                </div>
               </div>
             </div>
-            <button
-              type='button'
-              {...register('isThunder')}
-              className={classNames({
-                'flex justify-center items-center ml-4 font-semibold text-base text-darkGry w-[102px] h-[50px] rounded-full my-[49px] hover:bg-primary':
-                  true,
-                'bg-lightGrey': commentState?.isThunder === 0,
-                'bg-primary': commentState?.isThunder === 1
-              })}
-              onClick={() => handleIsSpoiler(commentState?.isThunder ? 0 : 1)}
-            >
-              爆雷上標
-            </button>
-            <div className='flex border-t-2 border-r-2 border-gray-400 rounded-t-3xl rounded-l-none rounded-b-none text-[#3E3E3E] leading-tight'>
-              <textarea
-                {...register('description', { required: true, minLength: 1 })}
-                className='leading-9 w-full mt-8 mx-[46px] font-normal text-base bg-mainBG border-0 focus:outline-none'
-                placeholder='打下你對作品的評論吧！'
-              />
-            </div>
-            <div className='flex justify-center gap-[239px]'>
+            <div className='flex justify-center slg:gap-[239px] md:gap-[150px] xs:gap-[75px] pb-[50px]'>
               <button
                 type='button'
                 className={styles.commentBtn}
