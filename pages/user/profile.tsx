@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { BsPencilFill } from 'react-icons/bs'
 import { IoSearchOutline } from 'react-icons/io5'
 import { MyComment } from 'components/user'
 import { Navbar, Footer } from 'components'
 import { SideBar } from 'components/shared'
-import { useAppSelector, useAppDispatch } from 'store/hooks'
+import { useAppSelector } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 
 const fakeComments = [
@@ -38,10 +39,15 @@ interface comments {
 const Page = () => {
   const isOpen = useAppSelector(selectSideBarOpen)
   const [comments, setComments] = useState<comments[]>([])
+  const router = useRouter()
 
   useEffect(() => {
     setComments(fakeComments)
   }, [])
+
+  const handleToEdit = () => {
+    router.push('/user/1111')
+  }
 
   return (
     <>
@@ -63,6 +69,7 @@ const Page = () => {
           </p>
           <button
             type='button'
+            onClick={handleToEdit}
             className='flex items-center gap-x-2 border rounded-full py-1 px-6 shadow-2xl'
           >
             <BsPencilFill size='14' />
