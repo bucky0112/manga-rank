@@ -1,0 +1,17 @@
+.inputText {
+  & > label {
+    @apply flex flex-col text-lg font-medium text-darkGrey;
+
+    & > input {
+      @apply bg-lightGrey rounded-full py-2 mt-1 px-6 focus:outline-none focus:border-mediumGrey focus:border-2;
+    }
+  }
+}
+
+.errorMessage {
+  @apply text-red-500 ml-2 mt-4;
+}
+
+.errorTextStyle {
+  @apply ml-2 mt-4 text-mediumGrey;
+}

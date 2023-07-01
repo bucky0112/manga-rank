@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import styles from '../../styles/user/SignUp.module.scss'
-import { UseFormRegister, FieldValues } from 'react-hook-form'
+import styles from 'styles/user/SignUp.module.scss'
 
 interface Props {
   register: any
@@ -15,6 +14,9 @@ interface Props {
   }
   errorText?: string
   type?: string
+  style?: string
+  errorMessageStyle?: string
+  errorTextStyle?: string
 }
 
 const InputText: FC<Props> = ({
@@ -24,16 +26,19 @@ const InputText: FC<Props> = ({
   text,
   option = {},
   errorText,
-  type = 'text'
+  type = 'text',
+  style = styles.inputText,
+  errorMessageStyle = "text-red-500 ml-2 mt-4 text-xl",
+  errorTextStyle = "text-xl ml-2 mt-4 text-mediumGrey"
 }) => (
-  <div className={styles.inputText}>
+  <div className={style}>
     <label className={`${errors?.[name] ? styles.error : ''}`}>
       {text}
       <input type={type} {...register(name, { ...option })} />
     </label>
     {errors?.[name] ? (
-      <p className='text-red-500 ml-2 mt-4 text-xl'>{errors?.[name].message}</p>
-    ) : <p className='text-xl ml-2 mt-4 text-mediumGrey'>{errorText}</p>}
+      <p className={errorMessageStyle}>{errors?.[name].message}</p>
+    ) : <p className={errorTextStyle}>{errorText}</p>}
   </div>
 )
 
