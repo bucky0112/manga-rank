@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { BsPencilFill } from 'react-icons/bs'
@@ -6,7 +6,7 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 import classNames from 'classnames'
 import { Navbar, Footer } from 'components'
 import { SideBar } from 'components/shared'
-import { InputText } from 'components/user'
+import { InputText, UploadModal } from 'components/user'
 import { useAppSelector } from 'store/hooks'
 import { selectSideBarOpen } from 'store/feat/share/sideBarSlice'
 import styles from 'styles/user/EditUserProfile.module.scss'
@@ -35,9 +35,23 @@ const Page = () => {
   }
 
   const [isPasswordOpen, setIsPasswordOpen] = useState(false)
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
+  const [file, setFile] = useState<string | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (file) {
+        URL.revokeObjectURL(file)
+      }
+    }
+  }, [file])
 
   const handlePasswordOpen = () => {
     setIsPasswordOpen(!isPasswordOpen)
+  }
+
+  const handleUploadModalSwitch = () => {
+    setIsUploadModalOpen(!isUploadModalOpen)
   }
 
   return (
@@ -50,10 +64,15 @@ const Page = () => {
           'min-h-screen': isOpen
         })}
       >
+        <div className='flex justify-center'>
+          {isUploadModalOpen && (
+            <UploadModal atClose={handleUploadModalSwitch} setFile={setFile} />
+          )}
+        </div>
         <SideBar isOpen={isOpen} />
         <div className='flex flex-col items-center gap-y-1'>
           <Image
-            src='https://fakeimg.pl/108x108/'
+            src={file || 'https://fakeimg.pl/108x108/'}
             layout='fixed'
             width='120'
             height='120'
@@ -62,6 +81,7 @@ const Page = () => {
           />
           <button
             type='button'
+            onClick={handleUploadModalSwitch}
             className='flex items-center gap-x-2 border rounded-full py-1 px-6 shadow-2xl mt-5'
           >
             <BsPencilFill size='14' />
