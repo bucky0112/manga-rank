@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
 import { Navbar, Footer } from 'components'
 import { SideBar, ConfirmModal, TipsModal } from 'components/shared'
 import { UserComment, Another, AgeTips } from 'components/book'
@@ -41,6 +42,11 @@ interface Comment {
   nickname: string
 }
 
+interface Tag {
+  id: string
+  name: string
+}
+
 const Page = () => {
   const router = useRouter()
   const id = router.query.id as string
@@ -61,8 +67,18 @@ const Page = () => {
     fail: false
   })
   const [updateAgree, setUpdateAgree] = useState(false)
-  const { author, description, image, is_adult, publisher, title_cn, point } =
-    book
+  const [tags, setTags] = useState<Tag[]>([])
+  const [tagIndex, setTagIndex] = useState(0)
+  const {
+    author,
+    description,
+    image,
+    is_adult,
+    publisher,
+    title_cn,
+    point,
+    tag
+  } = book
 
   const fetchDetail = async () => {
     try {
@@ -96,6 +112,14 @@ const Page = () => {
 
   useEffect(() => {
     setIsAdult(is_adult === 1)
+    const tagArr = tag?.split(',').map((item) => {
+      let parts = item.split('§')
+      return {
+        id: parts[0],
+        name: parts[1]
+      }
+    })
+    setTags(tagArr)
   }, [book])
 
   const pointToFixed = (point: string) => {
@@ -203,6 +227,33 @@ const Page = () => {
             </div>
           </div>
         </div>
+        <div className='bg-white self-start rounded-2xl flex items-center px-12 py-4 mt-10'>
+          {tagIndex > 0 && (
+            <button
+              type='button'
+              className='bg-lightGrey p-1 rounded-full mr-5'
+              onClick={() => setTagIndex(Math.max(0, tagIndex - 5))}
+            >
+              <AiOutlineLeft className='text-darkGrey' />
+            </button>
+          )}
+          <ul className='flex items-center gap-x-5 text-darkGrey'>
+            {tags?.slice(tagIndex, tagIndex + 5).map((item) => (
+              <li className='bg-lightGrey rounded-full px-4 py-0' key={item.id}>
+                {item.name}
+              </li>
+            ))}
+          </ul>
+          {tagIndex + 5 < tags?.length && (
+            <button
+              type='button'
+              className='bg-lightGrey p-1 rounded-full ml-5'
+              onClick={() => setTagIndex(Math.min(tags?.length, tagIndex + 5))}
+            >
+              <AiOutlineRight className='text-darkGrey' />
+            </button>
+          )}
+        </div>
         <div
           className='right-2 top-[600px] cursor-pointer fixed'
           onClick={() => router.push(`/comment/${id}`)}
@@ -232,6 +283,11 @@ const Page = () => {
           </div>
         </div>
         <div className='flex flex-col gap-20 mt-36 mb-32 w-full'>
+          <div className='self-start -mt-24 -mb-10'>
+            <span className='bg-darkGrey text-primary py-1 px-4 rounded-full'>
+              評論
+            </span>
+          </div>
           {comments?.map((comment) => (
             <UserComment
               key={comment.uuid}
