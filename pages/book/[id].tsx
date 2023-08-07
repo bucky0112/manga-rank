@@ -68,7 +68,7 @@ const Page = () => {
   })
   const [updateAgree, setUpdateAgree] = useState(false)
   const [tags, setTags] = useState<Tag[]>([])
-  const [tagIndex, setTagIndex] = useState(0)
+  const [showAllTags, setShowAllTags] = useState<boolean>(false)
   const {
     author,
     description,
@@ -228,27 +228,26 @@ const Page = () => {
           </div>
         </div>
         <div className='bg-white self-start rounded-2xl flex items-center px-12 py-4 mt-10'>
-          {tagIndex > 0 && (
-            <button
-              type='button'
-              className='bg-lightGrey p-1 rounded-full mr-5'
-              onClick={() => setTagIndex(Math.max(0, tagIndex - 5))}
-            >
-              <AiOutlineLeft className='text-darkGrey' />
-            </button>
-          )}
           <ul className='flex items-center gap-x-5 text-darkGrey'>
-            {tags?.slice(tagIndex, tagIndex + 5).map((item) => (
+            {(showAllTags ? tags : tags?.slice(0, 5))?.map((item) => (
               <li className='bg-lightGrey rounded-full px-4 py-0' key={item.id}>
                 {item.name}
               </li>
             ))}
           </ul>
-          {tagIndex + 5 < tags?.length && (
+          {showAllTags ? (
             <button
               type='button'
               className='bg-lightGrey p-1 rounded-full ml-5'
-              onClick={() => setTagIndex(Math.min(tags?.length, tagIndex + 5))}
+              onClick={() => setShowAllTags(false)}
+            >
+              <AiOutlineLeft className='text-darkGrey' />
+            </button>
+          ) : (
+            <button
+              type='button'
+              className='bg-lightGrey p-1 rounded-full ml-5'
+              onClick={() => setShowAllTags(true)}
             >
               <AiOutlineRight className='text-darkGrey' />
             </button>
@@ -284,9 +283,12 @@ const Page = () => {
         </div>
         <div className='flex flex-col gap-20 mt-36 mb-32 w-full'>
           <div className='self-start -mt-24 -mb-10'>
-            <span className='bg-darkGrey text-primary py-1 px-4 rounded-full'>
+            <span className='bg-darkGrey text-primary py-1 px-4 rounded-full mr-16 leading-5'>
               評論
             </span>
+            <select className='bg-mediumGrey text-white py-1 px-4 rounded-full appearance-none leading-5'>
+              <option value=''>集數 All</option>
+            </select>
           </div>
           {comments?.map((comment) => (
             <UserComment
